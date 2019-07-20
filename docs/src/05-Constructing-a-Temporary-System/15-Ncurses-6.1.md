@@ -54,4 +54,4 @@ make install
 ln -s libncursesw.so /tools/lib/libncurses.so
 ```
 
-> Details on this package are located in [Section 6.24.2, “Contents of Ncurses”](../06-Installing-Basic-System-Software/24-Gettext-0.19.8.1.md).
+> Details on this package are located in [Section 6.24.2, “Contents of Ncurses”](../06-Installing-Basic-System-Software/24-Ncurses-6.1.md).
