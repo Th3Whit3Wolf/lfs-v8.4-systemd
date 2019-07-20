@@ -183,7 +183,7 @@
 - [Making the LFS System Bootable](./08-Making-the-LFS-System-Bootable/index.md)
 
   - [Introduction](./08-Making-the-LFS-System-Bootable/01-Introduction.md)
-  - [Introduction](./08-Making-the-LFS-System-Bootable/02-Creating-the-slash-etc-slash-fstab-File.md)
+  - [Creating the /etc/fstab File ](./08-Making-the-LFS-System-Bootable/02-Creating-the-slash-etc-slash-fstab-File.md)
   - [Linux-4.20.12](./08-Making-the-LFS-System-Bootable/03-Linux-4.20.12.md)
   - [Using GRUB to Set Up the Boot Process](./08-Making-the-LFS-System-Bootable/04-Using-GRUB-to-Set-Up-the-Boot-Process.md)
 
