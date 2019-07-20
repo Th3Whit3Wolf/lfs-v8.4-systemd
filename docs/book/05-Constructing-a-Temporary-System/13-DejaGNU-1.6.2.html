@@ -145,7 +145,29 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#dejagnu-162" id="dejagnu-162">DejaGNU-1.6.2</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#dejagnu-162" id="dejagnu-162">DejaGNU-1.6.2</a></h1>
+<p>The DejaGNU package contains a framework for testing other programs.</p>
+<p><strong>Approximate Build Time:</strong> less than 0.1 SBU</p>
+<p><strong>Required Disk Space:</strong> 3.2 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-dejagnu" id="installation-of-dejagnu">Installation of DejaGNU</a></h1>
+<p>Prepare DejaGNU for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/tools
+</code></pre>
+<p>Build and install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<p>To test the results, issue:</p>
+<pre><code class="language-sh">make check
+</code></pre>
+<blockquote>
+<h2><a class="header" href="#contents-of-dejagnu" id="contents-of-dejagnu">Contents of DejaGNU</a></h2>
+<p><strong>Installed Programs:</strong> runtest</p>
+<table><thead><tr><th align="left">Installed</th><th>Descriptions</th></tr></thead><tbody>
+<tr><td align="left"><strong>runtest</strong></td><td>A wrapper script that locates the proper expect shell and then runs DejaGNU</td></tr>
+</tbody></table>
+</blockquote>
 
                     </main>
 

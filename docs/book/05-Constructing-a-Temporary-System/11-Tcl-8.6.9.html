@@ -145,7 +145,49 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#tcl-869" id="tcl-869">Tcl-8.6.9</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#tcl-869" id="tcl-869">Tcl-8.6.9</a></h1>
+<p>The Tcl package contains the Tool Command Language.</p>
+<p><strong>Approximate Build Time:</strong> 0.9 SBU</p>
+<p><strong>Required Disk Space:</strong> 66 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-tcl" id="installation-of-tcl">Installation of Tcl</a></h1>
+<p>This package and the next two (Expect and DejaGNU) are installed to support running the test suites for GCC and Binutils and other packages. Installing three packages for testing purposes may seem excessive, but it is very reassuring, if not essential, to know that the most important tools are working properly. Even if the test suites are not run in this chapter (they are not mandatory), these packages are required to run the test suites in <a href="../06-Installing-Basic-System-Software/index.html">Chapter 6</a>.</p>
+<p>Note that the Tcl package used here is a minimal version needed to run the LFS tests. For the full package, see the <a href="http://www.linuxfromscratch.org/blfs/view/8.4/general/tcl.html">BLFS Tcl procedures</a>.</p>
+<p>Prepare Tcl for compilation:</p>
+<pre><code class="language-sh">cd unix
+./configure --prefix=/tools
+</code></pre>
+<p>Build the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. As discussed earlier, running the test suite is not mandatory for the temporary tools here in this chapter. To run the Tcl test suite anyway, issue the following command:</p>
+<pre><code class="language-sh">TZ=UTC make test
+</code></pre>
+<p>The Tcl test suite may experience failures under certain host conditions that are not fully understood. Therefore, test suite failures here are not surprising, and are not considered critical. The TZ=UTC parameter sets the time zone to Coordinated Universal Time (UTC), but only for the duration of the test suite run. This ensures that the clock tests are exercised correctly. Details on the TZ environment variable are provided in <a href="../07-System-Configuration/index.html">Chapter 7</a>.</p>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<p>Make the installed library writable so debugging symbols can be removed later:</p>
+<pre><code class="language-sh">chmod -v u+w /tools/lib/libtcl8.6.so
+</code></pre>
+<p>Install Tcl's headers. The next package, Expect, requires them to build.</p>
+<pre><code class="language-sh">make install-private-headers
+</code></pre>
+<p>Now make a necessary symbolic link:</p>
+<pre><code class="language-sh">ln -sv tclsh8.6 /tools/bin/tclsh
+</code></pre>
+<blockquote>
+<h2><a class="header" href="#contents-of-tcl" id="contents-of-tcl">Contents of Tcl</a></h2>
+<p><strong>Installed Programs:</strong> tclsh (link to tclsh8.6) and tclsh8.6</p>
+<p><strong>Installed Library:</strong> libtcl8.6.so, libtclstub8.6.a</p>
+<table><thead><tr><th align="left">Installed</th><th>Descriptions</th></tr></thead><tbody>
+<tr><td align="left"><strong>tclsh8.6</strong></td><td>The Tcl command shell</td></tr>
+<tr><td align="left"><strong>tclsh</strong></td><td>A link to tclsh8.6</td></tr>
+<tr><td align="left">libtcl8.6.so</td><td>The Tcl library</td></tr>
+<tr><td align="left">libtclstub8.6.a</td><td>The Tcl Stub library</td></tr>
+</tbody></table>
+</blockquote>
 
                     </main>
 

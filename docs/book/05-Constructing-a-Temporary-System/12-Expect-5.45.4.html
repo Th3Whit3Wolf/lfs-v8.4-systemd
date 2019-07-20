@@ -145,7 +145,59 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#expect-5454" id="expect-5454">Expect-5.45.4</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#expect-5454" id="expect-5454">Expect-5.45.4</a></h1>
+<p>The Expect package contains a program for carrying out scripted dialogues with other interactive programs.</p>
+<p><strong>Approximate Build Time:</strong> 0.1 SBU</p>
+<p><strong>Required Disk Space:</strong> 3.9 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-expect" id="installation-of-expect">Installation of Expect</a></h1>
+<p>First, force Expect's configure script to use <code>/bin/stty</code> instead of a <code>/usr/local/bin/stty</code> it may find on the host system. This will ensure that our test suite tools remain sane for the final builds of our toolchain:</p>
+<pre><code class="language-sh">cp -v configure{,.orig}
+sed 's:/usr/local/bin:/bin:' configure.orig &gt; configure
+</code></pre>
+<p>Now prepare Expect for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/tools \
+ --with-tcl=/tools/lib \
+ --with-tclinclude=/tools/include
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-configure-options" id="the-meaning-of-the-configure-options">The meaning of the configure options:</a></h3>
+<blockquote>
+<p><strong><em>--with-tcl=/tools/lib</em></strong></p>
+<blockquote>
+<p>This ensures that the configure script finds the Tcl installation in the temporary tools location instead of possibly locating an existing one on the host system.</p>
+</blockquote>
+<p><strong><em>--with-tclinclude=/tools/include</em></strong></p>
+<blockquote>
+<p>This explicitly tells Expect where to find Tcl's internal headers. Using this option avoids conditions where configure fails because it cannot automatically discover the location of Tcl's headers.</p>
+</blockquote>
+</blockquote>
+<p>Build the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. As discussed earlier, running the test suite is not mandatory for the temporary tools here in this chapter. To run the Expect test suite anyway, issue the following command:</p>
+<pre><code class="language-sh">make test
+</code></pre>
+<p>Note that the Expect test suite is known to experience failures under certain host conditions that are not within our control. Therefore, test suite failures here are not surprising and are not considered critical.</p>
+<p>Install the package:</p>
+<pre><code class="language-sh">make SCRIPTS=&quot;&quot; install
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-make-parameter" id="the-meaning-of-the-make-parameter">The meaning of the make parameter:</a></h3>
+<blockquote>
+<p><strong><em>SCRIPTS=&quot;&quot;</em></strong></p>
+<blockquote>
+<p>This prevents installation of the supplementary Expect scripts, which are not needed.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2><a class="header" href="#contents-of-expect" id="contents-of-expect">Contents of Expect</a></h2>
+<p><strong>Installed Programs:</strong> expect</p>
+<p><strong>Installed Library:</strong> libexpect-5.45.so</p>
+<table><thead><tr><th align="left">Installed</th><th>Descriptions</th></tr></thead><tbody>
+<tr><td align="left"><strong>expect</strong></td><td>Communicates with other interactive programs according to a script</td></tr>
+<tr><td align="left">libexpect-5.45.so</td><td>Contains functions that allow Expect to be used as a Tcl extension or to be used directly from C or C++ (without Tcl)</td></tr>
+</tbody></table>
+</blockquote>
 
                     </main>
 

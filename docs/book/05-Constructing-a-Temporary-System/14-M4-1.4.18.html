@@ -145,7 +145,32 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#m4-1418" id="m4-1418">M4-1.4.18</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#m4-1418" id="m4-1418">M4-1.4.18</a></h1>
+<p>The M4 package contains a macro processor.</p>
+<p><strong>Approximate Build Time:</strong> 0.2 SBU</p>
+<p><strong>Required Disk Space:</strong> 20 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-m4" id="installation-of-m4">Installation of M4</a></h1>
+<p>First, make some fixes required by glibc-2.28:</p>
+<pre><code class="language-sh">sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' lib/\*.c
+echo &quot;#define \_IO_IN_BACKUP 0x100&quot; &gt;&gt; lib/stdio-impl.h
+</code></pre>
+<p>Prepare M4 for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/tools
+</code></pre>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. As discussed earlier, running the test suite is not mandatory for the temporary tools here in this chapter. To run the M4 test suite anyway, issue the following command:</p>
+<pre><code class="language-sh">make check
+</code></pre>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="../06-Installing-Basic-System-Software/14-M4-1.4.18.html">Section 6.14.2, “Contents of M4”</a>.</p>
+</blockquote>
 
                     </main>
 

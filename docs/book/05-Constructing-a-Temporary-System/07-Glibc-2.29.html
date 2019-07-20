@@ -203,7 +203,7 @@ cd       build
 <p><strong>Caution</strong></p>
 <blockquote>
 <p>At this point, it is imperative to stop and ensure that the basic functions (compiling and linking) of the new toolchain are working as expected. To perform a sanity check, run the following commands:</p>
-<pre><code>echo 'int main(){}' &gt; dummy.c
+<pre><code class="language-sh">echo 'int main(){}' &gt; dummy.c
 $LFS_TGT-gcc dummy.c
 readelf -l a.out | grep ': /tools'
 </code></pre>

@@ -72,7 +72,7 @@ make install
 >
 > > At this point, it is imperative to stop and ensure that the basic functions (compiling and linking) of the new toolchain are working as expected. To perform a sanity check, run the following commands:
 > >
-> > ```
+> > ```sh
 > > echo 'int main(){}' > dummy.c
 > > $LFS_TGT-gcc dummy.c
 > > readelf -l a.out | grep ': /tools'
