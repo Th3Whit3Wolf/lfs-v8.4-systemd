@@ -17,7 +17,7 @@ Apart from a brief explanation of the problem being experienced, the essential t
 - The exact error message or symptom being received
 - Note whether you have deviated from the book at all
 
-> Note
+> **Note**
 >
 > > Deviating from this book does _not_ mean that we will not help you. After all, LFS is about personal preference. Being upfront about any changes to the established procedure helps us evaluate and determine possible causes of your problem.
 

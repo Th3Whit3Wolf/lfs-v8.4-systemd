@@ -33,6 +33,6 @@ If you are using a _swap_ partition, ensure that it is enabled using the **swapo
 /sbin/swapon -v /dev/<zzz>
 ```
 
-Replace \_<zzz>_ with the name of the \_swap_ partition.
+Replace _\<zzz>_ with the name of the \_swap\_ partition.
 
 Now that there is an established place to work, it is time to download the packages.

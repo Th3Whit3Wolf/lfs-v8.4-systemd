@@ -4,7 +4,7 @@ Now that a blank partition has been set up, the file system can be created. LFS 
 
 **ext2**
 
-is suitable for small partitions that are updated infrequently such as /boot.
+is suitable for small partitions that are updated infrequently such as `/boot`.
 
 **ext3**
 

@@ -1402,7 +1402,7 @@ This format is used to refer to a specific manual (man) page. The number inside 
 <li>Note whether you have deviated from the book at all</li>
 </ul>
 <blockquote>
-<p>Note</p>
+<p><strong>Note</strong></p>
 <blockquote>
 <p>Deviating from this book does <em>not</em> mean that we will not help you. After all, LFS is about personal preference. Being upfront about any changes to the established procedure helps us evaluate and determine possible causes of your problem.</p>
 </blockquote>
@@ -1757,7 +1757,7 @@ bash version-check.sh
 <h1><a class="header" href="#creating-a-file-system-on-the-partition" id="creating-a-file-system-on-the-partition">Creating a File System on the Partition</a></h1>
 <p>Now that a blank partition has been set up, the file system can be created. LFS can use any file system recognized by the Linux kernel, but the most common types are ext3 and ext4. The choice of file system can be complex and depends on the characteristics of the files and the size of the partition. For example:</p>
 <p><strong>ext2</strong></p>
-<p>is suitable for small partitions that are updated infrequently such as /boot.</p>
+<p>is suitable for small partitions that are updated infrequently such as <code>/boot</code>.</p>
 <p><strong>ext3</strong></p>
 <p>is an upgrade to ext2 that includes a journal to help recover the partition's status in the case of an unclean shutdown. It is commonly used as a general purpose file system.</p>
 <p><strong>ext4</strong></p>
@@ -1819,7 +1819,7 @@ mount -v -t ext4 /dev/&lt;xxx&gt; $LFS
 <p>If you are using a <em>swap</em> partition, ensure that it is enabled using the <strong>swapon</strong> command:</p>
 <pre><code class="language-sh">/sbin/swapon -v /dev/&lt;zzz&gt;
 </code></pre>
-<p>Replace _<zzz>_ with the name of the _swap_ partition.</p>
+<p>Replace <em>&lt;zzz&gt;</em> with the name of the _swap_ partition.</p>
 <p>Now that there is an established place to work, it is time to download the packages.</p>
 <h1><a class="header" href="#packages-and-patches" id="packages-and-patches">Packages and Patches</a></h1>
 <h1><a class="header" href="#introduction-2" id="introduction-2">Introduction</a></h1>
