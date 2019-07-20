@@ -4,7 +4,7 @@ sudo: false
 cache:
   - cargo
 
-rust: 
+rust:
   - stable
 
 before_script:
@@ -19,7 +19,7 @@ deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
-  local-dir: path/to/mybook/book
+  local-dir: docs
   keep-history: false
   on:
   branch: master
