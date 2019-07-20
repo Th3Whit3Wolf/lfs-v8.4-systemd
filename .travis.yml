@@ -3,6 +3,11 @@ sudo: false
 
 cache:
   - cargo
+before_cache:
+  # To reduce cache size
+  - rm -rf "$TRAVIS_HOME/.cargo/registry/src"
+  # Travis can't cache files that are not readable by "others"
+  - chmod -R a+r $HOME/.cargo
 
 rust:
   - stable
@@ -19,7 +24,7 @@ deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
-  local-dir: docs
+  local-dir: docs/book
   keep-history: false
   on:
   branch: master
