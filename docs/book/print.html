@@ -3438,16 +3438,670 @@ EOF
 <p>A common issue with running the test suites for Binutils and GCC is running out of pseudo terminals (PTYs). This can result in a high number of failing tests. This may happen for several reasons, but the most likely cause is that the host system does not have the devpts file system set up correctly. This issue is discussed in greater detail at <a href="http://www.linuxfromscratch.org/lfs/faq.html#no-ptys">here</a>.</p>
 <p>Sometimes package test suites will fail, but for reasons which the developers are aware of and have deemed non-critical. Consult the <a href="http://www.linuxfromscratch.org/lfs/build-logs/8.4/">logs</a> to verify whether or not these failures are expected. This site is valid for all tests throughout this book.</p>
 <h1><a class="header" href="#constructing-a-temporary-system" id="constructing-a-temporary-system">Constructing a Temporary System</a></h1>
+<h3><a class="header" href="#table-of-contents-4" id="table-of-contents-4">Table of Contents</a></h3>
+<ul>
+<li><a href="05-Constructing-a-Temporary-System/./01-Introduction.html">Introduction</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./02-Toolchain-Technical-Notes.html">Toolchain Technical Notes</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./03-General-Compilation-Instructions.html">General Compilation Instructions</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./04-Binutils-2.32-Pass-1.html">Binutils-2.32 - Pass 1</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./05-GCC-8.2.0-Pass-1.html">GCC-8.2.0 - Pass 1</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./06-Linux-4.20.12-API-Headers.html">Linux-4.20.12 API Headers</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./07-Glibc-2.29.html">Glibc-2.29</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./08-Libstdc++-from-GCC-8.2.0.html">Libstdc++ from GCC-8.2.0</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./09-Binutils-2.32-Pass-2.html">Binutils-2.32 - Pass 2</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./10-GCC-8.2.0-Pass-2.html">GCC-8.2.0 - Pass 2</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./11-Tcl-8.6.9.html">Tcl-8.6.9</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./12-Expect-5.45.4.html">Expect-5.45.4</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./13-DejaGNU-1.6.2.html">DejaGNU-1.6.2</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./14-M4-1.4.18.html">M4-1.4.18</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./15-Ncurses-6.1.html">Ncurses-6.1</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./16-Bash-5.0.html">Bash-5.0</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./17-Bison-3.3.2.html">Bison-3.3.2</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./18-Bzip2-1.0.6.html">Bzip2-1.0.6</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./19-Coreutils-8.30.html">Coreutils-8.30</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./20-Diffutils-3.7.html">Diffutils-3.7</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./21-File-5.36.html">File-5.36</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./22-Findutils-4.6.0.html">Findutils-4.6.0</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./23-Gawk-4.2.1.html">Gawk-4.2.1</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./24-Gettext-0.19.8.1.html">Gettext-0.19.8.1</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./25-Grep-3.3.html">Grep-3.3</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./26-Gzip-1.10.html">Gzip-1.10</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./27-Make-4.2.1.html">Make-4.2.1</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./28-Patch-2.7.6.html">Patch-2.7.6</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./29-Perl-5.28.1.html">Perl-5.28.1</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./30-Python-3.7.2.html">Python-3.7.2</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./31-Sed-4.7.html">Sed-4.7</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./32-Tar-1.31.html">Tar-1.31</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./33-Texinfo-6.5.html">Texinfo-6.5</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./34-Util-linux-2.33.1.html">Util-linux-2.33.1</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./35-Xz-5.2.4.html">Xz-5.2.4</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./36-Stripping.html">Stripping</a></li>
+<li><a href="05-Constructing-a-Temporary-System/./37-Changing-Ownership.html">Changing Ownership</a></li>
+</ul>
 <h1><a class="header" href="#introduction-4" id="introduction-4">Introduction</a></h1>
+<p>This chapter shows how to build a minimal Linux system. This system will contain just enough tools to start constructing the final LFS system in <a href="05-Constructing-a-Temporary-System/../06-Installing-Basic-System-Software/index.html">Chapter 6</a> and allow a working environment with more user convenience than a minimum environment would.</p>
+<p>There are two steps in building this minimal system. The first step is to build a new and host-independent toolchain (compiler, assembler, linker, libraries, and a few useful utilities). The second step uses this toolchain to build the other essential tools.</p>
+<p>The files compiled in this chapter will be installed under the <code>$LFS/tools</code> directory to keep them separate from the files installed in the next chapter and the host production directories. Since the packages compiled here are temporary, we do not want them to pollute the soon-to-be LFS system.</p>
 <h1><a class="header" href="#toolchain-technical-notes" id="toolchain-technical-notes">Toolchain Technical Notes</a></h1>
+<p>This section explains some of the rationale and technical details behind the overall build method. It is not essential to immediately understand everything in this section. Most of this information will be clearer after performing an actual build. This section can be referred to at any time during the process.</p>
+<p>The overall goal of <a href="05-Constructing-a-Temporary-System/./index.html">Chapter 5</a> is to produce a temporary area that contains a known-good set of tools that can be isolated from the host system. By using <strong>chroot</strong>, the commands in the remaining chapters will be contained within that environment, ensuring a clean, trouble-free build of the target LFS system. The build process has been designed to minimize the risks for new readers and to provide the most educational value at the same time.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Before continuing, be aware of the name of the working platform, often referred to as the target triplet. A simple way to determine the name of the target triplet is to run the <strong>config.guess</strong> script that comes with the source for many packages. Unpack the Binutils sources and run the script: <code>./config.guess</code> and note the output. For example, for a 32-bit Intel processor the output will be <em>i686-pc-linux-gnu</em>. On a 64-bit system it will be <em>x86_64-pc-linux-gnu</em>.</p>
+</blockquote>
+<blockquote>
+<p>Also be aware of the name of the platform's dynamic linker, often referred to as the dynamic loader (not to be confused with the standard linker ld that is part of Binutils). The dynamic linker provided by Glibc finds and loads the shared libraries needed by a program, prepares the program to run, and then runs it. The name of the dynamic linker for a 32-bit Intel machine will be <code>ld-linux.so.2</code> (<code>ld-linux-x86-64.so.2</code> for 64-bit systems). A sure-fire way to determine the name of the dynamic linker is to inspect a random binary from the host system by running: <strong>readelf -l &lt;name of binary&gt; | grep interpreter</strong> and noting the output. The authoritative reference covering all platforms is in the <code>shlib-versions</code> file in the root of the Glibc source tree.</p>
+</blockquote>
+</blockquote>
+<p>Some key technical points of how the <a href="05-Constructing-a-Temporary-System/./index.html">Chapter 5</a> build method works:</p>
+<ul>
+<li>
+<p>Slightly adjusting the name of the working platform, by changing the &quot;vendor&quot; field target triplet by way of the <strong>LFS_TGT</strong> variable, ensures that the first build of Binutils and GCC produces a compatible cross-linker and cross-compiler. Instead of producing binaries for another architecture, the cross-linker and cross-compiler will produce binaries compatible with the current hardware.</p>
+</li>
+<li>
+<p>The temporary libraries are cross-compiled. Because a cross-compiler by its nature cannot rely on anything from its host system, this method removes potential contamination of the target system by lessening the chance of headers or libraries from the host being incorporated into the new tools. Cross-compilation also allows for the possibility of building both 32-bit and 64-bit libraries on 64-bit capable hardware.</p>
+</li>
+<li>
+<p>Careful manipulation of the GCC source tells the compiler which target dynamic linker will be used.</p>
+</li>
+</ul>
+<p>Binutils is installed first because the <strong>configure</strong> runs of both GCC and Glibc perform various feature tests on the assembler and linker to determine which software features to enable or disable. This is more important than one might first realize. An incorrectly configured GCC or Glibc can result in a subtly broken toolchain, where the impact of such breakage might not show up until near the end of the build of an entire distribution. A test suite failure will usually highlight this error before too much additional work is performed.</p>
+<p>Binutils installs its assembler and linker in two locations, <code>/tools/bin</code> and <code>/tools/\$LFS_TGT/bin</code>. The tools in one location are hard linked to the other. An important facet of the linker is its library search order. Detailed information can be obtained from ld by passing it the --verbose flag. For example, an <strong>ld --verbose | grep SEARCH</strong> will illustrate the current search paths and their order. It shows which files are linked by <strong>ld</strong> by compiling a dummy program and passing the <em>--verbose</em> switch to the linker. For example, <strong>gcc dummy.c -Wl,--verbose 2&gt;&amp;1 | grep succeeded</strong> will show all the files successfully opened during the linking.</p>
+<p>The next package installed is GCC. An example of what can be seen during its run of <strong>configure</strong> is:</p>
+<pre><code class="language-sh">checking what assembler to use... /tools/i686-lfs-linux-gnu/bin/as
+checking what linker to use... /tools/i686-lfs-linux-gnu/bin/ld
+</code></pre>
+<p>This is important for the reasons mentioned above. It also demonstrates that GCC's configure script does not search the PATH directories to find which tools to use. However, during the actual operation of gcc itself, the same search paths are not necessarily used. To find out which standard linker gcc will use, run: <strong>gcc -print-prog-name=ld</strong>.</p>
+<p>Detailed information can be obtained from gcc by passing it the <em>-v</em> command line option while compiling a dummy program. For example, <strong>gcc -v dummy.c</strong> will show detailed information about the preprocessor, compilation, and assembly stages, including <strong>gcc</strong>'s included search paths and their order.</p>
+<p>Next installed are sanitized Linux API headers. These allow the standard C library (Glibc) to interface with features that the Linux kernel will provide.</p>
+<p>The next package installed is Glibc. The most important considerations for building Glibc are the compiler, binary tools, and kernel headers. The compiler is generally not an issue since Glibc will always use the compiler relating to the <em>--host</em> parameter passed to its configure script; e.g. in our case, the compiler will be <strong>i686-lfs-linux-gnu-gcc</strong>. The binary tools and kernel headers can be a bit more complicated. Therefore, take no risks and use the available configure switches to enforce the correct selections. After the run of <strong>configure</strong>, check the contents of the <code>config.make</code>file in the <code>glibc-build</code> directory for all important details. Note the use of <em>CC=&quot;i686-lfs-gnu-gcc&quot;</em> to control which binary tools are used and the use of the <em>-nostdinc</em> and <em>-isystem</em> flags to control the compiler's include search path. These items highlight an important aspect of the Glibc package—it is very self-sufficient in terms of its build machinery and generally does not rely on toolchain defaults.</p>
+<p>During the second pass of Binutils, we are able to utilize the <em>--with-lib-path</em> configure switch to control <strong>ld</strong>'s library search path.</p>
+<p>For the second pass of GCC, its sources also need to be modified to tell GCC to use the new dynamic linker. Failure to do so will result in the GCC programs themselves having the name of the dynamic linker from the host system's <code>/lib</code> directory embedded into them, which would defeat the goal of getting away from the host. From this point onwards, the core toolchain is self-contained and self-hosted. The remainder of the <a href="05-Constructing-a-Temporary-System/./index.html">Chapter 5</a> packages all build against the new Glibc in <code>/tools</code>.</p>
+<p>Upon entering the chroot environment in <a href="05-Constructing-a-Temporary-System/../06-Installing-Basic-System-Software/index.html">Chapter 6</a>, the first major package to be installed is Glibc, due to its self-sufficient nature mentioned above. Once this Glibc is installed into <code>/usr</code>, we will perform a quick changeover of the toolchain defaults, and then proceed in building the rest of the target LFS system.</p>
 <h1><a class="header" href="#general-compilation-instructions" id="general-compilation-instructions">General Compilation Instructions</a></h1>
+<p>When building packages there are several assumptions made within the instructions:</p>
+<ul>
+<li>
+<p>Several of the packages are patched before compilation, but only when the patch is needed to circumvent a problem. A patch is often needed in both this and the next chapter, but sometimes in only one or the other. Therefore, do not be concerned if instructions for a downloaded patch seem to be missing. Warning messages about offset or fuzz may also be encountered when applying a patch. Do not worry about these warnings, as the patch was still successfully applied.</p>
+</li>
+<li>
+<p>During the compilation of most packages, there will be several warnings that scroll by on the screen. These are normal and can safely be ignored. These warnings are as they appear—warnings about deprecated, but not invalid, use of the C or C++ syntax. C standards change fairly often, and some packages still use the older standard. This is not a problem, but does prompt the warning.</p>
+</li>
+<li>
+<p>Check one last time that the LFS environment variable is set up properly:</p>
+</li>
+</ul>
+<pre><code class="language-sh">echo $LFS
+</code></pre>
+<p>Make sure the output shows the path to the LFS partition's mount point, which is <code>/mnt/lfs</code>, using our example.</p>
+<ul>
+<li>Finally, two important items must be emphasized:</li>
+</ul>
+<blockquote>
+<p><strong>Important</strong></p>
+<blockquote>
+<p>The build instructions assume that the Host System Requirements, including symbolic links, have been set properly:</p>
+</blockquote>
+<ul>
+<li><strong>bash</strong> is the shell in use.</li>
+<li><strong>sh</strong> is a symbolic link to <strong>bash</strong>.</li>
+<li><code>/usr/bin/awk</code> is a symbolic link to <strong>gawk</strong>.</li>
+<li><code>/usr/bin/yacc</code> is a symbolic link to <strong>bison</strong> or a small script that executes <strong>bison</strong>.</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>Important</strong></p>
+<blockquote>
+<ol>
+<li>Place all the sources and patches in a directory that will be accessible from the chroot environment such as <code>/mnt/lfs/sources/</code>. Do <strong><em>not</em></strong> put sources in <code>/mnt/lfs/tools/</code>.</li>
+<li>Change to the sources directory.</li>
+<li>For each package:
+<blockquote>
+<ul>
+<li>Using the <strong>tar</strong> program, extract the package to be built. In Chapter 5, ensure you are the <strong><em>lfs</em></strong> user when extracting the package.</li>
+<li>Change to the directory created when the package was extracted.</li>
+<li>Follow the book's instructions for building the package.</li>
+<li>Change back to the sources directory.</li>
+<li>Delete the extracted source directory unless instructed otherwise.</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+</blockquote>
+<blockquote>
 <h1><a class="header" href="#binutils-232---pass-1" id="binutils-232---pass-1">Binutils-2.32 - Pass 1</a></h1>
+<p>The Binutils package contains a linker, an assembler, and other tools for handling object files.</p>
+<p><strong>Approximate Build Time:</strong> 1 SBU</p>
+<p><strong>Required Disk Space:</strong> 580 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-cross-binutils" id="installation-of-cross-binutils">Installation of Cross Binutils</a></h1>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Go back and re-read the notes in the previous section. Understanding the notes labeled important will save you a lot of problems later.</p>
+</blockquote>
+</blockquote>
+<p>It is important that Binutils be the first package compiled because both Glibc and GCC perform various tests on the available linker and assembler to determine which of their own features to enable.</p>
+<p>The Binutils documentation recommends building Binutils in a dedicated build directory:</p>
+<pre><code class="language-sh">mkdir -v build
+cd       build
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>In order for the SBU values listed in the rest of the book to be of any use, measure the time it takes to build this package from the configuration, up to and including the first install. To achieve this easily, wrap the commands in a <strong>time</strong> command like this: <strong>time { ./configure ... &amp;&amp; ... &amp;&amp; make install; }</strong>.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>The approximate build SBU values and required disk space in Chapter 5 does not include test suite data.</p>
+</blockquote>
+</blockquote>
+<h3><a class="header" href="#now-prepare-binutils-for-compilation" id="now-prepare-binutils-for-compilation">Now prepare Binutils for compilation:</a></h3>
+<pre><code class="language-sh">../configure --prefix=/tools            \
+             --with-sysroot=$LFS        \
+             --with-lib-path=/tools/lib \
+             --target=$LFS_TGT          \
+             --disable-nls              \
+             --disable-werror
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-configure-options" id="the-meaning-of-the-configure-options">The meaning of the configure options:</a></h3>
+<blockquote>
+<p><strong><em>--prefix=/tools</em></strong></p>
+<blockquote>
+<p>This tells the configure script to prepare to install the Binutils programs in the /tools directory.</p>
+</blockquote>
+<p><strong><em>--with-sysroot=$LFS</em></strong></p>
+<blockquote>
+<p>For cross compilation, this tells the build system to look in $LFS for the target system libraries as needed.</p>
+</blockquote>
+<p><strong><em>--with-lib-path=/tools/lib</em></strong></p>
+<blockquote>
+<p>This specifies which library path the linker should be configured to use.</p>
+</blockquote>
+<p><strong><em>--target=$LFS_TGT</em></strong></p>
+<blockquote>
+<p>Because the machine description in the <strong>LFS_TGT</strong> variable is slightly different than the value returned by the <strong>config.guess</strong> script, this switch will tell the <strong>configure</strong> script to adjust Binutil's build system for building a cross linker.</p>
+</blockquote>
+<p><strong><em>--disable-nls</em></strong></p>
+<blockquote>
+<p>This disables internationalization as i18n is not needed for the temporary tools.</p>
+</blockquote>
+<p><strong><em>--disable-werror</em></strong></p>
+<blockquote>
+<p>This prevents the build from stopping in the event that there are warnings from the host's compiler.</p>
+</blockquote>
+</blockquote>
+<p>Continue with compiling the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. Ordinarily we would now run the test suite, but at this early stage the test suite framework (Tcl, Expect, and DejaGNU) is not yet in place. The benefits of running the tests at this point are minimal since the programs from this first pass will soon be replaced by those from the second.</p>
+<p>If building on x86_64, create a symlink to ensure the sanity of the toolchain:</p>
+<pre><code class="language-sh">case $(uname -m) in
+  x86_64) mkdir -v /tools/lib &amp;&amp; ln -sv lib /tools/lib64 ;;
+esac
+</code></pre>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="05-Constructing-a-Temporary-System/../06-Installing-Basic-System-Software/16-Binutils-2.32.html">Section 6.16.2, “Contents of Binutils&quot;</a>.</p>
+</blockquote>
+<blockquote>
 <h1><a class="header" href="#gcc-820---pass-1" id="gcc-820---pass-1">GCC-8.2.0 - Pass 1</a></h1>
+<p>The GCC package contains the GNU compiler collection, which includes the C and C++ compilers.</p>
+<p><strong>Approximate Build Time:</strong> 11 SBU</p>
+<p><strong>Required Disk Space:</strong> 2.9 GB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-cross-gcc" id="installation-of-cross-gcc">Installation of Cross GCC</a></h1>
+<p>GCC now requires the GMP, MPFR and MPC packages. As these packages may not be included in your host distribution, they will be built with GCC. Unpack each package into the GCC source directory and rename the resulting directories so the GCC build procedures will automatically use them:</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>There are frequent misunderstandings about this chapter. The procedures are the same as every other chapter as explained earlier (<a href="05-Constructing-a-Temporary-System/./03-General-Compilation-Instructions">Package build instructions</a>). First extract the gcc tarball from the sources directory and then change to the directory created. Only then should you proceed with the instructions below.</p>
+</blockquote>
+</blockquote>
+<pre><code class="language-sh">tar -xf ../mpfr-4.0.2.tar.xz
+mv -v mpfr-4.0.2 mpfr
+tar -xf ../gmp-6.1.2.tar.xz
+mv -v gmp-6.1.2 gmp
+tar -xf ../mpc-1.1.0.tar.gz
+mv -v mpc-1.1.0 mpc
+</code></pre>
+<p>The following command will change the location of GCC's default dynamic linker to use the one installed in <code>/tools</code>. It also removes <code>/usr/include</code> from GCC's include search path. Issue:</p>
+<pre><code class="language-sh">for file in gcc/config/{linux,i386/linux{,64}}.h
+do
+  cp -uv $file{,.orig}
+  sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&amp;@g' \
+      -e 's@/usr@/tools@g' $file.orig &gt; $file
+  echo '
+#undef STANDARD_STARTFILE_PREFIX_1
+#undef STANDARD_STARTFILE_PREFIX_2
+#define STANDARD_STARTFILE_PREFIX_1 &quot;/tools/lib/&quot;
+#define STANDARD_STARTFILE_PREFIX_2 &quot;&quot;' &gt;&gt; $file
+  touch $file.orig
+done
+</code></pre>
+<p>In case the above seems hard to follow, let's break it down a bit. First we copy the files <code>gcc/config/linux.h</code>, <code>gcc/config/i386/linux.h</code>, and <code>gcc/config/i368/linux64.h</code> to a file of the same name but with an added suffix of “.orig”. Then the first sed expression prepends “/tools” to every instance of “/lib/ld”, “/lib64/ld” or “/lib32/ld”, while the second one replaces hard-coded instances of “/usr”. Next, we add our define statements which alter the default startfile prefix to the end of the file. Note that the trailing “/” in “/tools/lib/” is required. Finally, we use <strong>touch</strong> to update the timestamp on the copied files. When used in conjunction with <strong>cp -u</strong>, this prevents unexpected changes to the original files in case the commands are inadvertently run twice.</p>
+<p>Finally, on x86_64 hosts, set the default directory name for 64-bit libraries to “lib”:</p>
+<pre><code class="language-sh">case $(uname -m) in
+  x86_64)
+    sed -e '/m64=/s/lib64/lib/' \
+        -i.orig gcc/config/i386/t-linux64
+ ;;
+esac
+</code></pre>
+<p>The GCC documentation recommends building GCC in a dedicated build directory:</p>
+<pre><code class="language-sh">mkdir -v build
+cd       build
+</code></pre>
+<p>Prepare GCC for compilation:</p>
+<pre><code class="language-sh">../configure                                       \
+    --target=$LFS_TGT                              \
+    --prefix=/tools                                \
+    --with-glibc-version=2.11                      \
+    --with-sysroot=$LFS                            \
+    --with-newlib                                  \
+    --without-headers                              \
+    --with-local-prefix=/tools                     \
+    --with-native-system-header-dir=/tools/include \
+    --disable-nls                                  \
+    --disable-shared                               \
+    --disable-multilib                             \
+    --disable-decimal-float                        \
+    --disable-threads                              \
+    --disable-libatomic                            \
+    --disable-libgomp                              \
+    --disable-libmpx                               \
+    --disable-libquadmath                          \
+    --disable-libssp                               \
+    --disable-libvtv                               \
+    --disable-libstdcxx                            \
+    --enable-languages=c,c++
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-configure-options-1" id="the-meaning-of-the-configure-options-1">The meaning of the configure options:</a></h3>
+<blockquote>
+<p><strong><em>--with-newlib</em></strong></p>
+<blockquote>
+<p>Since a working C library is not yet available, this ensures that the inhibit_libc constant is defined when building libgcc. This prevents the compiling of any code that requires libc support.</p>
+</blockquote>
+<p><strong><em>--without-headers</em></strong></p>
+<blockquote>
+<p>When creating a complete cross-compiler, GCC requires standard headers compatible with the target system. For our purposes these headers will not be needed. This switch prevents GCC from looking for them.</p>
+</blockquote>
+<p><strong><em>--with-local-prefix=/tools</em></strong></p>
+<blockquote>
+<p>The local prefix is the location in the system that GCC will search for locally installed include files. The default is <code>/usr/local</code>. Setting this to <code>/tools</code> helps keep the host location of <code>/usr/local</code> out of this GCC's search path.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong><em>--with-native-system-header-dir=/tools/include</em></strong></p>
+<blockquote>
+<p>By default GCC searches <code>/usr/include</code> for system headers. In conjunction with the sysroot switch, this would normally translate to <code>$LFS/usr/include</code>. However the headers that will be installed in the next two sections will go to <code>$LFS/tools/include</code>. This switch ensures that gcc will find them correctly. In the second pass of GCC, this same switch will ensure that no headers from the host system are found.</p>
+</blockquote>
+<p><strong><em>--disable-shared</em></strong></p>
+<blockquote>
+<p>This switch forces GCC to link its internal libraries statically. We do this to avoid possible issues with the host system.</p>
+</blockquote>
+<p><strong><em>--disable-decimal-float, --disable-threads, --disable-libatomic, --disable-libgomp, --disable-libmpx, --disable-libquadmath, --disable-libssp, --disable-libvtv, --disable-libstdcxx</em></strong></p>
+<blockquote>
+<p>These switches disable support for the decimal floating point extension, threading, libatomic, libgomp, libmpx, libquadmath, libssp, libvtv, and the C++ standard library respectively. These features will fail to compile when building a cross-compiler and are not necessary for the task of cross-compiling the temporary libc.</p>
+</blockquote>
+<p><strong><em>--disable-multilib</em></strong></p>
+<blockquote>
+<p>On x86_64, LFS does not yet support a multilib configuration. This switch is harmless for x86.</p>
+</blockquote>
+<p><strong><em>--enable-languages=c,c++</em></strong></p>
+<blockquote>
+<p>This option ensures that only the C and C++ compilers are built. These are the only languages needed now.</p>
+</blockquote>
+</blockquote>
+<p>Compile GCC by running:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. At this point, the test suite would normally be run, but, as mentioned before, the test suite framework is not in place yet. The benefits of running the tests at this point are minimal since the programs from this first pass will soon be replaced.</p>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="05-Constructing-a-Temporary-System/../06-Installing-Basic-System-Software/21-GCC-8.2.0.html">Section 6.21.2, “Contents of GCC”</a>.</p>
+</blockquote>
+<blockquote>
 <h1><a class="header" href="#linux-42012-api-headers" id="linux-42012-api-headers">Linux-4.20.12 API Headers</a></h1>
+<p>The Linux API Headers (in linux-4.20.12.tar.xz) expose the kernel's API for use by Glibc.</p>
+<p><strong>Approximate Build Time:</strong> 0.1 SBU</p>
+<p><strong>Required Disk Space:</strong> 937 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-linux-api-headers" id="installation-of-linux-api-headers">Installation of Linux API Headers</a></h1>
+<p>The Linux kernel needs to expose an Application Programming Interface (API) for the system's C library (Glibc in LFS) to use. This is done by way of sanitizing various C header files that are shipped in the Linux kernel source tarball.</p>
+<p>Make sure there are no stale files embedded in the package:</p>
+<pre><code class="language-sh">make mrproper
+</code></pre>
+<p>Now extract the user-visible kernel headers from the source. They are placed in an intermediate local directory and copied to the needed location because the extraction process removes any existing files in the target directory.</p>
+<pre><code class="language-sh">make INSTALL_HDR_PATH=dest headers_install
+cp -rv dest/include/* /tools/include
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="05-Constructing-a-Temporary-System/../06-Installing-Basic-System-Software/07-Linux-4.20.12-API-Headers.html">Section 6.7.2, “Contents of Linux API Headers”</a>.</p>
+</blockquote>
+<blockquote>
 <h1><a class="header" href="#glibc-229" id="glibc-229">Glibc-2.29</a></h1>
+<p>The Glibc package contains the main C library. This library provides the basic routines for allocating memory, searching directories, opening and closing files, reading and writing files, string handling, pattern matching, arithmetic, and so on.</p>
+<p><strong>Approximate Build Time:</strong> 5.1 SBU</p>
+<p><strong>Required Disk Space:</strong> 885 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-glibc" id="installation-of-glibc">Installation of Glibc</a></h1>
+<p>The Glibc documentation recommends building Glibc in a dedicated build directory:</p>
+<pre><code class="language-sh">mkdir -v build
+cd       build
+</code></pre>
+<p>Next, prepare Glibc for compilation:</p>
+<pre><code class="language-sh">../configure                             \
+      --prefix=/tools                    \
+      --host=$LFS_TGT                    \
+      --build=$(../scripts/config.guess) \
+      --enable-kernel=3.2                \
+      --with-headers=/tools/include
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-configure-options-2" id="the-meaning-of-the-configure-options-2">The meaning of the configure options:</a></h3>
+<blockquote>
+<p><strong><em>--host=$LFS_TGT, --build=$(../scripts/config.guess)</em></strong></p>
+<blockquote>
+<p>The combined effect of these switches is that Glibc's build system configures itself to cross-compile, using the cross-linker and cross-compiler in <code>/tools</code>.</p>
+</blockquote>
+<p><strong><em>--enable-kernel=3.2</em></strong></p>
+<blockquote>
+<p>This tells Glibc to compile the library with support for 3.2 and later Linux kernels. Workarounds for older kernels are not enabled.</p>
+</blockquote>
+<p><strong><em>--with-headers=/tools/include</em></strong></p>
+<blockquote>
+<p>This tells Glibc to compile itself against the headers recently installed to the tools directory, so that it knows exactly what features the kernel has and can optimize itself accordingly.</p>
+</blockquote>
+</blockquote>
+<p>During this stage the following warning might appear:</p>
+<pre><code class="language-sh">configure: WARNING:
+*** These auxiliary programs are missing or
+*** incompatible versions: msgfmt
+*** some features will be disabled.
+*** Check the INSTALL file for required versions.
+</code></pre>
+<p>The missing or incompatible <strong>msgfmt</strong> program is generally harmless. This <strong>msgfmt</strong> program is part of the Gettext package which the host distribution should provide.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>There have been reports that this package may fail when building as a &quot;parallel make&quot;. If this occurs, rerun the make command with a &quot;-j1&quot; option.</p>
+</blockquote>
+</blockquote>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p><strong>Caution</strong></p>
+<blockquote>
+<p>At this point, it is imperative to stop and ensure that the basic functions (compiling and linking) of the new toolchain are working as expected. To perform a sanity check, run the following commands:</p>
+<pre><code>echo 'int main(){}' &gt; dummy.c
+$LFS_TGT-gcc dummy.c
+readelf -l a.out | grep ': /tools'
+</code></pre>
+<p>If everything is working correctly, there should be no errors, and the output of the last command will be of the form:</p>
+<pre><code class="language-sh">[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]
+</code></pre>
+<p>Note that for 32-bit machines, the interpreter name will be /tools/lib/ld-linux.so.2.</p>
+</blockquote>
+<blockquote>
+<p>If the output is not shown as above or there was no output at all, then something is wrong. Investigate and retrace the steps to find out where the problem is and correct it. This issue must be resolved before continuing on.</p>
+</blockquote>
+<blockquote>
+<p>Once all is well, clean up the test files:</p>
+<pre><code class="language-sh">rm -v dummy.c a.out
+</code></pre>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Building Binutils in the section after next will serve as an additional check that the toolchain has been built properly. If Binutils fails to build, it is an indication that something has gone wrong with the previous Binutils, GCC, or Glibc installations.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>Details on this package are located in <a href="05-Constructing-a-Temporary-System/../06-Installing-Basic-System-Software/09-Glibc-2.29.html">Section 6.9.3, “Contents of Glibc”</a>.</p>
+</blockquote>
+<blockquote>
 <h1><a class="header" href="#libstdc-from-gcc-820" id="libstdc-from-gcc-820">Libstdc++ from GCC-8.2.0</a></h1>
+<p>Libstdc++ is the standard C++ library. It is needed to compile C++ code (part of GCC is written in C++), but we had to defer its installation when we built <a href="05-Constructing-a-Temporary-System/./05-GCC-8.2.0-Pass-1">gcc-pass1</a> because it depends on glibc, which was not yet available in <code>/tools</code>.</p>
+<p><strong>Approximate Build Time:</strong> 0.5 SBU</p>
+<p><strong>Required Disk Space:</strong> 803 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-target-libstdc" id="installation-of-target-libstdc">Installation of Target Libstdc++</a></h1>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Libstdc++ is part of the GCC sources. You should first unpack the GCC tarball and change to the <code>gcc-8.2.0</code> directory.</p>
+</blockquote>
+</blockquote>
+<p>Create a separate build directory for Libstdc++ and enter it:</p>
+<pre><code class="language-sh">mkdir -v build
+cd       build
+</code></pre>
+<p>Prepare Libstdc++ for compilation:</p>
+<pre><code class="language-sh">../libstdc++-v3/configure           \
+    --host=$LFS_TGT                 \
+    --prefix=/tools                 \
+    --disable-multilib              \
+    --disable-nls                   \
+    --disable-libstdcxx-threads     \
+    --disable-libstdcxx-pch         \
+    --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/8.2.0
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-configure-options-3" id="the-meaning-of-the-configure-options-3">The meaning of the configure options:</a></h3>
+<blockquote>
+<p><strong><em>--host=...</em></strong></p>
+<blockquote>
+<p>Indicates to use the cross compiler we have just built instead of the one in <code>/usr/bin</code>.
+<strong>_ --disable-libstdcxx-threads_</strong></p>
+</blockquote>
+<blockquote>
+<p>Since we have not yet built the C threads library, the C++ one cannot be built either.</p>
+</blockquote>
+<p><strong><em>--disable-libstdcxx-pch</em></strong></p>
+<blockquote>
+<p>This switch prevents the installation of precompiled include files, which are not needed at this stage.</p>
+</blockquote>
+<p><strong><em>--with-gxx-include-dir=/tools/$LFS_TGT/include/c++/8.2.0</em></strong></p>
+<blockquote>
+<p>This is the location where the standard include files are searched by the C++ compiler. In a normal build, this information is automatically passed to the Libstdc++ configure options from the top level directory. In our case, this information must be explicitly given.</p>
+</blockquote>
+</blockquote>
+<p>Compile libstdc++ by running:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Install the library:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="05-Constructing-a-Temporary-System/../06-Installing-Basic-System-Software/21-GCC-8.2.0.html">Section 6.21.2, “Contents of GCC”</a>.</p>
+</blockquote>
+<blockquote>
 <h1><a class="header" href="#binutils-232---pass-2" id="binutils-232---pass-2">Binutils-2.32 - Pass 2</a></h1>
+<p>The Binutils package contains a linker, an assembler, and other tools for handling object files.</p>
+<p><strong>Approximate Build Time:</strong> 1.1 SBU</p>
+<p><strong>Required Disk Space:</strong> 598 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-binutils" id="installation-of-binutils">Installation of Binutils</a></h1>
+<p>Create a separate build directory again:</p>
+<pre><code class="language-sh"> mkdir -v build
+cd       build
+</code></pre>
+<p>Prepare Binutils for compilation:</p>
+<pre><code class="language-sh">CC=$LFS_TGT-gcc                \
+AR=$LFS_TGT-ar                 \
+RANLIB=$LFS_TGT-ranlib         \
+../configure                   \
+    --prefix=/tools            \
+    --disable-nls              \
+    --disable-werror           \
+    --with-lib-path=/tools/lib \
+    --with-sysroot
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-new-configure-options" id="the-meaning-of-the-new-configure-options">The meaning of the new configure options:</a></h3>
+<blockquote>
+<p><strong><em>CC=$LFS_TGT-gcc AR=$LFS_TGT-ar RANLIB=$LFS_TGT-ranlib</em></strong></p>
+<blockquote>
+<p>Because this is really a native build of Binutils, setting these variables ensures that the build system uses the cross-compiler and associated tools instead of the ones on the host system.</p>
+</blockquote>
+<p><strong><em>--with-lib-path=/tools/lib</em></strong></p>
+<blockquote>
+<p>This tells the configure script to specify the library search path during the compilation of Binutils, resulting in /tools/lib being passed to the linker. This prevents the linker from searching through library directories on the host.</p>
+</blockquote>
+<p><strong><em>--with-sysroot</em></strong></p>
+<blockquote>
+<p>The sysroot feature enables the linker to find shared objects which are required by other shared objects explicitly included on the linker's command line. Without this, some packages may not build successfully on some hosts.</p>
+</blockquote>
+</blockquote>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<p>Now prepare the linker for the “Re-adjusting” phase in the next chapter:</p>
+<pre><code class="language-sh">make -C ld clean
+make -C ld LIB_PATH=/usr/lib:/lib
+cp -v ld/ld-new /tools/bin
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-make-parameters" id="the-meaning-of-the-make-parameters">The meaning of the make parameters:</a></h3>
+<blockquote>
+<p><strong><em>-C ld clean</em></strong></p>
+<blockquote>
+<p>This tells the make program to remove all compiled files in the ld subdirectory.</p>
+</blockquote>
+<p><strong><em>-C ld LIB_PATH=/usr/lib:/lib</em></strong></p>
+<blockquote>
+<p>This option rebuilds everything in the ld subdirectory. Specifying the LIB_PATH Makefile variable on the command line allows us to override the default value of the temporary tools and point it to the proper final path. The value of this variable specifies the linker's default library search path. This preparation is used in the next chapter.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>Details on this package are located in <a href="05-Constructing-a-Temporary-System/../06-Installing-Basic-System-Software/16-Binutils-2.32.html">Section 6.16.2, “Contents of Binutils”</a>.</p>
+</blockquote>
+<blockquote>
 <h1><a class="header" href="#gcc-820---pass-2" id="gcc-820---pass-2">GCC-8.2.0 - Pass 2</a></h1>
+<p>The GCC package contains the GNU compiler collection, which includes the C and C++ compilers.</p>
+<p><strong>Approximate Build Time:</strong> 14 SBU</p>
+<p><strong>Required Disk Space:</strong> 3.4 GB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-gcc" id="installation-of-gcc">Installation of GCC</a></h1>
+<p>Our first build of GCC has installed a couple of internal system headers. Normally one of them, <code>limits.h</code>, will in turn include the corresponding system <code>limits.h</code> header, in this case, <code>/tools/include/limits.h</code>. However, at the time of the first build of gcc <code>/tools/include/limits.h</code> did not exist, so the internal header that GCC installed is a partial, self-contained file and does not include the extended features of the system header. This was adequate for building the temporary libc, but this build of GCC now requires the full internal header. Create a full version of the internal header using a command that is identical to what the GCC build system does in normal circumstances:</p>
+<pre><code class="language-sh">cat gcc/limitx.h gcc/glimits.h gcc/limity.h &gt; \
+ `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include-fixed/limits.h
+</code></pre>
+<p>Once again, change the location of GCC's default dynamic linker to use the one installed in /tools.</p>
+<pre><code class="language-sh">for file in gcc/config/{linux,i386/linux{,64}}.h
+do
+cp -uv $file{,.orig}
+  sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&amp;@g' \
+      -e 's@/usr@/tools@g' $file.orig &gt; $file
+  echo '
+#undef STANDARD_STARTFILE_PREFIX_1
+#undef STANDARD_STARTFILE_PREFIX_2
+#define STANDARD_STARTFILE_PREFIX_1 &quot;/tools/lib/&quot;
+#define STANDARD_STARTFILE_PREFIX_2 &quot;&quot;' &gt;&gt; $file
+touch \$file.orig
+done
+</code></pre>
+<p>If building on x86_64, change the default directory name for 64-bit libraries to “lib”:</p>
+<pre><code class="language-sh">case \$(uname -m) in
+x86_64)
+sed -e '/m64=/s/lib64/lib/' \
+ -i.orig gcc/config/i386/t-linux64
+;;
+esac
+</code></pre>
+<p>As in the first build of <strong>GCC</strong> it requires the <strong>GMP</strong>, <strong>MPFR</strong> and <strong>MPC</strong> packages. Unpack the tarballs and move them into the required directory names:</p>
+<pre><code class="language-sh">tar -xf ../mpfr-4.0.2.tar.xz
+mv -v mpfr-4.0.2 mpfr
+tar -xf ../gmp-6.1.2.tar.xz
+mv -v gmp-6.1.2 gmp
+tar -xf ../mpc-1.1.0.tar.gz
+mv -v mpc-1.1.0 mpc
+</code></pre>
+<p>Create a separate build directory again:</p>
+<pre><code class="language-sh">mkdir -v build
+cd build
+</code></pre>
+<p>Before starting to build GCC, remember to unset any environment variables that override the default optimization flags.</p>
+<p>Now prepare GCC for compilation:</p>
+<pre><code class="language-sh">CC=$LFS_TGT-gcc                                    \
+CXX=$LFS_TGT-g++ \
+AR=$LFS_TGT-ar                                     \
+RANLIB=$LFS_TGT-ranlib \
+../configure \
+ --prefix=/tools \
+ --with-local-prefix=/tools \
+ --with-native-system-header-dir=/tools/include \
+ --enable-languages=c,c++ \
+ --disable-libstdcxx-pch \
+ --disable-multilib \
+ --disable-bootstrap \
+ --disable-libgomp
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-new-configure-options-1" id="the-meaning-of-the-new-configure-options-1">The meaning of the new configure options:</a></h3>
+<blockquote>
+<p><strong><em>--enable-languages=c,c++</em></strong></p>
+<blockquote>
+<p>This option ensures that both the C and C++ compilers are built.</p>
+</blockquote>
+<p><strong><em>--disable-libstdcxx-pch</em></strong></p>
+<blockquote>
+<p>Do not build the pre-compiled header (PCH) for libstdc++. It takes up a lot of space, and we have no use for it.</p>
+</blockquote>
+<p><strong><em>--disable-bootstrap</em></strong></p>
+<blockquote>
+<p>For native builds of GCC, the default is to do a &quot;bootstrap&quot; build. This does not just compile GCC, but compiles it several times. It uses the programs compiled in a first round to compile itself a second time, and then again a third time. The second and third iterations are compared to make sure it can reproduce itself flawlessly. This also implies that it was compiled correctly. However, the LFS build method should provide a solid compiler without the need to bootstrap each time.</p>
+</blockquote>
+</blockquote>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make
+``
+
+Install the package:
+
+```sh
+make install
+</code></pre>
+<p>As a finishing touch, create a symlink. Many programs and scripts run cc instead of gcc, which is used to keep programs generic and therefore usable on all kinds of UNIX systems where the GNU C compiler is not always installed. Running cc leaves the system administrator free to decide which C compiler to install:</p>
+<pre><code class="language-sh">ln -sv gcc /tools/bin/cc
+</code></pre>
+<blockquote>
+<p><strong>Caution</strong></p>
+<p>At this point, it is imperative to stop and ensure that the basic functions (compiling and linking) of the new toolchain are working as expected. To perform a sanity check, run the following commands:</p>
+<blockquote>
+<pre><code class="language-sh">echo 'int main(){}' &gt; dummy.c
+cc dummy.c
+readelf -l a.out | grep ': /tools'
+</code></pre>
+</blockquote>
+<p>If everything is working correctly, there should be no errors, and the output of the last command will be of the form:</p>
+<blockquote>
+<pre><code class="language-sh">[Requesting program interpreter: /tools/lib64/ld-linux-x86-64.so.2]
+</code></pre>
+</blockquote>
+<p>Note that the dynamic linker will be /tools/lib/ld-linux.so.2 for 32-bit machines.</p>
+<p>If the output is not shown as above or there was no output at all, then something is wrong. Investigate and retrace the steps to find out where the problem is and correct it. This issue must be resolved before continuing on. First, perform the sanity check again, using <strong>gcc</strong> instead of <strong>cc</strong>. If this works, then the <code>/tools/bin/cc</code> symlink is missing. Install the symlink as per above. Next, ensure that the <strong>PATH</strong> is correct. This can be checked by running <strong>echo $PATH</strong> and verifying that <code>/tools/bin</code> is at the head of the list. If the <strong>PATH</strong> is wrong it could mean that you are not logged in as user <em>lfs</em> or that something went wrong back in <a href="05-Constructing-a-Temporary-System/../04-Final-Preparations/04-Setting-Up-the-Environment.html">Section 4.4, “Setting Up the Environment”</a>.</p>
+<p>Once all is well, clean up the test files:</p>
+<blockquote>
+<pre><code class="language-sh">rm -v dummy.c a.out
+</code></pre>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>Details on this package are located in <a href="05-Constructing-a-Temporary-System/../06-Installing-Basic-System-Software/21-GCC-8.2.0.html">Section 6.16.2, “Contents of GCC</a>.</p>
+</blockquote>
 <h1><a class="header" href="#tcl-869" id="tcl-869">Tcl-8.6.9</a></h1>
 <h1><a class="header" href="#expect-5454" id="expect-5454">Expect-5.45.4</a></h1>
 <h1><a class="header" href="#dejagnu-162" id="dejagnu-162">DejaGNU-1.6.2</a></h1>

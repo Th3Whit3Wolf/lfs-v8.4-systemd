@@ -145,7 +145,125 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#gcc-820---pass-1" id="gcc-820---pass-1">GCC-8.2.0 - Pass 1</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#gcc-820---pass-1" id="gcc-820---pass-1">GCC-8.2.0 - Pass 1</a></h1>
+<p>The GCC package contains the GNU compiler collection, which includes the C and C++ compilers.</p>
+<p><strong>Approximate Build Time:</strong> 11 SBU</p>
+<p><strong>Required Disk Space:</strong> 2.9 GB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-cross-gcc" id="installation-of-cross-gcc">Installation of Cross GCC</a></h1>
+<p>GCC now requires the GMP, MPFR and MPC packages. As these packages may not be included in your host distribution, they will be built with GCC. Unpack each package into the GCC source directory and rename the resulting directories so the GCC build procedures will automatically use them:</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>There are frequent misunderstandings about this chapter. The procedures are the same as every other chapter as explained earlier (<a href="./03-General-Compilation-Instructions">Package build instructions</a>). First extract the gcc tarball from the sources directory and then change to the directory created. Only then should you proceed with the instructions below.</p>
+</blockquote>
+</blockquote>
+<pre><code class="language-sh">tar -xf ../mpfr-4.0.2.tar.xz
+mv -v mpfr-4.0.2 mpfr
+tar -xf ../gmp-6.1.2.tar.xz
+mv -v gmp-6.1.2 gmp
+tar -xf ../mpc-1.1.0.tar.gz
+mv -v mpc-1.1.0 mpc
+</code></pre>
+<p>The following command will change the location of GCC's default dynamic linker to use the one installed in <code>/tools</code>. It also removes <code>/usr/include</code> from GCC's include search path. Issue:</p>
+<pre><code class="language-sh">for file in gcc/config/{linux,i386/linux{,64}}.h
+do
+  cp -uv $file{,.orig}
+  sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&amp;@g' \
+      -e 's@/usr@/tools@g' $file.orig &gt; $file
+  echo '
+#undef STANDARD_STARTFILE_PREFIX_1
+#undef STANDARD_STARTFILE_PREFIX_2
+#define STANDARD_STARTFILE_PREFIX_1 &quot;/tools/lib/&quot;
+#define STANDARD_STARTFILE_PREFIX_2 &quot;&quot;' &gt;&gt; $file
+  touch $file.orig
+done
+</code></pre>
+<p>In case the above seems hard to follow, let's break it down a bit. First we copy the files <code>gcc/config/linux.h</code>, <code>gcc/config/i386/linux.h</code>, and <code>gcc/config/i368/linux64.h</code> to a file of the same name but with an added suffix of “.orig”. Then the first sed expression prepends “/tools” to every instance of “/lib/ld”, “/lib64/ld” or “/lib32/ld”, while the second one replaces hard-coded instances of “/usr”. Next, we add our define statements which alter the default startfile prefix to the end of the file. Note that the trailing “/” in “/tools/lib/” is required. Finally, we use <strong>touch</strong> to update the timestamp on the copied files. When used in conjunction with <strong>cp -u</strong>, this prevents unexpected changes to the original files in case the commands are inadvertently run twice.</p>
+<p>Finally, on x86_64 hosts, set the default directory name for 64-bit libraries to “lib”:</p>
+<pre><code class="language-sh">case $(uname -m) in
+  x86_64)
+    sed -e '/m64=/s/lib64/lib/' \
+        -i.orig gcc/config/i386/t-linux64
+ ;;
+esac
+</code></pre>
+<p>The GCC documentation recommends building GCC in a dedicated build directory:</p>
+<pre><code class="language-sh">mkdir -v build
+cd       build
+</code></pre>
+<p>Prepare GCC for compilation:</p>
+<pre><code class="language-sh">../configure                                       \
+    --target=$LFS_TGT                              \
+    --prefix=/tools                                \
+    --with-glibc-version=2.11                      \
+    --with-sysroot=$LFS                            \
+    --with-newlib                                  \
+    --without-headers                              \
+    --with-local-prefix=/tools                     \
+    --with-native-system-header-dir=/tools/include \
+    --disable-nls                                  \
+    --disable-shared                               \
+    --disable-multilib                             \
+    --disable-decimal-float                        \
+    --disable-threads                              \
+    --disable-libatomic                            \
+    --disable-libgomp                              \
+    --disable-libmpx                               \
+    --disable-libquadmath                          \
+    --disable-libssp                               \
+    --disable-libvtv                               \
+    --disable-libstdcxx                            \
+    --enable-languages=c,c++
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-configure-options" id="the-meaning-of-the-configure-options">The meaning of the configure options:</a></h3>
+<blockquote>
+<p><strong><em>--with-newlib</em></strong></p>
+<blockquote>
+<p>Since a working C library is not yet available, this ensures that the inhibit_libc constant is defined when building libgcc. This prevents the compiling of any code that requires libc support.</p>
+</blockquote>
+<p><strong><em>--without-headers</em></strong></p>
+<blockquote>
+<p>When creating a complete cross-compiler, GCC requires standard headers compatible with the target system. For our purposes these headers will not be needed. This switch prevents GCC from looking for them.</p>
+</blockquote>
+<p><strong><em>--with-local-prefix=/tools</em></strong></p>
+<blockquote>
+<p>The local prefix is the location in the system that GCC will search for locally installed include files. The default is <code>/usr/local</code>. Setting this to <code>/tools</code> helps keep the host location of <code>/usr/local</code> out of this GCC's search path.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong><em>--with-native-system-header-dir=/tools/include</em></strong></p>
+<blockquote>
+<p>By default GCC searches <code>/usr/include</code> for system headers. In conjunction with the sysroot switch, this would normally translate to <code>$LFS/usr/include</code>. However the headers that will be installed in the next two sections will go to <code>$LFS/tools/include</code>. This switch ensures that gcc will find them correctly. In the second pass of GCC, this same switch will ensure that no headers from the host system are found.</p>
+</blockquote>
+<p><strong><em>--disable-shared</em></strong></p>
+<blockquote>
+<p>This switch forces GCC to link its internal libraries statically. We do this to avoid possible issues with the host system.</p>
+</blockquote>
+<p><strong><em>--disable-decimal-float, --disable-threads, --disable-libatomic, --disable-libgomp, --disable-libmpx, --disable-libquadmath, --disable-libssp, --disable-libvtv, --disable-libstdcxx</em></strong></p>
+<blockquote>
+<p>These switches disable support for the decimal floating point extension, threading, libatomic, libgomp, libmpx, libquadmath, libssp, libvtv, and the C++ standard library respectively. These features will fail to compile when building a cross-compiler and are not necessary for the task of cross-compiling the temporary libc.</p>
+</blockquote>
+<p><strong><em>--disable-multilib</em></strong></p>
+<blockquote>
+<p>On x86_64, LFS does not yet support a multilib configuration. This switch is harmless for x86.</p>
+</blockquote>
+<p><strong><em>--enable-languages=c,c++</em></strong></p>
+<blockquote>
+<p>This option ensures that only the C and C++ compilers are built. These are the only languages needed now.</p>
+</blockquote>
+</blockquote>
+<p>Compile GCC by running:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. At this point, the test suite would normally be run, but, as mentioned before, the test suite framework is not in place yet. The benefits of running the tests at this point are minimal since the programs from this first pass will soon be replaced.</p>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="../06-Installing-Basic-System-Software/21-GCC-8.2.0.html">Section 6.21.2, “Contents of GCC”</a>.</p>
+</blockquote>
 
                     </main>
 

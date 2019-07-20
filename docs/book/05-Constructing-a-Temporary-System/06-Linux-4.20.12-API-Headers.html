@@ -145,7 +145,24 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#linux-42012-api-headers" id="linux-42012-api-headers">Linux-4.20.12 API Headers</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#linux-42012-api-headers" id="linux-42012-api-headers">Linux-4.20.12 API Headers</a></h1>
+<p>The Linux API Headers (in linux-4.20.12.tar.xz) expose the kernel's API for use by Glibc.</p>
+<p><strong>Approximate Build Time:</strong> 0.1 SBU</p>
+<p><strong>Required Disk Space:</strong> 937 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-linux-api-headers" id="installation-of-linux-api-headers">Installation of Linux API Headers</a></h1>
+<p>The Linux kernel needs to expose an Application Programming Interface (API) for the system's C library (Glibc in LFS) to use. This is done by way of sanitizing various C header files that are shipped in the Linux kernel source tarball.</p>
+<p>Make sure there are no stale files embedded in the package:</p>
+<pre><code class="language-sh">make mrproper
+</code></pre>
+<p>Now extract the user-visible kernel headers from the source. They are placed in an intermediate local directory and copied to the needed location because the extraction process removes any existing files in the target directory.</p>
+<pre><code class="language-sh">make INSTALL_HDR_PATH=dest headers_install
+cp -rv dest/include/* /tools/include
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="../06-Installing-Basic-System-Software/07-Linux-4.20.12-API-Headers.html">Section 6.7.2, “Contents of Linux API Headers”</a>.</p>
+</blockquote>
 
                     </main>
 

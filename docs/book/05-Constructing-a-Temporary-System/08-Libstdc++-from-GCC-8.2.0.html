@@ -145,7 +145,61 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#libstdc-from-gcc-820" id="libstdc-from-gcc-820">Libstdc++ from GCC-8.2.0</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#libstdc-from-gcc-820" id="libstdc-from-gcc-820">Libstdc++ from GCC-8.2.0</a></h1>
+<p>Libstdc++ is the standard C++ library. It is needed to compile C++ code (part of GCC is written in C++), but we had to defer its installation when we built <a href="./05-GCC-8.2.0-Pass-1">gcc-pass1</a> because it depends on glibc, which was not yet available in <code>/tools</code>.</p>
+<p><strong>Approximate Build Time:</strong> 0.5 SBU</p>
+<p><strong>Required Disk Space:</strong> 803 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-target-libstdc" id="installation-of-target-libstdc">Installation of Target Libstdc++</a></h1>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Libstdc++ is part of the GCC sources. You should first unpack the GCC tarball and change to the <code>gcc-8.2.0</code> directory.</p>
+</blockquote>
+</blockquote>
+<p>Create a separate build directory for Libstdc++ and enter it:</p>
+<pre><code class="language-sh">mkdir -v build
+cd       build
+</code></pre>
+<p>Prepare Libstdc++ for compilation:</p>
+<pre><code class="language-sh">../libstdc++-v3/configure           \
+    --host=$LFS_TGT                 \
+    --prefix=/tools                 \
+    --disable-multilib              \
+    --disable-nls                   \
+    --disable-libstdcxx-threads     \
+    --disable-libstdcxx-pch         \
+    --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/8.2.0
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-configure-options" id="the-meaning-of-the-configure-options">The meaning of the configure options:</a></h3>
+<blockquote>
+<p><strong><em>--host=...</em></strong></p>
+<blockquote>
+<p>Indicates to use the cross compiler we have just built instead of the one in <code>/usr/bin</code>.
+<strong>_ --disable-libstdcxx-threads_</strong></p>
+</blockquote>
+<blockquote>
+<p>Since we have not yet built the C threads library, the C++ one cannot be built either.</p>
+</blockquote>
+<p><strong><em>--disable-libstdcxx-pch</em></strong></p>
+<blockquote>
+<p>This switch prevents the installation of precompiled include files, which are not needed at this stage.</p>
+</blockquote>
+<p><strong><em>--with-gxx-include-dir=/tools/$LFS_TGT/include/c++/8.2.0</em></strong></p>
+<blockquote>
+<p>This is the location where the standard include files are searched by the C++ compiler. In a normal build, this information is automatically passed to the Libstdc++ configure options from the top level directory. In our case, this information must be explicitly given.</p>
+</blockquote>
+</blockquote>
+<p>Compile libstdc++ by running:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Install the library:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="../06-Installing-Basic-System-Software/21-GCC-8.2.0.html">Section 6.21.2, “Contents of GCC”</a>.</p>
+</blockquote>
 
                     </main>
 
