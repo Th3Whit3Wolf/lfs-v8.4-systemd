@@ -1,6 +1,6 @@
-# Table of Contents
+# Introduction
 
-### 1. Introduction
+### Table of Contents
 
 - [How to Build an LFS System](./01-How-to-Build-an-LFS-System.md)
 

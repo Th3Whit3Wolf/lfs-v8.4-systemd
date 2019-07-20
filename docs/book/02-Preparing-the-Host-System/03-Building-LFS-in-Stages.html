@@ -145,7 +145,37 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+                        <h1><a class="header" href="#building-lfs-in-stages" id="building-lfs-in-stages">Building LFS in Stages</a></h1>
+<p>LFS is designed to be built in one session. That is, the instructions assume that the system will not be shut down during the process. That does not mean that the system has to be done in one sitting. The issue is that certain procedures have to be re-accomplished after a reboot if resuming LFS at different points.</p>
+<h3><a class="header" href="#231-chapters-14" id="231-chapters-14">2.3.1. Chapters 1–4</a></h3>
+<p>These chapters are accomplished on the host system. When restarting, be careful of the following:</p>
+<ul>
+<li>Procedures done as the root user after Section 2.4 need to have the LFS environment variable set FOR THE ROOT USER.</li>
+</ul>
+<h3><a class="header" href="#232-chapter-5" id="232-chapter-5">2.3.2. Chapter 5</a></h3>
+<ul>
+<li>
+<p>The /mnt/lfs partition must be mounted.</p>
+</li>
+<li>
+<p>ALL instructions in Chapter 5 must be done by user lfs. A su - lfs needs to be done before any task in Chapter 5.</p>
+</li>
+<li>
+<p>The procedures in <a href="../05-Constructing-a-Temporary-System/03-General-Compilation-Instructions.html">Section 5.3, “General Compilation Instructions”</a> are critical. If there is any doubt about installing a package, ensure any previously expanded tarballs are removed, re-extract the package files, and complete all instructions in that section.</p>
+</li>
+</ul>
+<h3><a class="header" href="#233-chapters-68" id="233-chapters-68">2.3.3. Chapters 6–8</a></h3>
+<ul>
+<li>
+<p>The <code>/mnt/lfs</code> partition must be mounted.</p>
+</li>
+<li>
+<p>When entering chroot, the LFS environment variable must be set for root. The LFS variable is not used otherwise.</p>
+</li>
+<li>
+<p>The virtual file systems must be mounted. This can be done before or after entering chroot by changing to a host virtual terminal and, as root, running the commands in <a href="../06-Installing-Basic-System-Software/02-Preparing-Virtual-Kernel-File-Systems.html">Section 6.2.2, “Mounting and Populating /dev”</a> and<a href="../06-Installing-Basic-System-Software/02-Preparing-Virtual-Kernel-File-Systems.html"> Section 6.2.3, “Mounting Virtual Kernel File Systems”</a>.</p>
+</li>
+</ul>
 
                     </main>
 

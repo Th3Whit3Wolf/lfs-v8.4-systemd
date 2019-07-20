@@ -145,7 +145,22 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+                        <h1><a class="header" href="#creating-a-file-system-on-the-partition" id="creating-a-file-system-on-the-partition">Creating a File System on the Partition</a></h1>
+<p>Now that a blank partition has been set up, the file system can be created. LFS can use any file system recognized by the Linux kernel, but the most common types are ext3 and ext4. The choice of file system can be complex and depends on the characteristics of the files and the size of the partition. For example:</p>
+<p><strong>ext2</strong></p>
+<p>is suitable for small partitions that are updated infrequently such as /boot.</p>
+<p><strong>ext3</strong></p>
+<p>is an upgrade to ext2 that includes a journal to help recover the partition's status in the case of an unclean shutdown. It is commonly used as a general purpose file system.</p>
+<p><strong>ext4</strong></p>
+<p>is the latest version of the ext file system family of partition types. It provides several new capabilities including nano-second timestamps, creation and use of very large files (16 TB), and speed improvements.</p>
+<p>Other file systems, including FAT32, NTFS, ReiserFS, JFS, and XFS are useful for specialized purposes. More information about these file systems can be found at <a href="http://en.wikipedia.org/wiki/Comparison_of_file_systems">here</a>.</p>
+<p>LFS assumes that the root file system (/) is of type ext4. To create an ext4 file system on the LFS partition, run the following:</p>
+<pre><code class="language-sh">mkfs -v -t ext4 /dev/&lt;xxx&gt;
+</code></pre>
+<p>If you are using an existing <em>swap</em> partition, there is no need to format it. If a new <em>swap</em> partition was created, it will need to be initialized with this command:</p>
+<pre><code class="language-sh">mkswap /dev/&lt;yyy&gt;
+</code></pre>
+<p>Replace <strong>&lt;yyy&gt;</strong> with the name of the <em>swap</em> partition.</p>
 
                     </main>
 

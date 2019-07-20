@@ -417,7 +417,7 @@ gerard@linuxfromscratch.org</p>
 </code></pre>
 <p>As you can see, the 64-bit build is only 4% faster and is 9% larger than the 32-bit build. The gain from going to a 64-bit system is relatively minimal. Of course, if you have more than 4GB of RAM or want to manipulate data that exceeds 4GB, the advantages of a 64-bit system are substantial.</p>
 <blockquote>
-<p>Note</p>
+<p><strong>Note</strong></p>
 <blockquote>
 <p>The above discussion is only appropriate when comparing builds on the same hardware. Modern 64-bit systems are considerably faster than older 64-bit systems and the LFS authors recommend building on a 64-bit system when given a choice.</p>
 </blockquote>
@@ -432,7 +432,7 @@ gerard@linuxfromscratch.org</p>
 </ul>
 <p>The LSB has four separate standards: Core, Desktop, Runtime Languages, and Imaging. In addition to generic requirements there are also architecture specific requirements. There are also two areas for trial use: Gtk3 and Graphics. LFS attempts to conform to the architectures discussed in the previous section.</p>
 <blockquote>
-<p>Note</p>
+<p><strong>Note</strong></p>
 <blockquote>
 <p>Many people do not agree with the requirements of the LSB. The main purpose of defining it is to ensure that proprietary software will be able to be installed and run properly on a compliant system. Since LFS is source based, the user has complete control over what packages are desired and many choose not to install some packages that are specified by the LSB.</p>
 </blockquote>
@@ -1043,8 +1043,8 @@ This format is used to refer to a specific manual (man) page. The number inside 
 </code></pre>
 <h1><a class="header" href="#errata" id="errata">Errata</a></h1>
 <p>The software used to create an LFS system is constantly being updated and enhanced. Security warnings and bug fixes may become available after the LFS book has been released. To check whether the package versions or instructions in this release of LFS need any modifications to accommodate security vulnerabilities or other bug fixes, please visit <a href="http://www.linuxfromscratch.org/lfs/errata/stable-systemd/"><strong>lfs systemd</strong></a> before proceeding with your build. You should note any changes shown and apply them to the relevant section of the book as you progress with building the LFS system.</p>
-<h1><a class="header" href="#table-of-contents-1" id="table-of-contents-1">Table of Contents</a></h1>
-<h3><a class="header" href="#1-introduction-1" id="1-introduction-1">1. Introduction</a></h3>
+<h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+<h3><a class="header" href="#table-of-contents-1" id="table-of-contents-1">Table of Contents</a></h3>
 <ul>
 <li>
 <p><a href="01-introduction/./01-How-to-Build-an-LFS-System.html">How to Build an LFS System</a></p>
@@ -1436,26 +1436,404 @@ make: *** [all-recursive-am] Error 2
 <p>This is not enough information to properly diagnose the problem because it only notes that something went wrong, not <em>what</em> went wrong. The entire section, as in the example above, is what should be saved because it includes the command that was executed and the associated error message(s).</p>
 <p>An excellent article about asking for help on the Internet is available online at <a href="http://catb.org/%7Eesr/faqs/smart-questions.html">smart questions</a>. Read and follow the hints in this document to increase the likelihood of getting the help you need.</p>
 <h1><a class="header" href="#preparing-the-host-system" id="preparing-the-host-system">Preparing the Host System</a></h1>
-<h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
-<h1><a class="header" href="#host-system-requirements" id="host-system-requirements">Host System Requirements</a></h1>
+<h3><a class="header" href="#table-of-contents-2" id="table-of-contents-2">Table of Contents</a></h3>
+<ul>
+<li>
+<p><a href="02-Preparing-the-Host-System/./01-Introduction.html">Introduction</a></p>
+</li>
+<li>
+<p><a href="02-Preparing-the-Host-System/./02-Host-System-Requirements.html">Host System Requirements</a></p>
+</li>
+<li>
+<p><a href="02-Preparing-the-Host-System/./03-Building-LFS-in-Stages.html">Building LFS in Stages</a></p>
+</li>
+<li>
+<p><a href="02-Preparing-the-Host-System/./04-Creating-a-New-Partition.html">Creating a New Partition</a></p>
+</li>
+<li>
+<p><a href="02-Preparing-the-Host-System/./05-Creating-a-File-System-on-the-Partition.html">Creating a File System on the Partition</a></p>
+</li>
+<li>
+<p><a href="02-Preparing-the-Host-System/./06-Setting-The-$LFS-Variable.html">Setting The $LFS Variable</a></p>
+</li>
+<li>
+<p><a href="02-Preparing-the-Host-System/./07-Mounting-the-New-Partition.html">Mounting the New Partition</a></p>
+</li>
+</ul>
 <h1><a class="header" href="#introduction-1" id="introduction-1">Introduction</a></h1>
-<h1><a class="header" href="#introduction-2" id="introduction-2">Introduction</a></h1>
-<h1><a class="header" href="#introduction-3" id="introduction-3">Introduction</a></h1>
+<p>In this chapter, the host tools needed for building LFS are checked and, if necessary, installed. Then a partition which will host the LFS system is prepared. We will create the partition itself, create a file system on it, and mount it.</p>
+<h1><a class="header" href="#host-system-requirements" id="host-system-requirements">Host System Requirements</a></h1>
+<p>Your host system should have the following software with the minimum versions indicated. This should not be an issue for most modern Linux distributions. Also note that many distributions will place software headers into separate packages, often in the form of “<package-name>-devel” or “<package-name>-dev”. Be sure to install those if your distribution provides them.</p>
+<p>Earlier versions of the listed software packages may work, but have not been tested.</p>
+<ul class="compact">
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Bash-3.2</strong></span> (/bin/sh
+        should be a symbolic or hard link to bash)
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Binutils-2.25</strong></span>
+        (Versions greater than 2.32 are not recommended as they have
+        not been tested)
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Bison-2.7</strong></span>
+        (/usr/bin/yacc should be a link to bison or small script that
+        executes bison)
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Bzip2-1.0.4</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Coreutils-6.9</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Diffutils-2.8.1</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Findutils-4.2.31</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Gawk-4.0.1</strong></span>
+        (/usr/bin/awk should be a link to gawk)
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>GCC-5.2</strong></span> including
+        the C++ compiler, <span class=
+        "command"><strong>g++</strong></span> (Versions greater than
+        8.2.0 are not recommended as they have not been tested)
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Glibc-2.11</strong></span>
+        (Versions greater than 2.29 are not recommended as they have
+        not been tested)
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Grep-2.5.1a</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Gzip-1.3.12</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Linux Kernel-3.2</strong></span>
+    </p>
+    <p>
+        The reason for the kernel version requirement is that we
+        specify that version when building <span class=
+        "application">glibc</span> in Chapter&nbsp;6 at the
+        recommendation of the developers. It is also required by udev.
+    </p>
+    <p>
+        If the host kernel is earlier than 3.2 you will need to replace
+        the kernel with a more up to date version. There are two ways
+        you can go about this. First, see if your Linux vendor provides
+        a 3.2 or later kernel package. If so, you may wish to install
+        it. If your vendor doesn't offer an acceptable kernel package,
+        or you would prefer not to install it, you can compile a kernel
+        yourself. Instructions for compiling the kernel and configuring
+        the boot loader (assuming the host uses GRUB) are located in
+        <a class="xref" href="02-Preparing-the-Host-System/../chapter08/chapter08.html" title=
+        "Chapter&nbsp;8.&nbsp;Making the LFS System Bootable">Chapter&nbsp;8</a>.
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>M4-1.4.10</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Make-4.0</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Patch-2.5.4</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Perl-5.8.8</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Python-3.4</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Sed-4.1.5</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Tar-1.22</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Texinfo-4.7</strong></span>
+    </p>
+    </li>
+    <li class="listitem">
+    <p>
+        <span class="strong"><strong>Xz-5.0.0</strong></span>
+    </p>
+    </li>
+</ul>
+<blockquote>
+<p><strong>Important</strong></p>
+<blockquote>
+<p>Note that the symlinks mentioned above are required to build an LFS system using the instructions contained within this book. Symlinks that point to other software (such as dash, mawk, etc.) may work, but are not tested or supported by the LFS development team, and may require either deviation from the instructions or additional patches to some packages.</p>
+</blockquote>
+</blockquote>
+<p>To see whether your host system has all the appropriate versions, and the ability to compile programs, run the following:</p>
+<pre><code class="language-sh">cat &gt; version-check.sh &lt;&lt; &quot;EOF&quot;
+#!/bin/bash
+# Simple script to list version numbers of critical development tools
+export LC_ALL=C
+bash --version | head -n1 | cut -d&quot; &quot; -f2-4
+MYSH=$(readlink -f /bin/sh)
+echo &quot;/bin/sh -&gt; $MYSH&quot;
+echo $MYSH | grep -q bash || echo &quot;ERROR: /bin/sh does not point to bash&quot;
+unset MYSH
+
+echo -n &quot;Binutils: &quot;; ld --version | head -n1 | cut -d&quot; &quot; -f3-
+bison --version | head -n1
+
+if [ -h /usr/bin/yacc ]; then
+  echo &quot;/usr/bin/yacc -&gt; `readlink -f /usr/bin/yacc`&quot;;
+elif [ -x /usr/bin/yacc ]; then
+  echo yacc is `/usr/bin/yacc --version | head -n1`
+else
+  echo &quot;yacc not found&quot;
+fi
+
+bzip2 --version 2&gt;&amp;1 &lt; /dev/null | head -n1 | cut -d&quot; &quot; -f1,6-
+echo -n &quot;Coreutils: &quot;; chown --version | head -n1 | cut -d&quot;)&quot; -f2
+diff --version | head -n1
+find --version | head -n1
+gawk --version | head -n1
+
+if [ -h /usr/bin/awk ]; then
+  echo &quot;/usr/bin/awk -&gt; `readlink -f /usr/bin/awk`&quot;;
+elif [ -x /usr/bin/awk ]; then
+  echo awk is `/usr/bin/awk --version | head -n1`
+else
+  echo &quot;awk not found&quot;
+fi
+
+gcc --version | head -n1
+g++ --version | head -n1
+ldd --version | head -n1 | cut -d&quot; &quot; -f2-  # glibc version
+grep --version | head -n1
+gzip --version | head -n1
+cat /proc/version
+m4 --version | head -n1
+make --version | head -n1
+patch --version | head -n1
+echo Perl `perl -V:version`
+python3 --version
+sed --version | head -n1
+tar --version | head -n1
+makeinfo --version | head -n1  # texinfo version
+xz --version | head -n1
+
+echo 'int main(){}' &gt; dummy.c &amp;&amp; g++ -o dummy dummy.c
+if [ -x dummy ]
+  then echo &quot;g++ compilation OK&quot;;
+  else echo &quot;g++ compilation failed&quot;; fi
+rm -f dummy.c dummy
+EOF
+
+bash version-check.sh
+</code></pre>
+<h1><a class="header" href="#building-lfs-in-stages" id="building-lfs-in-stages">Building LFS in Stages</a></h1>
+<p>LFS is designed to be built in one session. That is, the instructions assume that the system will not be shut down during the process. That does not mean that the system has to be done in one sitting. The issue is that certain procedures have to be re-accomplished after a reboot if resuming LFS at different points.</p>
+<h3><a class="header" href="#231-chapters-14" id="231-chapters-14">2.3.1. Chapters 1–4</a></h3>
+<p>These chapters are accomplished on the host system. When restarting, be careful of the following:</p>
+<ul>
+<li>Procedures done as the root user after Section 2.4 need to have the LFS environment variable set FOR THE ROOT USER.</li>
+</ul>
+<h3><a class="header" href="#232-chapter-5" id="232-chapter-5">2.3.2. Chapter 5</a></h3>
+<ul>
+<li>
+<p>The /mnt/lfs partition must be mounted.</p>
+</li>
+<li>
+<p>ALL instructions in Chapter 5 must be done by user lfs. A su - lfs needs to be done before any task in Chapter 5.</p>
+</li>
+<li>
+<p>The procedures in <a href="02-Preparing-the-Host-System/../05-Constructing-a-Temporary-System/03-General-Compilation-Instructions.html">Section 5.3, “General Compilation Instructions”</a> are critical. If there is any doubt about installing a package, ensure any previously expanded tarballs are removed, re-extract the package files, and complete all instructions in that section.</p>
+</li>
+</ul>
+<h3><a class="header" href="#233-chapters-68" id="233-chapters-68">2.3.3. Chapters 6–8</a></h3>
+<ul>
+<li>
+<p>The <code>/mnt/lfs</code> partition must be mounted.</p>
+</li>
+<li>
+<p>When entering chroot, the LFS environment variable must be set for root. The LFS variable is not used otherwise.</p>
+</li>
+<li>
+<p>The virtual file systems must be mounted. This can be done before or after entering chroot by changing to a host virtual terminal and, as root, running the commands in <a href="02-Preparing-the-Host-System/../06-Installing-Basic-System-Software/02-Preparing-Virtual-Kernel-File-Systems.html">Section 6.2.2, “Mounting and Populating /dev”</a> and<a href="02-Preparing-the-Host-System/../06-Installing-Basic-System-Software/02-Preparing-Virtual-Kernel-File-Systems.html"> Section 6.2.3, “Mounting Virtual Kernel File Systems”</a>.</p>
+</li>
+</ul>
+<h1><a class="header" href="#creating-a-new-partition" id="creating-a-new-partition">Creating a New Partition</a></h1>
+<p>Like most other operating systems, LFS is usually installed on a dedicated partition. The recommended approach to building an LFS system is to use an available empty partition or, if you have enough unpartitioned space, to create one.</p>
+<p>A minimal system requires a partition of around 6 gigabytes (GB). This is enough to store all the source tarballs and compile the packages. However, if the LFS system is intended to be the primary Linux system, additional software will probably be installed which will require additional space. A 20 GB partition is a reasonable size to provide for growth. The LFS system itself will not take up this much room. A large portion of this requirement is to provide sufficient free temporary storage as well as for adding additional capabilities after LFS is complete. Additionally, compiling packages can require a lot of disk space which will be reclaimed after the package is installed.</p>
+<p>Because there is not always enough Random Access Memory (RAM) available for compilation processes, it is a good idea to use a small disk partition as <em>swap</em> space. This is used by the kernel to store seldom-used data and leave more memory available for active processes. The <em>swap</em> partition for an LFS system can be the same as the one used by the host system, in which case it is not necessary to create another one.</p>
+<p>Start a disk partitioning program such as <strong>cfdisk</strong> or <strong>fdisk</strong> with a command line option naming the hard disk on which the new partition will be created—for example <code>/dev/sda</code> for the primary Integrated Drive Electronics (IDE) disk. Create a Linux native partition and a <em>swap</em> partition, if needed. Please refer to <code>cfdisk(8)</code> or <code>fdisk(8)</code> if you do not yet know how to use the programs.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>For experienced users, other partitioning schemes are possible. The new LFS system can be on a software <a href="http://www.linuxfromscratch.org/blfs/view/8.4/postlfs/raid.html">RAID</a> array or an <a href="http://www.linuxfromscratch.org/blfs/view/8.4/postlfs/aboutlvm.html">LVM</a> logical volume. However, some of these options require an <a href="http://www.linuxfromscratch.org/blfs/view/8.4/postlfs/initramfs.html">initramfs</a>, which is an advanced topic. These partitioning methodologies are not recommended for first time LFS users.</p>
+</blockquote>
+</blockquote>
+<p>Remember the designation of the new partition (e.g., <code>sda5</code>). This book will refer to this as the LFS partition. Also remember the designation of the <em>swap</em> partition. These names will be needed later for the <code>/etc/fstab</code> file.</p>
+<h3><a class="header" href="#241-other-partition-issues" id="241-other-partition-issues">2.4.1. Other Partition Issues</a></h3>
+<p>Requests for advice on system partitioning are often posted on the LFS mailing lists. This is a highly subjective topic. The default for most distributions is to use the entire drive with the exception of one small swap partition. This is not optimal for LFS for several reasons. It reduces flexibility, makes sharing of data across multiple distributions or LFS builds more difficult, makes backups more time consuming, and can waste disk space through inefficient allocation of file system structures.</p>
+<h3><a class="header" href="#2411-the-root-partition" id="2411-the-root-partition">2.4.1.1. The Root Partition</a></h3>
+<p>A root LFS partition (not to be confused with the<code>/root</code> directory) of ten gigabytes is a good compromise for most systems. It provides enough space to build LFS and most of BLFS, but is small enough so that multiple partitions can be easily created for experimentation.</p>
+<h3><a class="header" href="#2412-the-swap-partition" id="2412-the-swap-partition">2.4.1.2. The Swap Partition</a></h3>
+<p>Most distributions automatically create a swap partition. Generally the recommended size of the swap partition is about twice the amount of physical RAM, however this is rarely needed. If disk space is limited, hold the swap partition to two gigabytes and monitor the amount of disk swapping.</p>
+<p>Swapping is never good. Generally you can tell if a system is swapping by just listening to disk activity and observing how the system reacts to commands. The first reaction to swapping should be to check for an unreasonable command such as trying to edit a five gigabyte file. If swapping becomes a normal occurrence, the best solution is to purchase more RAM for your system.</p>
+<h3><a class="header" href="#2413-the-grub-bios-partition" id="2413-the-grub-bios-partition">2.4.1.3. The Grub Bios Partition</a></h3>
+<p>If the <em>boot disk</em> has been partitioned with a GUID Partition Table (GPT), then a small, typically 1 MB, partition must be created if it does not already exist. This partition is not formatted, but must be available for GRUB to use during installation of the boot loader. This partition will normally be labeled 'BIOS Boot' if using <strong>fdisk</strong> or have a code of <em>EF02</em> if using <strong>gdisk</strong>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>The Grub Bios partition must be on the drive that the BIOS uses to boot the system. This is not necessarily the same drive where the LFS root partition is located. Disks on a system may use different partition table types. The requirement for this partition depends only on the partition table type of the boot disk.</p>
+</blockquote>
+</blockquote>
+<h3><a class="header" href="#2414-convenience-partitions" id="2414-convenience-partitions">2.4.1.4. Convenience Partitions</a></h3>
+<p>There are several other partitions that are not required, but should be considered when designing a disk layout. The following list is not comprehensive, but is meant as a guide.</p>
+<ul>
+<li>
+<p><code>/boot</code> – Highly recommended. Use this partition to store kernels and other booting information. To minimize potential boot problems with larger disks, make this the first physical partition on your first disk drive. A partition size of 100 megabytes is quite adequate.</p>
+</li>
+<li>
+<p><code>/home</code> – Highly recommended. Share your home directory and user customization across multiple distributions or LFS builds. The size is generally fairly large and depends on available disk space.</p>
+</li>
+<li>
+<p><code>/usr</code>– A separate <code>/usr</code> partition is generally used if providing a server for a thin client or diskless workstation. It is normally not needed for LFS. A size of five gigabytes will handle most installations.</p>
+</li>
+<li>
+<p><code>/opt</code> – This directory is most useful for BLFS where multiple installations of large packages like Gnome or KDE can be installed without embedding the files in the <code>/usr</code> hierarchy. If used, 5 to 10 gigabytes is generally adequate.</p>
+</li>
+<li>
+<p><code>/tmp</code> – A separate <code>/tmp</code> directory is rare, but useful if configuring a thin client. This partition, if used, will usually not need to exceed a couple of gigabytes.</p>
+</li>
+<li>
+<p><code>/usr/src</code> – This partition is very useful for providing a location to store BLFS source files and share them across LFS builds. It can also be used as a location for building BLFS packages. A reasonably large partition of 30-50 gigabytes allows plenty of room.</p>
+</li>
+</ul>
+<p>Any separate partition that you want automatically mounted upon boot needs to be specified in the <code>/etc/fstab</code>. Details about how to specify partitions will be discussed in <a href="02-Preparing-the-Host-System/../08-Making-the-LFS-System-Bootable/02-Creating-the-slash-etc-slash-fstab-File.html">Section 8.2, “Creating the <code>/etc/fstab</code> File”</a>.</p>
+<h1><a class="header" href="#creating-a-file-system-on-the-partition" id="creating-a-file-system-on-the-partition">Creating a File System on the Partition</a></h1>
+<p>Now that a blank partition has been set up, the file system can be created. LFS can use any file system recognized by the Linux kernel, but the most common types are ext3 and ext4. The choice of file system can be complex and depends on the characteristics of the files and the size of the partition. For example:</p>
+<p><strong>ext2</strong></p>
+<p>is suitable for small partitions that are updated infrequently such as /boot.</p>
+<p><strong>ext3</strong></p>
+<p>is an upgrade to ext2 that includes a journal to help recover the partition's status in the case of an unclean shutdown. It is commonly used as a general purpose file system.</p>
+<p><strong>ext4</strong></p>
+<p>is the latest version of the ext file system family of partition types. It provides several new capabilities including nano-second timestamps, creation and use of very large files (16 TB), and speed improvements.</p>
+<p>Other file systems, including FAT32, NTFS, ReiserFS, JFS, and XFS are useful for specialized purposes. More information about these file systems can be found at <a href="http://en.wikipedia.org/wiki/Comparison_of_file_systems">here</a>.</p>
+<p>LFS assumes that the root file system (/) is of type ext4. To create an ext4 file system on the LFS partition, run the following:</p>
+<pre><code class="language-sh">mkfs -v -t ext4 /dev/&lt;xxx&gt;
+</code></pre>
+<p>If you are using an existing <em>swap</em> partition, there is no need to format it. If a new <em>swap</em> partition was created, it will need to be initialized with this command:</p>
+<pre><code class="language-sh">mkswap /dev/&lt;yyy&gt;
+</code></pre>
+<p>Replace <strong>&lt;yyy&gt;</strong> with the name of the <em>swap</em> partition.</p>
 <h1><a class="header" href="#setting-the-lfs-variable" id="setting-the-lfs-variable">Setting The $LFS Variable</a></h1>
+<p>Throughout this book, the environment variable LFS will be used several times. You should ensure that this variable is always defined throughout the LFS build process. It should be set to the name of the directory where you will be building your LFS system - we will use <code>/mnt/lfs</code> as an example, but the directory choice is up to you. If you are building LFS on a separate partition, this directory will be the mount point for the partition. Choose a directory location and set the variable with the following command:</p>
+<pre><code class="language-sh">export LFS=/mnt/lfs
+</code></pre>
+<p>Having this variable set is beneficial in that commands such as <strong>mkdir -v $LFS/tools</strong> can be typed literally. The shell will automatically replace “$LFS” with “/mnt/lfs” (or whatever the variable was set to) when it processes the command line.</p>
+<blockquote>
+<p><strong>Caution</strong></p>
+<blockquote>
+<p>Do not forget to check that LFS is set whenever you leave and reenter the current working environment (such as when doing a <strong>su</strong> to <em>root</em> or another user). Check that the LFS variable is set up properly with:</p>
+</blockquote>
+<pre><code class="language-sh">echo $LFS
+</code></pre>
+<blockquote>
+<p>Make sure the output shows the path to your LFS system's build location, which is <code>/mnt/lfs</code> if the provided example was followed. If the output is incorrect, use the command given earlier on this page to set $LFS to the correct directory name.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>One way to ensure that the LFS variable is always set is to edit the <code>.bash_profile</code> file in both your personal home directory and in <code>/root/.bash_profile</code> and enter the export command above. In addition, the shell specified in the <code>/etc/passwd</code>file for all users that need the LFS variable needs to be bash to ensure that the <code>/root/.bash_profile</code>file is incorporated as a part of the login process.</p>
+</blockquote>
+<blockquote>
+<p>Another consideration is the method that is used to log into the host system. If logging in through a graphical display manager, the user's <code>.bash_profile</code>is not normally used when a virtual terminal is started. In this case, add the export command to the <code>.bashrc</code> file for the user and root. In addition, some distributions have instructions to not run the <code>.bashrc</code> instructions in a non-interactive bash invocation. Be sure to add the export command before the test for non-interactive use.</p>
+</blockquote>
+</blockquote>
 <h1><a class="header" href="#mounting-the-new-partition" id="mounting-the-new-partition">Mounting the New Partition</a></h1>
+<p>Now that a file system has been created, the partition needs to be made accessible. In order to do this, the partition needs to be mounted at a chosen mount point. For the purposes of this book, it is assumed that the file system is mounted under the directory specified by the LFS environment variable as described in the previous section.</p>
+<p>Create the mount point and mount the LFS file system by running:</p>
+<pre><code class="language-sh">mkdir -pv $LFS
+mount -v -t ext4 /dev/&lt;xxx&gt; $LFS
+</code></pre>
+<p>Replace _<xxx>\_ with the designation of the LFS partition.</p>
+<p>If using multiple partitions for LFS (e.g., one for <code>/</code>and another for <code>/usr</code>), mount them using:</p>
+<p>Replace _<xxx>_ and _<yyy>_ with the appropriate partition names.</p>
+<p>Ensure that this new partition is not mounted with permissions that are too restrictive (such as the <code>nosuid</code> or <code>nodev</code> options). Run the <strong>mount</strong> command without any parameters to see what options are set for the mounted LFS partition. If <code>nosuid</code> and/or <code>nodev</code> are set, the partition will need to be remounted.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<blockquote>
+<p>The above instructions assume that you will not be restarting your computer throughout the LFS process. If you shut down your system, you will either need to remount the LFS partition each time you restart the build process or modify your host system's <code>/etc/fstab</code> file to automatically remount it upon boot. For example:</p>
+</blockquote>
+<pre><code class="language-sh">/dev/&lt;xxx&gt;  /mnt/lfs ext4   defaults      1     1
+</code></pre>
+<blockquote>
+<p>If you use additional optional partitions, be sure to add them also.</p>
+</blockquote>
+</blockquote>
+<p>If you are using a <em>swap</em> partition, ensure that it is enabled using the <strong>swapon</strong> command:</p>
+<pre><code class="language-sh">/sbin/swapon -v /dev/&lt;zzz&gt;
+</code></pre>
+<p>Replace _<zzz>_ with the name of the _swap_ partition.</p>
+<p>Now that there is an established place to work, it is time to download the packages.</p>
 <h1><a class="header" href="#packages-and-patches" id="packages-and-patches">Packages and Patches</a></h1>
-<h1><a class="header" href="#introduction-4" id="introduction-4">Introduction</a></h1>
+<h1><a class="header" href="#introduction-2" id="introduction-2">Introduction</a></h1>
 <h1><a class="header" href="#all-packages" id="all-packages">All Packages</a></h1>
 <h1><a class="header" href="#needed-patches" id="needed-patches">Needed Patches</a></h1>
 <h1><a class="header" href="#final-preparations" id="final-preparations">Final Preparations</a></h1>
-<h1><a class="header" href="#introduction-5" id="introduction-5">Introduction</a></h1>
+<h1><a class="header" href="#introduction-3" id="introduction-3">Introduction</a></h1>
 <h1><a class="header" href="#creating-the-lfstools-directory" id="creating-the-lfstools-directory">Creating the $LFS/tools Directory</a></h1>
 <h1><a class="header" href="#adding-the-lfs-user" id="adding-the-lfs-user">Adding the LFS User</a></h1>
 <h1><a class="header" href="#setting-up-the-environment" id="setting-up-the-environment">Setting Up the Environment</a></h1>
 <h1><a class="header" href="#about-sbus" id="about-sbus">About SBUs</a></h1>
 <h1><a class="header" href="#about-the-test-suites" id="about-the-test-suites">About the Test Suites</a></h1>
 <h1><a class="header" href="#constructing-a-temporary-system" id="constructing-a-temporary-system">Constructing a Temporary System</a></h1>
-<h1><a class="header" href="#introduction-6" id="introduction-6">Introduction</a></h1>
+<h1><a class="header" href="#introduction-4" id="introduction-4">Introduction</a></h1>
 <h1><a class="header" href="#toolchain-technical-notes" id="toolchain-technical-notes">Toolchain Technical Notes</a></h1>
 <h1><a class="header" href="#general-compilation-instructions" id="general-compilation-instructions">General Compilation Instructions</a></h1>
 <h1><a class="header" href="#binutils-232---pass-1" id="binutils-232---pass-1">Binutils-2.32 - Pass 1</a></h1>
@@ -1493,7 +1871,7 @@ make: *** [all-recursive-am] Error 2
 <h1><a class="header" href="#stripping" id="stripping">Stripping</a></h1>
 <h1><a class="header" href="#changing-ownership" id="changing-ownership">Changing Ownership</a></h1>
 <h1><a class="header" href="#installing-basic-system-software" id="installing-basic-system-software">Installing Basic System Software</a></h1>
-<h1><a class="header" href="#introduction-7" id="introduction-7">Introduction</a></h1>
+<h1><a class="header" href="#introduction-5" id="introduction-5">Introduction</a></h1>
 <h1><a class="header" href="#preparing-virtual-kernel-file-systems" id="preparing-virtual-kernel-file-systems">Preparing Virtual Kernel File Systems</a></h1>
 <h1><a class="header" href="#package-management" id="package-management">Package Management</a></h1>
 <h1><a class="header" href="#entering-the-chroot-environment" id="entering-the-chroot-environment">Entering the Chroot Environment</a></h1>
@@ -1572,7 +1950,7 @@ make: *** [all-recursive-am] Error 2
 <h1><a class="header" href="#stripping-again" id="stripping-again">Stripping Again</a></h1>
 <h1><a class="header" href="#cleaning-up" id="cleaning-up">Cleaning Up</a></h1>
 <h1><a class="header" href="#system-configuration" id="system-configuration">System Configuration</a></h1>
-<h1><a class="header" href="#introduction-8" id="introduction-8">Introduction</a></h1>
+<h1><a class="header" href="#introduction-6" id="introduction-6">Introduction</a></h1>
 <h1><a class="header" href="#general-network-configuration" id="general-network-configuration">General Network Configuration</a></h1>
 <h1><a class="header" href="#overview-of-device-and-module-handling" id="overview-of-device-and-module-handling">Overview of Device and Module Handling</a></h1>
 <h1><a class="header" href="#managing-devices" id="managing-devices">Managing Devices</a></h1>
@@ -1583,8 +1961,8 @@ make: *** [all-recursive-am] Error 2
 <h1><a class="header" href="#creating-the-etcshells-file" id="creating-the-etcshells-file">Creating the /etc/shells File</a></h1>
 <h1><a class="header" href="#systemd-usage-and-configuration" id="systemd-usage-and-configuration">Systemd Usage and Configuration</a></h1>
 <h1><a class="header" href="#making-the-lfs-system-bootable" id="making-the-lfs-system-bootable">Making the LFS System Bootable</a></h1>
-<h1><a class="header" href="#introduction-9" id="introduction-9">Introduction</a></h1>
-<h1><a class="header" href="#introduction-10" id="introduction-10">Introduction</a></h1>
+<h1><a class="header" href="#introduction-7" id="introduction-7">Introduction</a></h1>
+<h1><a class="header" href="#introduction-8" id="introduction-8">Introduction</a></h1>
 <h1><a class="header" href="#linux-42012" id="linux-42012">Linux-4.20.12</a></h1>
 <h1><a class="header" href="#using-grub-to-set-up-the-boot-process" id="using-grub-to-set-up-the-boot-process">Using GRUB to Set Up the Boot Process</a></h1>
 <h1><a class="header" href="#the-end" id="the-end">The End</a></h1>
