@@ -146,6 +146,28 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#the-end" id="the-end">The End</a></h1>
+<p>Well done! The new LFS system is installed! We wish you much success with your shiny new custom-built Linux system.</p>
+<p>Create an <code>/etc/os-release</code> file required by systemd:</p>
+<pre><code class="language-sh">cat &gt; /etc/os-release &lt;&lt; &quot;EOF&quot;
+NAME=&quot;Linux From Scratch&quot;
+VERSION=&quot;8.4-systemd&quot;
+ID=lfs
+PRETTY_NAME=&quot;Linux From Scratch 8.4-systemd&quot;
+VERSION_CODENAME=&quot;&lt;your name here&gt;&quot;
+EOF
+</code></pre>
+<p>Creating the file <code>/etc/lfs-release</code> is recommended for compatibility with the non-systemd branch. By having this file, it is very easy for you (and for us if you need to ask for help at some point) to find out which LFS version is installed on the system. Create this file by running:</p>
+<pre><code class="language-sh">echo 8.4-systemd &gt; /etc/lfs-release
+</code></pre>
+<p>It is also a good idea to create a file to show the status of your new system with respect to the Linux Standards Base (LSB). To create this file, run:</p>
+<pre><code class="language-sh">cat &gt; /etc/lsb-release &lt;&lt; &quot;EOF&quot;
+DISTRIB_ID=&quot;Linux From Scratch&quot;
+DISTRIB_RELEASE=&quot;8.4-systemd&quot;
+DISTRIB_CODENAME=&quot;&lt;your name here&gt;&quot;
+DISTRIB_DESCRIPTION=&quot;Linux From Scratch&quot;
+EOF
+</code></pre>
+<p>Be sure to put some sort of customization for the field 'DISTRIB_CODENAME' to make the system uniquely yours.</p>
 
                     </main>
 

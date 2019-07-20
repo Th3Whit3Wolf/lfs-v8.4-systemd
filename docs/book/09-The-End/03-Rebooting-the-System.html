@@ -146,6 +146,68 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#rebooting-the-system" id="rebooting-the-system">Rebooting the System</a></h1>
+<p>Now that all of the software has been installed, it is time to reboot your computer. However, you should be aware of a few things. The system you have created in this book is quite minimal, and most likely will not have the functionality you would need to be able to continue forward. By installing a few extra packages from the BLFS book while still in our current chroot environment, you can leave yourself in a much better position to continue on once you reboot into your new LFS installation. Here are some suggestions:</p>
+<ul>
+<li>
+<p>A text mode browser such as <a href="http://www.linuxfromscratch.org/blfs/view/8.4/basicnet/lynx.html">Lynx</a> will allow you to easily view the BLFS book in one virtual terminal, while building packages in another.</p>
+</li>
+<li>
+<p>The <a href="http://www.linuxfromscratch.org/blfs/view/8.4/general/gpm.html">GPM</a> package will allow you to perform copy/paste actions in your virtual terminals.</p>
+</li>
+<li>
+<p>If you are in a situation where static IP configuration does not meet your networking requirements, installing a package such as <a href="http://www.linuxfromscratch.org/blfs/view/8.4/basicnet/dhcpcd.html">dhcpcd</a> or the client portion of <a href="http://www.linuxfromscratch.org/blfs/view/8.4/basicnet/dhcp.html">dhcp</a> may be useful.</p>
+</li>
+<li>
+<p>Installing <a href="http://www.linuxfromscratch.org/blfs/view/8.4/postlfs/sudo.html">sudo</a> may be useful for building packages as a non-root user and easily installing the resulting packages in your new system.</p>
+</li>
+<li>
+<p>If you want to access your new system from a remote system within a comfortable GUI environment, install <a href="http://www.linuxfromscratch.org/blfs/view/8.4/postlfs/openssh.html">openssh</a>.</p>
+</li>
+<li>
+<p>To make fetching files over the internet easier, install <a href="http://www.linuxfromscratch.org/blfs/view/8.4/basicnet/wget.html">wget</a>.</p>
+</li>
+<li>
+<p>If one or more of your disk drives have a GUID partition table (GPT), either <a href="http://www.linuxfromscratch.org/blfs/view/8.4/postlfs/gptfdisk.html">gptfdisk</a> or <a href="http://www.linuxfromscratch.org/blfs/view/8.4/postlfs/parted.html">parted</a> will be useful.</p>
+</li>
+<li>
+<p>Finally, a review of the following configuration files is also appropriate at this point.</p>
+<ul>
+<li>/etc/bashrc</li>
+<li>/etc/dircolors</li>
+<li>/etc/fstab</li>
+<li>/etc/hosts</li>
+<li>/etc/inputrc</li>
+<li>/etc/profile</li>
+<li>/etc/resolv.conf</li>
+<li>/etc/vimrc</li>
+<li>/root/.bash_profile</li>
+<li>/root/.bashrc</li>
+</ul>
+</li>
+</ul>
+<p>Now that we have said that, let's move on to booting our shiny new LFS installation for the first time! First exit from the chroot environment:</p>
+<pre><code class="language-sh">logout
+</code></pre>
+<p>Then unmount the virtual file systems:</p>
+<pre><code class="language-sh">umount -v $LFS/dev/pts
+umount -v $LFS/dev
+umount -v $LFS/run
+umount -v $LFS/proc
+umount -v $LFS/sys
+</code></pre>
+<p>Unmount the LFS file system itself:</p>
+<pre><code class="language-sh">umount -v $LFS
+</code></pre>
+<p>If multiple partitions were created, unmount the other partitions before unmounting the main one, like this:</p>
+<pre><code class="language-sh">umount -v $LFS/usr
+umount -v $LFS/home
+umount -v $LFS
+</code></pre>
+<p>Now, reboot the system with:</p>
+<pre><code class="language-sh">shutdown -r now
+</code></pre>
+<p>Assuming the GRUB boot loader was set up as outlined earlier, the menu is set to boot <em>LFS 8.4</em> automatically.</p>
+<p>When the reboot is complete, the LFS system is ready for use and more software may be added to suit your needs.</p>
 
                     </main>
 
