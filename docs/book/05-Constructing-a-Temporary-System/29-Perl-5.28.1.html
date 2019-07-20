@@ -145,7 +145,39 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#perl-5281" id="perl-5281">Perl-5.28.1</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#perl-5281" id="perl-5281">Perl-5.28.1</a></h1>
+<p>The Perl package contains the Practical Extraction and Report Language.</p>
+<p><strong>Approximate Build Time:</strong> 1.6 SBU</p>
+<p><strong>Required Disk Space:</strong> 275 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-perl" id="installation-of-perl">Installation of Perl</a></h1>
+<p>Prepare Perl for compilation:</p>
+<pre><code class="language-sh">sh Configure -des -Dprefix=/tools -Dlibs=-lm -Uloclibpth -Ulocincpth
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-configure-options" id="the-meaning-of-the-configure-options">The meaning of the Configure options:</a></h3>
+<blockquote>
+<p><strong><em>-des</em></strong></p>
+<blockquote>
+<p>This is a combination of three options: -d uses defaults for all items; -e ensures completion of all tasks; -s silences non-essential output.</p>
+</blockquote>
+<p><strong><em>-Uloclibpth amd -Ulocincpth</em></strong></p>
+<blockquote>
+<p>These entries undefine variables that cause the configuration to search for locally installed components that may exist on the host system.</p>
+</blockquote>
+</blockquote>
+<p>Build the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Although Perl comes with a test suite, it would be better to wait until it is installed in the next chapter.</p>
+<p>Only a few of the utilities and libraries need to be installed at this time:</p>
+<pre><code class="language-sh">cp -v perl cpan/podlators/scripts/pod2man /tools/bin
+mkdir -pv /tools/lib/perl5/5.28.1
+cp -Rv lib/\* /tools/lib/perl5/5.28.1
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="../06-Installing-Basic-System-Software/40-Perl-5.28.1.html">Section 6.40.2, “Contents of Perl”</a>.</p>
+</blockquote>
 
                     </main>
 

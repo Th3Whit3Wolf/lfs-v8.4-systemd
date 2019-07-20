@@ -145,7 +145,28 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#gzip-110" id="gzip-110">Gzip-1.10</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#gzip-110" id="gzip-110">Gzip-1.10</a></h1>
+<p>The Gzip package contains programs for compressing and decompressing files.</p>
+<p><strong>Approximate Build Time:</strong> 0.1 SBU</p>
+<p><strong>Required Disk Space:</strong> 10 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-gzip" id="installation-of-gzip">Installation of Gzip</a></h1>
+<p>Prepare Gzip for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/tools
+</code></pre>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. As discussed earlier, running the test suite is not mandatory for the temporary tools here in this chapter. To run the Gzip test suite anyway, issue the following command:</p>
+<pre><code class="language-sh">make check
+</code></pre>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="../06-Installing-Basic-System-Software/62-Gzip-1.10.html">Section 6.62.2, “Contents of Gzip”</a>.</p>
+</blockquote>
 
                     </main>
 

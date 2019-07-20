@@ -145,7 +145,33 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#findutils-460" id="findutils-460">Findutils-4.6.0</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#findutils-460" id="findutils-460">Findutils-4.6.0</a></h1>
+<p>The Findutils package contains programs to find files. These programs are provided to recursively search through a directory tree and to create, maintain, and search a database (often faster than the recursive find, but unreliable if the database has not been recently updated).</p>
+<p><strong>Approximate Build Time:</strong> 0.3 SBU</p>
+<p><strong>Required Disk Space:</strong> 36 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-findutils" id="installation-of-findutils">Installation of Findutils</a></h1>
+<p>First, make some fixes required by glibc-2.28:</p>
+<pre><code class="language-sh">sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' gl/lib/*.c
+sed -i '/unistd/a #include &lt;sys/sysmacros.h&gt;' gl/lib/mountlist.c
+echo &quot;#define _IO_IN_BACKUP 0x100&quot; &gt;&gt; gl/lib/stdio-impl.h
+</code></pre>
+<p>Prepare Findutils for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/tools
+</code></pre>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. As discussed earlier, running the test suite is not mandatory for the temporary tools here in this chapter. To run the Findutils test suite anyway, issue the following command:</p>
+<pre><code class="language-sh">make check
+</code></pre>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="../06-Installing-Basic-System-Software/58-Findutils-4.6.0.html">Section 6.58.2, “Contents of Findutils”</a>.</p>
+</blockquote>
 
                     </main>
 

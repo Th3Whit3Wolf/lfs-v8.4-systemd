@@ -146,6 +146,23 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#changing-ownership" id="changing-ownership">Changing Ownership</a></h1>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>The commands in the remainder of this book must be performed while logged in as user <em>root</em> and no longer as user <em>lfs</em>. Also, double check that <strong>$LFS</strong> is set in <em>root</em>'s environment.</p>
+</blockquote>
+</blockquote>
+<p>Currently, the <code>$LFS/tools</code> directory is owned by the user <em>lfs</em>, a user that exists only on the host system. If the <code>$LFS/tools</code> directory is kept as is, the files are owned by a user ID without a corresponding account. This is dangerous because a user account created later could get this same user ID and would own the <code>$LFS/tools</code> directory and all the files therein, thus exposing these files to possible malicious manipulation.</p>
+<p>To avoid this issue, you could add the <em>lfs</em> user to the new LFS system later when creating the <code>/etc/passwd</code> file, taking care to assign it the same user and group IDs as on the host system. Better yet, change the ownership of the <code>$LFS/tools</code> directory to user <em>root</em> by running the following command:</p>
+<pre><code class="language-sh">chown -R root:root $LFS/tools
+</code></pre>
+<p>Although the <code>$LFS/tools</code> directory can be deleted once the LFS system has been finished, it can be retained to build additional LFS systems <em>of the same book version</em>. How best to backup <code>$LFS/tools</code> is a matter of personal preference.</p>
+<blockquote>
+<p><strong>Caution</strong></p>
+<blockquote>
+<p>If you intend to keep the temporary tools for use in building future LFS systems, <strong><em>now</em></strong> is the time to back them up. Subsequent commands in chapter 6 will alter the tools currently in place, rendering them useless for future builds.</p>
+</blockquote>
+</blockquote>
 
                     </main>
 

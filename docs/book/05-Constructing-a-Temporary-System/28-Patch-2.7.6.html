@@ -145,7 +145,28 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#patch-276" id="patch-276">Patch-2.7.6</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#patch-276" id="patch-276">Patch-2.7.6</a></h1>
+<p>The Patch package contains a program for modifying or creating files by applying a “patch” file typically created by the diff program.</p>
+<p><strong>Approximate Build Time:</strong> 0.2 SBU</p>
+<p><strong>Required Disk Space:</strong> 12 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-patch" id="installation-of-patch">Installation of Patch</a></h1>
+<p>Prepare Patch for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/tools
+</code></pre>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. As discussed earlier, running the test suite is not mandatory for the temporary tools here in this chapter. To run the Patch test suite anyway, issue the following command:</p>
+<pre><code class="language-sh">make check
+</code></pre>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="../06-Installing-Basic-System-Software/67-Patch-2.7.6.html">Section 6.67.2, “Contents of Patch”</a>.</p>
+</blockquote>
 
                     </main>
 

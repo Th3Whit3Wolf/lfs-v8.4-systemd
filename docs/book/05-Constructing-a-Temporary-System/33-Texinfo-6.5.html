@@ -145,7 +145,34 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#texinfo-65" id="texinfo-65">Texinfo-6.5</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#texinfo-65" id="texinfo-65">Texinfo-6.5</a></h1>
+<p>The Texinfo package contains programs for reading, writing, and converting info pages.</p>
+<p><strong>Approximate Build Time:</strong> 0.3 SBU</p>
+<p><strong>Required Disk Space:</strong> 104 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-texinfo" id="installation-of-texinfo">Installation of Texinfo</a></h1>
+<p>Prepare Texinfo for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/tools
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>As part of the configure process, a test is made that indicates an error for TestXS_la-TestXS.lo. This is not relevant for LFS and should be ignored.</p>
+</blockquote>
+</blockquote>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. As discussed earlier, running the test suite is not mandatory for the temporary tools here in this chapter. To run the Texinfo test suite anyway, issue the following command:</p>
+<pre><code class="language-sh">make check
+</code></pre>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="../06-Installing-Basic-System-Software/70-Texinfo-6.5.html">Section 6.70.2, “Contents of Texinfo”</a>.</p>
+</blockquote>
 
                     </main>
 

@@ -145,7 +145,28 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#grep-33" id="grep-33">Grep-3.3</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#grep-33" id="grep-33">Grep-3.3</a></h1>
+<p>The Grep package contains programs for searching through files.</p>
+<p><strong>Approximate Build Time:</strong> 0.2 SBU</p>
+<p><strong>Required Disk Space:</strong> 24 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-grep" id="installation-of-grep">Installation of Grep</a></h1>
+<p>Prepare Grep for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/tools
+</code></pre>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>Compilation is now complete. As discussed earlier, running the test suite is not mandatory for the temporary tools here in this chapter. To run the Grep test suite anyway, issue the following command:</p>
+<pre><code class="language-sh">make check
+</code></pre>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<blockquote>
+<p>Details on this package are located in <a href="../06-Installing-Basic-System-Software/33-Grep-3.3.html">Section 6.33.2, “Contents of Grep”</a>.</p>
+</blockquote>
 
                     </main>
 
