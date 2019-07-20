@@ -1,1 +1,195 @@
-# Preface
+# Table of Contents
+
+### Preface
+
+- Foreword
+- Audience
+- LFS Target Architectures
+- LFS and Standards
+- Rationale for Packages in the Book
+- Prerequisites
+- Typography
+- Structure
+- Errata
+
+## I. Introduction
+
+- ### 1. Introduction
+  - How to Build an LFS System
+  - What's new since the last release
+  - Changelog
+  - Resources
+  - Help
+
+## II. Preparing for the Build
+
+- ### 2. Preparing the Host System
+  - Introduction
+  - Host System Requirements
+  - Building LFS in Stages
+  - Creating a New Partition
+  - Creating a File System on the Partition
+  - Setting The \$LFS Variable
+  - Mounting the New Partition
+- ### 3. Packages and Patches
+  - Introduction
+  - All Packages
+  - Needed Patches
+- ### 4. Final Preparations
+  - Introduction
+  - Creating the \$LFS/tools Directory
+  - Adding the LFS User
+  - Setting Up the Environment
+  - About SBUs
+  - About the Test Suites
+- ### 5. Constructing a Temporary System
+  - Introduction
+  - Toolchain Technical Notes
+  - General Compilation Instructions
+  - Binutils-2.32 - Pass 1
+  - GCC-8.2.0 - Pass 1
+  - Linux-4.20.12 API Headers
+  - Glibc-2.29
+  - Libstdc++ from GCC-8.2.0
+  - Binutils-2.32 - Pass 2
+  - GCC-8.2.0 - Pass 2
+  - Tcl-8.6.9
+  - Expect-5.45.4
+  - DejaGNU-1.6.2
+  - M4-1.4.18
+  - Ncurses-6.1
+  - Bash-5.0
+  - Bison-3.3.2
+  - Bzip2-1.0.6
+  - Coreutils-8.30
+  - Diffutils-3.7
+  - File-5.36
+  - Findutils-4.6.0
+  - Gawk-4.2.1
+  - Gettext-0.19.8.1
+  - Grep-3.3
+  - Gzip-1.10
+  - Make-4.2.1
+  - Patch-2.7.6
+  - Perl-5.28.1
+  - Python-3.7.2
+  - Sed-4.7
+  - Tar-1.31
+  - Texinfo-6.5
+  - Util-linux-2.33.1
+  - Xz-5.2.4
+  - Stripping
+  - Changing Ownership
+
+## III. Building the LFS System
+
+- ### 6. Installing Basic System Software
+  - Introduction
+  - Preparing Virtual Kernel File Systems
+  - Package Management
+  - Entering the Chroot Environment
+  - Creating Directories
+  - Creating Essential Files and Symlinks
+  - Linux-4.20.12 API Headers
+  - Man-pages-4.16
+  - Glibc-2.29
+  - Adjusting the Toolchain
+  - Zlib-1.2.11
+  - File-5.36
+  - Readline-8.0
+  - M4-1.4.18
+  - Bc-1.07.1
+  - Binutils-2.32
+  - GMP-6.1.2
+  - MPFR-4.0.2
+  - MPC-1.1.0
+  - Shadow-4.6
+  - GCC-8.2.0
+  - Bzip2-1.0.6
+  - Pkg-config-0.29.2
+  - Ncurses-6.1
+  - Attr-2.4.48
+  - Acl-2.2.53
+  - Libcap-2.26
+  - Sed-4.7
+  - Psmisc-23.2
+  - Iana-Etc-2.30
+  - Bison-3.3.2
+  - Flex-2.6.4
+  - Grep-3.3
+  - Bash-5.0
+  - Libtool-2.4.6
+  - GDBM-1.18.1
+  - Gperf-3.1
+  - Expat-2.2.6
+  - Inetutils-1.9.4
+  - Perl-5.28.1
+  - XML::Parser-2.44
+  - Intltool-0.51.0
+  - Autoconf-2.69
+  - Automake-1.16.1
+  - Xz-5.2.4
+  - Kmod-26
+  - Gettext-0.19.8.1
+  - Libelf from Elfutils-0.176
+  - Libffi-3.2.1
+  - OpenSSL-1.1.1a
+  - Python-3.7.2
+  - Ninja-1.9.0
+  - Meson-0.49.2
+  - Coreutils-8.30
+  - Check-0.12.0
+  - Diffutils-3.7
+  - Gawk-4.2.1
+  - Findutils-4.6.0
+  - Groff-1.22.4
+  - GRUB-2.02
+  - Less-530
+  - Gzip-1.10
+  - IPRoute2-4.20.0
+  - Kbd-2.0.4
+  - Libpipeline-1.5.1
+  - Make-4.2.1
+  - Patch-2.7.6
+  - Man-DB-2.8.5
+  - Tar-1.31
+  - Texinfo-6.5
+  - Vim-8.1
+  - Systemd-240
+  - D-Bus-1.12.12
+  - Procps-ng-3.3.15
+  - Util-linux-2.33.1
+  - E2fsprogs-1.44.5
+  - About Debugging Symbols
+  - Stripping Again
+  - Cleaning Up
+- ### 7. System Configuration
+  - Introduction
+  - General Network Configuration
+  - Overview of Device and Module Handling
+  - Managing Devices
+  - Configuring the system clock
+  - Configuring the Linux Console
+  - Configuring the System Locale
+  - Creating the /etc/inputrc File
+  - Creating the /etc/shells File
+  - Systemd Usage and Configuration
+- ### 8. Making the LFS System Bootable
+  - Introduction
+  - Creating the /etc/fstab File
+  - Linux-4.20.12
+  - Using GRUB to Set Up the Boot Process
+- ### 9. The End
+  - The End
+  - Get Counted
+  - Rebooting the System
+  - What Now?
+
+## IV. Appendices
+
+- ### A. Acronyms and Terms
+- ### B. Acknowledgments
+- ### C. Dependencies
+- ### D. LFS Licenses
+  - Creative Commons License
+  - The MIT License

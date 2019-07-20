@@ -145,7 +145,247 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#preface" id="preface">Preface</a></h1>
+                        <h1><a class="header" href="#table-of-contents" id="table-of-contents">Table of Contents</a></h1>
+<h3><a class="header" href="#preface" id="preface">Preface</a></h3>
+<ul>
+<li>Foreword</li>
+<li>Audience</li>
+<li>LFS Target Architectures</li>
+<li>LFS and Standards</li>
+<li>Rationale for Packages in the Book</li>
+<li>Prerequisites</li>
+<li>Typography</li>
+<li>Structure</li>
+<li>Errata</li>
+</ul>
+<h2><a class="header" href="#i-introduction" id="i-introduction">I. Introduction</a></h2>
+<ul>
+<li>
+<h3><a class="header" href="#1-introduction" id="1-introduction">1. Introduction</a></h3>
+<ul>
+<li>How to Build an LFS System</li>
+<li>What's new since the last release</li>
+<li>Changelog</li>
+<li>Resources</li>
+<li>Help</li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#ii-preparing-for-the-build" id="ii-preparing-for-the-build">II. Preparing for the Build</a></h2>
+<ul>
+<li>
+<h3><a class="header" href="#2-preparing-the-host-system" id="2-preparing-the-host-system">2. Preparing the Host System</a></h3>
+<ul>
+<li>Introduction</li>
+<li>Host System Requirements</li>
+<li>Building LFS in Stages</li>
+<li>Creating a New Partition</li>
+<li>Creating a File System on the Partition</li>
+<li>Setting The $LFS Variable</li>
+<li>Mounting the New Partition</li>
+</ul>
+</li>
+<li>
+<h3><a class="header" href="#3-packages-and-patches" id="3-packages-and-patches">3. Packages and Patches</a></h3>
+<ul>
+<li>Introduction</li>
+<li>All Packages</li>
+<li>Needed Patches</li>
+</ul>
+</li>
+<li>
+<h3><a class="header" href="#4-final-preparations" id="4-final-preparations">4. Final Preparations</a></h3>
+<ul>
+<li>Introduction</li>
+<li>Creating the $LFS/tools Directory</li>
+<li>Adding the LFS User</li>
+<li>Setting Up the Environment</li>
+<li>About SBUs</li>
+<li>About the Test Suites</li>
+</ul>
+</li>
+<li>
+<h3><a class="header" href="#5-constructing-a-temporary-system" id="5-constructing-a-temporary-system">5. Constructing a Temporary System</a></h3>
+<ul>
+<li>Introduction</li>
+<li>Toolchain Technical Notes</li>
+<li>General Compilation Instructions</li>
+<li>Binutils-2.32 - Pass 1</li>
+<li>GCC-8.2.0 - Pass 1</li>
+<li>Linux-4.20.12 API Headers</li>
+<li>Glibc-2.29</li>
+<li>Libstdc++ from GCC-8.2.0</li>
+<li>Binutils-2.32 - Pass 2</li>
+<li>GCC-8.2.0 - Pass 2</li>
+<li>Tcl-8.6.9</li>
+<li>Expect-5.45.4</li>
+<li>DejaGNU-1.6.2</li>
+<li>M4-1.4.18</li>
+<li>Ncurses-6.1</li>
+<li>Bash-5.0</li>
+<li>Bison-3.3.2</li>
+<li>Bzip2-1.0.6</li>
+<li>Coreutils-8.30</li>
+<li>Diffutils-3.7</li>
+<li>File-5.36</li>
+<li>Findutils-4.6.0</li>
+<li>Gawk-4.2.1</li>
+<li>Gettext-0.19.8.1</li>
+<li>Grep-3.3</li>
+<li>Gzip-1.10</li>
+<li>Make-4.2.1</li>
+<li>Patch-2.7.6</li>
+<li>Perl-5.28.1</li>
+<li>Python-3.7.2</li>
+<li>Sed-4.7</li>
+<li>Tar-1.31</li>
+<li>Texinfo-6.5</li>
+<li>Util-linux-2.33.1</li>
+<li>Xz-5.2.4</li>
+<li>Stripping</li>
+<li>Changing Ownership</li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#iii-building-the-lfs-system" id="iii-building-the-lfs-system">III. Building the LFS System</a></h2>
+<ul>
+<li>
+<h3><a class="header" href="#6-installing-basic-system-software" id="6-installing-basic-system-software">6. Installing Basic System Software</a></h3>
+<ul>
+<li>Introduction</li>
+<li>Preparing Virtual Kernel File Systems</li>
+<li>Package Management</li>
+<li>Entering the Chroot Environment</li>
+<li>Creating Directories</li>
+<li>Creating Essential Files and Symlinks</li>
+<li>Linux-4.20.12 API Headers</li>
+<li>Man-pages-4.16</li>
+<li>Glibc-2.29</li>
+<li>Adjusting the Toolchain</li>
+<li>Zlib-1.2.11</li>
+<li>File-5.36</li>
+<li>Readline-8.0</li>
+<li>M4-1.4.18</li>
+<li>Bc-1.07.1</li>
+<li>Binutils-2.32</li>
+<li>GMP-6.1.2</li>
+<li>MPFR-4.0.2</li>
+<li>MPC-1.1.0</li>
+<li>Shadow-4.6</li>
+<li>GCC-8.2.0</li>
+<li>Bzip2-1.0.6</li>
+<li>Pkg-config-0.29.2</li>
+<li>Ncurses-6.1</li>
+<li>Attr-2.4.48</li>
+<li>Acl-2.2.53</li>
+<li>Libcap-2.26</li>
+<li>Sed-4.7</li>
+<li>Psmisc-23.2</li>
+<li>Iana-Etc-2.30</li>
+<li>Bison-3.3.2</li>
+<li>Flex-2.6.4</li>
+<li>Grep-3.3</li>
+<li>Bash-5.0</li>
+<li>Libtool-2.4.6</li>
+<li>GDBM-1.18.1</li>
+<li>Gperf-3.1</li>
+<li>Expat-2.2.6</li>
+<li>Inetutils-1.9.4</li>
+<li>Perl-5.28.1</li>
+<li>XML::Parser-2.44</li>
+<li>Intltool-0.51.0</li>
+<li>Autoconf-2.69</li>
+<li>Automake-1.16.1</li>
+<li>Xz-5.2.4</li>
+<li>Kmod-26</li>
+<li>Gettext-0.19.8.1</li>
+<li>Libelf from Elfutils-0.176</li>
+<li>Libffi-3.2.1</li>
+<li>OpenSSL-1.1.1a</li>
+<li>Python-3.7.2</li>
+<li>Ninja-1.9.0</li>
+<li>Meson-0.49.2</li>
+<li>Coreutils-8.30</li>
+<li>Check-0.12.0</li>
+<li>Diffutils-3.7</li>
+<li>Gawk-4.2.1</li>
+<li>Findutils-4.6.0</li>
+<li>Groff-1.22.4</li>
+<li>GRUB-2.02</li>
+<li>Less-530</li>
+<li>Gzip-1.10</li>
+<li>IPRoute2-4.20.0</li>
+<li>Kbd-2.0.4</li>
+<li>Libpipeline-1.5.1</li>
+<li>Make-4.2.1</li>
+<li>Patch-2.7.6</li>
+<li>Man-DB-2.8.5</li>
+<li>Tar-1.31</li>
+<li>Texinfo-6.5</li>
+<li>Vim-8.1</li>
+<li>Systemd-240</li>
+<li>D-Bus-1.12.12</li>
+<li>Procps-ng-3.3.15</li>
+<li>Util-linux-2.33.1</li>
+<li>E2fsprogs-1.44.5</li>
+<li>About Debugging Symbols</li>
+<li>Stripping Again</li>
+<li>Cleaning Up</li>
+</ul>
+</li>
+<li>
+<h3><a class="header" href="#7-system-configuration" id="7-system-configuration">7. System Configuration</a></h3>
+<ul>
+<li>Introduction</li>
+<li>General Network Configuration</li>
+<li>Overview of Device and Module Handling</li>
+<li>Managing Devices</li>
+<li>Configuring the system clock</li>
+<li>Configuring the Linux Console</li>
+<li>Configuring the System Locale</li>
+<li>Creating the /etc/inputrc File</li>
+<li>Creating the /etc/shells File</li>
+<li>Systemd Usage and Configuration</li>
+</ul>
+</li>
+<li>
+<h3><a class="header" href="#8-making-the-lfs-system-bootable" id="8-making-the-lfs-system-bootable">8. Making the LFS System Bootable</a></h3>
+<ul>
+<li>Introduction</li>
+<li>Creating the /etc/fstab File</li>
+<li>Linux-4.20.12</li>
+<li>Using GRUB to Set Up the Boot Process</li>
+</ul>
+</li>
+<li>
+<h3><a class="header" href="#9-the-end" id="9-the-end">9. The End</a></h3>
+<ul>
+<li>The End</li>
+<li>Get Counted</li>
+<li>Rebooting the System</li>
+<li>What Now?</li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#iv-appendices" id="iv-appendices">IV. Appendices</a></h2>
+<ul>
+<li>
+<h3><a class="header" href="#a-acronyms-and-terms" id="a-acronyms-and-terms">A. Acronyms and Terms</a></h3>
+</li>
+<li>
+<h3><a class="header" href="#b-acknowledgments" id="b-acknowledgments">B. Acknowledgments</a></h3>
+</li>
+<li>
+<h3><a class="header" href="#c-dependencies" id="c-dependencies">C. Dependencies</a></h3>
+</li>
+<li>
+<h3><a class="header" href="#d-lfs-licenses" id="d-lfs-licenses">D. LFS Licenses</a></h3>
+<ul>
+<li>Creative Commons License</li>
+<li>The MIT License</li>
+</ul>
+</li>
+</ul>
 
                     </main>
 
