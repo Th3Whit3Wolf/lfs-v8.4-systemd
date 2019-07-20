@@ -146,6 +146,46 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#adding-the-lfs-user" id="adding-the-lfs-user">Adding the LFS User</a></h1>
+<p>When logged in as user <em>root</em>, making a single mistake can damage or destroy a system. Therefore, we recommend building the packages in this chapter as an unprivileged user. You could use your own user name, but to make it easier to set up a clean working environment, create a new user called <em>lfs</em> as a member of a new group (also named <em>lfs</em>) and use this user during the installation process. As <em>root</em>, issue the following commands to add the new user:</p>
+<pre><code class="language-sh">groupadd lfs
+useradd -s /bin/bash -g lfs -m -k /dev/null lfs
+</code></pre>
+<p><strong>The meaning of the command line options:</strong></p>
+<blockquote>
+<p><strong>-s /bin/bash</strong></p>
+<blockquote>
+<p>This makes bash the default shell for user lfs.</p>
+</blockquote>
+<p><strong>-g lfs</strong></p>
+<blockquote>
+<p>This option adds user lfs to group lfs.</p>
+</blockquote>
+<p><strong>-m</strong></p>
+<blockquote>
+<p>This creates a home directory for lfs.</p>
+</blockquote>
+<p><strong>-k /dev/null</strong></p>
+<blockquote>
+<p>This parameter prevents possible copying of files from a skeleton directory (default is /etc/skel) by changing the input location to the special null device.</p>
+</blockquote>
+<p><strong>lfs</strong></p>
+<blockquote>
+<p>This is the actual name for the created group and user.</p>
+</blockquote>
+</blockquote>
+<p>To log in as <em>lfs</em> (as opposed to switching to user <em>lfs</em> when logged in as <em>root</em>, which does not require the <em>lfs</em> user to have a password), give <em>lfs</em> a password:</p>
+<pre><code class="language-sh">passwd lfs
+</code></pre>
+<p>Grant <em>lfs</em> full access to <code>$LFS/tools</code> by making <em>lfs</em> the directory owner:</p>
+<pre><code class="language-sh">chown -v lfs $LFS/tools
+</code></pre>
+<p>If a separate working directory was created as suggested, give user <em>lfs</em> ownership of this directory:</p>
+<pre><code class="language-sh">chown -v lfs $LFS/sources
+</code></pre>
+<p>Next, login as user <em>lfs</em>. This can be done via a virtual console, through a display manager, or with the following substitute user command:</p>
+<pre><code class="language-sh">su - lfs
+</code></pre>
+<p>The “-” instructs <strong>su</strong> to start a login shell as opposed to a non-login shell. The difference between these two types of shells can be found in detail in <code>bash(1)</code> and <strong>info bash</strong>.</p>
 
                     </main>
 

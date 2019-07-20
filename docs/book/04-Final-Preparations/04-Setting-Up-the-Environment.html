@@ -146,6 +146,32 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#setting-up-the-environment" id="setting-up-the-environment">Setting Up the Environment</a></h1>
+<p>Set up a good working environment by creating two new startup files for the <strong>bash</strong> shell. While logged in as user <em>lfs</em>, issue the following command to create a new <code>.bash_profile:</code></p>
+<pre><code class="language-sh">cat &gt; ~/.bash_profile &lt;&lt; &quot;EOF&quot;
+exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
+EOF
+</code></pre>
+<p>When logged on as user <em>lfs</em>, the initial shell is usually a <em>login</em> shell which reads the <code>/etc/profile</code> of the host (probably containing some settings and environment variables) and then <code>.bash_profile</code>. The <strong>exec env -i.../bin/bash</strong> command in the <code>.bash_profile</code> file replaces the running shell with a new one with a completely empty environment, except for the <strong>HOME</strong>, <strong>TERM</strong>, and <strong>PS1</strong> variables. This ensures that no unwanted and potentially hazardous environment variables from the host system leak into the build environment. The technique used here achieves the goal of ensuring a clean environment.</p>
+<p>The new instance of the shell is a <em>non-login</em> shell, which does not read the <code>/etc/profile</code> or <code>.bash_profile</code> files, but rather reads the <code>.bashrc</code> file instead. Create the <code>.bashrc</code>file now:</p>
+<pre><code class="language-sh">cat &gt; ~/.bashrc &lt;&lt; &quot;EOF&quot;
+set +h
+umask 022
+LFS=/mnt/lfs
+LC_ALL=POSIX
+LFS_TGT=$(uname -m)-lfs-linux-gnu
+PATH=/tools/bin:/bin:/usr/bin
+export LFS LC_ALL LFS_TGT PATH
+EOF
+</code></pre>
+<p>The <strong>set +h</strong> command turns off <strong>bash</strong>'s hash function. Hashing is ordinarily a useful feature—<strong>bash</strong> uses a hash table to remember the full path of executable files to avoid searching the <strong>PATH</strong> time and again to find the same executable. However, the new tools should be used as soon as they are installed. By switching off the hash function, the shell will always search the <strong>PATH</strong> when a program is to be run. As such, the shell will find the newly compiled tools in <code>$LFS/tools</code> as soon as they are available without remembering a previous version of the same program in a different location.</p>
+<p>Setting the user file-creation mask (umask) to 022 ensures that newly created files and directories are only writable by their owner, but are readable and executable by anyone (assuming default modes are used by the <code>open(2)</code> system call, new files will end up with permission mode 644 and directories with mode 755).</p>
+<p>The <strong>LFS</strong> variable should be set to the chosen mount point.</p>
+<p>The <strong>LC_ALL</strong> variable controls the localization of certain programs, making their messages follow the conventions of a specified country. Setting <strong>LC_ALL</strong> to “POSIX” or “C” (the two are equivalent) ensures that everything will work as expected in the chroot environment.</p>
+<p>The <strong>LFS_TGT</strong> variable sets a non-default, but compatible machine description for use when building our cross compiler and linker and when cross compiling our temporary toolchain. More information is contained in <a href="../05-Constructing-a-Temporary-System/02-Toolchain-Technical-Notes.html">Section 5.2, “Toolchain Technical Notes”</a>.</p>
+<p>By putting <code>/tools/bin</code> ahead of the standard <strong>PATH</strong>, all the programs installed in <a href="../05-Constructing-a-Temporary-System/index.html">Chapter 5</a> are picked up by the shell immediately after their installation. This, combined with turning off hashing, limits the risk that old programs are used from the host when the same programs are available in the chapter 5 environment.</p>
+<p>Finally, to have the environment fully prepared for building the temporary tools, source the just-created user profile:</p>
+<pre><code class="language-sh">source ~/.bash_profile
+</code></pre>
 
                     </main>
 

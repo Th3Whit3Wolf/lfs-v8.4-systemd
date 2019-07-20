@@ -146,6 +146,26 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#about-sbus" id="about-sbus">About SBUs</a></h1>
+<p>Many people would like to know beforehand approximately how long it takes to compile and install each package. Because Linux From Scratch can be built on many different systems, it is impossible to provide accurate time estimates. The biggest package (Glibc) will take approximately 20 minutes on the fastest systems, but could take up to three days on slower systems! Instead of providing actual times, the Standard Build Unit (SBU) measure will be used instead.</p>
+<p>The SBU measure works as follows. The first package to be compiled from this book is Binutils in <a href="../05-Constructing-a-Temporary-System/index.html">Chapter 5</a>. The time it takes to compile this package is what will be referred to as the Standard Build Unit or SBU. All other compile times will be expressed relative to this time.</p>
+<p>For example, consider a package whose compilation time is 4.5 SBUs. This means that if a system took 10 minutes to compile and install the first pass of Binutils, it will take <em>approximately</em> 45 minutes to build this example package. Fortunately, most build times are shorter than the one for Binutils.</p>
+<p>In general, SBUs are not entirely accurate because they depend on many factors, including the host system's version of GCC. They are provided here to give an estimate of how long it might take to install a package, but the numbers can vary by as much as dozens of minutes in some cases.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>For many modern systems with multiple processors (or cores) the compilation time for a package can be reduced by performing a &quot;parallel make&quot; by either setting an environment variable or telling the make program how many processors are available. For instance, a Core2Duo can support two simultaneous processes with:</p>
+</blockquote>
+<pre><code class="language-sh">export MAKEFLAGS='-j 2'
+</code></pre>
+<blockquote>
+<p>or just building with:</p>
+</blockquote>
+<pre><code class="language-sh">make -j2
+</code></pre>
+<blockquote>
+<p>When multiple processors are used in this way, the SBU units in the book will vary even more than they normally would. In some cases, the make step will simply fail. Analyzing the output of the build process will also be more difficult because the lines of different processes will be interleaved. If you run into a problem with a build step, revert back to a single processor build to properly analyze the error messages.</p>
+</blockquote>
+</blockquote>
 
                     </main>
 

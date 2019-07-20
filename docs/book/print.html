@@ -1020,7 +1020,7 @@ This format is used to refer to a specific manual (man) page. The number inside 
 <p>This book is divided into the following parts.</p>
 <h1><a class="header" href="#part-i---introduction" id="part-i---introduction">Part I - Introduction</a></h1>
 <p>Part I explains a few important notes on how to proceed with the LFS installation. This section also provides meta-information about the book.</p>
-<pre><code>1. Introduction
+<pre><code class="language-text">1. Introduction
     How to Build an LFS System
     What's new since the last release
     Changelog
@@ -1029,14 +1029,14 @@ This format is used to refer to a specific manual (man) page. The number inside 
 </code></pre>
 <h1><a class="header" href="#part-ii---preparing-for-the-build" id="part-ii---preparing-for-the-build">Part II - Preparing for the Build</a></h1>
 <p>Part II describes how to prepare for the building process—making a partition, downloading the packages, and compiling temporary tools.</p>
-<pre><code>2. Preparing the Host System
+<pre><code class="language-text">2. Preparing the Host System
 3. Packages and Patches
 4. Final Preparations
 5. Constructing a Temporary System
 </code></pre>
 <h1><a class="header" href="#part-iii---building-the-lfs-system" id="part-iii---building-the-lfs-system">Part III - Building the LFS System</a></h1>
 <p>Part III guides the reader through the building of the LFS system—compiling and installing all the packages one by one, setting up the boot scripts, and installing the kernel. The resulting Linux system is the foundation on which other software can be built to expand the system as desired. At the end of this book, there is an easy to use reference listing all of the programs, libraries, and important files that have been installed.</p>
-<pre><code>6. Installing Basic System Software
+<pre><code class="language-text">6. Installing Basic System Software
 7. System Configuration
 8. Making the LFS System Bootable
 9. The End
@@ -3312,12 +3312,131 @@ popd
 <p>Total size of these patches: about 198.4 KB</p>
 <p>In addition to the above required patches, there exist a number of optional patches created by the LFS community. These optional patches solve minor problems or enable functionality that is not enabled by default. Feel free to peruse the <a href="http://www.linuxfromscratch.org/patches/downloads/">patches database</a> and acquire any additional patches to suit your system needs.</p>
 <h1><a class="header" href="#final-preparations" id="final-preparations">Final Preparations</a></h1>
+<ul>
+<li><a href="04-Final-Preparations/01-Introduction.html">Introduction</a></li>
+<li><a href="04-Final-Preparations/02-Creating-the-$LFS-tools-Directory.html">Creating the $LFS/tools Directory</a></li>
+<li><a href="04-Final-Preparations/03-Adding-the-LFS-User.html">Adding the LFS User</a></li>
+<li><a href="04-Final-Preparations/04-Setting-Up-the-Environment.html">Setting Up the Environment</a></li>
+<li><a href="04-Final-Preparations/05-About-SBUs.html">About SBUs</a></li>
+<li><a href="04-Final-Preparations/06-About-the-Test-Suites.html">About the Test Suites</a></li>
+</ul>
 <h1><a class="header" href="#introduction-3" id="introduction-3">Introduction</a></h1>
+<p>In this chapter, we will perform a few additional tasks to prepare for building the temporary system. We will create a directory in $LFS for the installation of the temporary tools, add an unprivileged user to reduce risk, and create an appropriate build environment for that user. We will also explain the unit of time we use to measure how long LFS packages take to build, or “SBUs”, and give some information about package test suites.</p>
 <h1><a class="header" href="#creating-the-lfstools-directory" id="creating-the-lfstools-directory">Creating the $LFS/tools Directory</a></h1>
+<p>All programs compiled in <a href="04-Final-Preparations/../05-Constructing-a-Temporary-System/index.html">Chapter 5</a> will be installed under $LFS/tools to keep them separate from the programs compiled in <a href="04-Final-Preparations/../06-Installing-Basic-System-Software/index.html">Chapter 6</a>. The programs compiled here are temporary tools and will not be a part of the final LFS system. By keeping these programs in a separate directory, they can easily be discarded later after their use. This also prevents these programs from ending up in the host production directories (easy to do by accident in <a href="04-Final-Preparations/../05-Constructing-a-Temporary-System/index.html">Chapter 5</a>).</p>
+<p>Create the required directory by running the following as root:</p>
+<pre><code class="language-sh">mkdir -v $LFS/tools
+</code></pre>
+<p>The next step is to create a <code>/tools</code> symlink on the host system. This will point to the newly-created directory on the LFS partition. Run this command as <em>root</em> as well:</p>
+<pre><code class="language-sh">ln -sv $LFS/tools /
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>The above command is correct. The <strong>ln</strong> command has a few syntactic variations, so be sure to check <strong>info coreutils ln</strong> and <code>ln(1)</code> before reporting what you may think is an error.</p>
+</blockquote>
+</blockquote>
+<p>The created symlink enables the toolchain to be compiled so that it always refers to <code>/tools</code>, meaning that the compiler, assembler, and linker will work both in Chapter 5 (when we are still using some tools from the host) and in the next (when we are “chrooted” to the LFS partition).</p>
 <h1><a class="header" href="#adding-the-lfs-user" id="adding-the-lfs-user">Adding the LFS User</a></h1>
+<p>When logged in as user <em>root</em>, making a single mistake can damage or destroy a system. Therefore, we recommend building the packages in this chapter as an unprivileged user. You could use your own user name, but to make it easier to set up a clean working environment, create a new user called <em>lfs</em> as a member of a new group (also named <em>lfs</em>) and use this user during the installation process. As <em>root</em>, issue the following commands to add the new user:</p>
+<pre><code class="language-sh">groupadd lfs
+useradd -s /bin/bash -g lfs -m -k /dev/null lfs
+</code></pre>
+<p><strong>The meaning of the command line options:</strong></p>
+<blockquote>
+<p><strong>-s /bin/bash</strong></p>
+<blockquote>
+<p>This makes bash the default shell for user lfs.</p>
+</blockquote>
+<p><strong>-g lfs</strong></p>
+<blockquote>
+<p>This option adds user lfs to group lfs.</p>
+</blockquote>
+<p><strong>-m</strong></p>
+<blockquote>
+<p>This creates a home directory for lfs.</p>
+</blockquote>
+<p><strong>-k /dev/null</strong></p>
+<blockquote>
+<p>This parameter prevents possible copying of files from a skeleton directory (default is /etc/skel) by changing the input location to the special null device.</p>
+</blockquote>
+<p><strong>lfs</strong></p>
+<blockquote>
+<p>This is the actual name for the created group and user.</p>
+</blockquote>
+</blockquote>
+<p>To log in as <em>lfs</em> (as opposed to switching to user <em>lfs</em> when logged in as <em>root</em>, which does not require the <em>lfs</em> user to have a password), give <em>lfs</em> a password:</p>
+<pre><code class="language-sh">passwd lfs
+</code></pre>
+<p>Grant <em>lfs</em> full access to <code>$LFS/tools</code> by making <em>lfs</em> the directory owner:</p>
+<pre><code class="language-sh">chown -v lfs $LFS/tools
+</code></pre>
+<p>If a separate working directory was created as suggested, give user <em>lfs</em> ownership of this directory:</p>
+<pre><code class="language-sh">chown -v lfs $LFS/sources
+</code></pre>
+<p>Next, login as user <em>lfs</em>. This can be done via a virtual console, through a display manager, or with the following substitute user command:</p>
+<pre><code class="language-sh">su - lfs
+</code></pre>
+<p>The “-” instructs <strong>su</strong> to start a login shell as opposed to a non-login shell. The difference between these two types of shells can be found in detail in <code>bash(1)</code> and <strong>info bash</strong>.</p>
 <h1><a class="header" href="#setting-up-the-environment" id="setting-up-the-environment">Setting Up the Environment</a></h1>
+<p>Set up a good working environment by creating two new startup files for the <strong>bash</strong> shell. While logged in as user <em>lfs</em>, issue the following command to create a new <code>.bash_profile:</code></p>
+<pre><code class="language-sh">cat &gt; ~/.bash_profile &lt;&lt; &quot;EOF&quot;
+exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
+EOF
+</code></pre>
+<p>When logged on as user <em>lfs</em>, the initial shell is usually a <em>login</em> shell which reads the <code>/etc/profile</code> of the host (probably containing some settings and environment variables) and then <code>.bash_profile</code>. The <strong>exec env -i.../bin/bash</strong> command in the <code>.bash_profile</code> file replaces the running shell with a new one with a completely empty environment, except for the <strong>HOME</strong>, <strong>TERM</strong>, and <strong>PS1</strong> variables. This ensures that no unwanted and potentially hazardous environment variables from the host system leak into the build environment. The technique used here achieves the goal of ensuring a clean environment.</p>
+<p>The new instance of the shell is a <em>non-login</em> shell, which does not read the <code>/etc/profile</code> or <code>.bash_profile</code> files, but rather reads the <code>.bashrc</code> file instead. Create the <code>.bashrc</code>file now:</p>
+<pre><code class="language-sh">cat &gt; ~/.bashrc &lt;&lt; &quot;EOF&quot;
+set +h
+umask 022
+LFS=/mnt/lfs
+LC_ALL=POSIX
+LFS_TGT=$(uname -m)-lfs-linux-gnu
+PATH=/tools/bin:/bin:/usr/bin
+export LFS LC_ALL LFS_TGT PATH
+EOF
+</code></pre>
+<p>The <strong>set +h</strong> command turns off <strong>bash</strong>'s hash function. Hashing is ordinarily a useful feature—<strong>bash</strong> uses a hash table to remember the full path of executable files to avoid searching the <strong>PATH</strong> time and again to find the same executable. However, the new tools should be used as soon as they are installed. By switching off the hash function, the shell will always search the <strong>PATH</strong> when a program is to be run. As such, the shell will find the newly compiled tools in <code>$LFS/tools</code> as soon as they are available without remembering a previous version of the same program in a different location.</p>
+<p>Setting the user file-creation mask (umask) to 022 ensures that newly created files and directories are only writable by their owner, but are readable and executable by anyone (assuming default modes are used by the <code>open(2)</code> system call, new files will end up with permission mode 644 and directories with mode 755).</p>
+<p>The <strong>LFS</strong> variable should be set to the chosen mount point.</p>
+<p>The <strong>LC_ALL</strong> variable controls the localization of certain programs, making their messages follow the conventions of a specified country. Setting <strong>LC_ALL</strong> to “POSIX” or “C” (the two are equivalent) ensures that everything will work as expected in the chroot environment.</p>
+<p>The <strong>LFS_TGT</strong> variable sets a non-default, but compatible machine description for use when building our cross compiler and linker and when cross compiling our temporary toolchain. More information is contained in <a href="04-Final-Preparations/../05-Constructing-a-Temporary-System/02-Toolchain-Technical-Notes.html">Section 5.2, “Toolchain Technical Notes”</a>.</p>
+<p>By putting <code>/tools/bin</code> ahead of the standard <strong>PATH</strong>, all the programs installed in <a href="04-Final-Preparations/../05-Constructing-a-Temporary-System/index.html">Chapter 5</a> are picked up by the shell immediately after their installation. This, combined with turning off hashing, limits the risk that old programs are used from the host when the same programs are available in the chapter 5 environment.</p>
+<p>Finally, to have the environment fully prepared for building the temporary tools, source the just-created user profile:</p>
+<pre><code class="language-sh">source ~/.bash_profile
+</code></pre>
 <h1><a class="header" href="#about-sbus" id="about-sbus">About SBUs</a></h1>
+<p>Many people would like to know beforehand approximately how long it takes to compile and install each package. Because Linux From Scratch can be built on many different systems, it is impossible to provide accurate time estimates. The biggest package (Glibc) will take approximately 20 minutes on the fastest systems, but could take up to three days on slower systems! Instead of providing actual times, the Standard Build Unit (SBU) measure will be used instead.</p>
+<p>The SBU measure works as follows. The first package to be compiled from this book is Binutils in <a href="04-Final-Preparations/../05-Constructing-a-Temporary-System/index.html">Chapter 5</a>. The time it takes to compile this package is what will be referred to as the Standard Build Unit or SBU. All other compile times will be expressed relative to this time.</p>
+<p>For example, consider a package whose compilation time is 4.5 SBUs. This means that if a system took 10 minutes to compile and install the first pass of Binutils, it will take <em>approximately</em> 45 minutes to build this example package. Fortunately, most build times are shorter than the one for Binutils.</p>
+<p>In general, SBUs are not entirely accurate because they depend on many factors, including the host system's version of GCC. They are provided here to give an estimate of how long it might take to install a package, but the numbers can vary by as much as dozens of minutes in some cases.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>For many modern systems with multiple processors (or cores) the compilation time for a package can be reduced by performing a &quot;parallel make&quot; by either setting an environment variable or telling the make program how many processors are available. For instance, a Core2Duo can support two simultaneous processes with:</p>
+</blockquote>
+<pre><code class="language-sh">export MAKEFLAGS='-j 2'
+</code></pre>
+<blockquote>
+<p>or just building with:</p>
+</blockquote>
+<pre><code class="language-sh">make -j2
+</code></pre>
+<blockquote>
+<p>When multiple processors are used in this way, the SBU units in the book will vary even more than they normally would. In some cases, the make step will simply fail. Analyzing the output of the build process will also be more difficult because the lines of different processes will be interleaved. If you run into a problem with a build step, revert back to a single processor build to properly analyze the error messages.</p>
+</blockquote>
+</blockquote>
 <h1><a class="header" href="#about-the-test-suites" id="about-the-test-suites">About the Test Suites</a></h1>
+<p>Most packages provide a test suite. Running the test suite for a newly built package is a good idea because it can provide a “sanity check” indicating that everything compiled correctly. A test suite that passes its set of checks usually proves that the package is functioning as the developer intended. It does not, however, guarantee that the package is totally bug free.</p>
+<p>Some test suites are more important than others. For example, the test suites for the core toolchain packages—GCC, Binutils, and Glibc—are of the utmost importance due to their central role in a properly functioning system. The test suites for GCC and Glibc can take a very long time to complete, especially on slower hardware, but are strongly recommended.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Experience has shown that there is little to be gained from running the test suites in <a href="04-Final-Preparations/../05-Constructing-a-Temporary-System/index.html">Chapter 5</a>. There can be no escaping the fact that the host system always exerts some influence on the tests in that chapter, often causing inexplicable failures. Because the tools built in <a href="04-Final-Preparations/../05-Constructing-a-Temporary-System/index.html">Chapter 5</a> are temporary and eventually discarded, we do not recommend running the test suites in <a href="04-Final-Preparations/../05-Constructing-a-Temporary-System/index.html">Chapter 5</a> for the average reader. The instructions for running those test suites are provided for the benefit of testers and developers, but they are strictly optional.</p>
+</blockquote>
+</blockquote>
+<p>A common issue with running the test suites for Binutils and GCC is running out of pseudo terminals (PTYs). This can result in a high number of failing tests. This may happen for several reasons, but the most likely cause is that the host system does not have the devpts file system set up correctly. This issue is discussed in greater detail at <a href="http://www.linuxfromscratch.org/lfs/faq.html#no-ptys">here</a>.</p>
+<p>Sometimes package test suites will fail, but for reasons which the developers are aware of and have deemed non-critical. Consult the <a href="http://www.linuxfromscratch.org/lfs/build-logs/8.4/">logs</a> to verify whether or not these failures are expected. This site is valid for all tests throughout this book.</p>
 <h1><a class="header" href="#constructing-a-temporary-system" id="constructing-a-temporary-system">Constructing a Temporary System</a></h1>
 <h1><a class="header" href="#introduction-4" id="introduction-4">Introduction</a></h1>
 <h1><a class="header" href="#toolchain-technical-notes" id="toolchain-technical-notes">Toolchain Technical Notes</a></h1>

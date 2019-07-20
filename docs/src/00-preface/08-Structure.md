@@ -6,7 +6,7 @@ This book is divided into the following parts.
 
 Part I explains a few important notes on how to proceed with the LFS installation. This section also provides meta-information about the book.
 
-```
+```text
 1. Introduction
     How to Build an LFS System
     What's new since the last release
@@ -19,7 +19,7 @@ Part I explains a few important notes on how to proceed with the LFS installatio
 
 Part II describes how to prepare for the building process—making a partition, downloading the packages, and compiling temporary tools.
 
-```
+```text
 2. Preparing the Host System
 3. Packages and Patches
 4. Final Preparations
@@ -30,7 +30,7 @@ Part II describes how to prepare for the building process—making a partition, 
 
 Part III guides the reader through the building of the LFS system—compiling and installing all the packages one by one, setting up the boot scripts, and installing the kernel. The resulting Linux system is the foundation on which other software can be built to expand the system as desired. At the end of this book, there is an easy to use reference listing all of the programs, libraries, and important files that have been installed.
 
-```
+```text
 6. Installing Basic System Software
 7. System Configuration
 8. Making the LFS System Bootable
