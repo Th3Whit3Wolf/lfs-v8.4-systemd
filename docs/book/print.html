@@ -1,0 +1,841 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Linux From Scratch Version 8.4-Systemd</title>
+        
+        <meta name="robots" content="noindex" />
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li><a href="00-preface/index.html"><strong aria-hidden="true">1.</strong> Preface</a></li><li><ol class="section"><li><a href="00-preface/01-Foreword.html"><strong aria-hidden="true">1.1.</strong> Foreword</a></li><li><a href="00-preface/02-Audience.html"><strong aria-hidden="true">1.2.</strong> Audience</a></li><li><a href="00-preface/03-LFS-Target-Architectures.html"><strong aria-hidden="true">1.3.</strong> LFS Target Architectures</a></li><li><a href="00-preface/04-LFS-and-Standards.html"><strong aria-hidden="true">1.4.</strong> LFS and Standards</a></li><li><a href="00-preface/05-Rationale-for-Packages-in-the-Book.html"><strong aria-hidden="true">1.5.</strong> Rationale for Packages in the Book</a></li><li><a href="00-preface/06-Prerequisites.html"><strong aria-hidden="true">1.6.</strong> Prerequisites</a></li><li><a href="00-preface/07-Typography.html"><strong aria-hidden="true">1.7.</strong> Typography</a></li><li><a href="00-preface/08-Structure.html"><strong aria-hidden="true">1.8.</strong> Structure</a></li><li><a href="00-preface/09-Errata.html"><strong aria-hidden="true">1.9.</strong> Errata</a></li></ol></li><li><a href="01-introduction/index.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li><a href="01-introduction/01-How-to-Build-an-LFS-System.html"><strong aria-hidden="true">2.1.</strong> How to Build an LFS System</a></li><li><a href="01-introduction/02-Whats-new-since-the-last-release.html"><strong aria-hidden="true">2.2.</strong> What's new since the last release</a></li><li><a href="01-introduction/03-Changelog.html"><strong aria-hidden="true">2.3.</strong> Changelog</a></li><li><a href="01-introduction/04-Resources.html"><strong aria-hidden="true">2.4.</strong> Resources</a></li><li><a href="01-introduction/05-Help.html"><strong aria-hidden="true">2.5.</strong> Help</a></li></ol></li><li><a href="02-Preparing-the-Host-System/index.html"><strong aria-hidden="true">3.</strong> Preparing the Host System</a></li><li><ol class="section"><li><a href="02-Preparing-the-Host-System/01-Introduction.html"><strong aria-hidden="true">3.1.</strong> Introduction</a></li><li><a href="02-Preparing-the-Host-System/02-Host-System-Requirements.html"><strong aria-hidden="true">3.2.</strong> Host System Requirements</a></li><li><a href="02-Preparing-the-Host-System/03-Building-LFS-in-Stages.html"><strong aria-hidden="true">3.3.</strong> Building LFS in Stages</a></li><li><a href="02-Preparing-the-Host-System/04-Creating-a-New-Partition.html"><strong aria-hidden="true">3.4.</strong> Creating a New Partition</a></li><li><a href="02-Preparing-the-Host-System/05-Creating-a-File-System-on-the-Partition.html"><strong aria-hidden="true">3.5.</strong> Creating a File System on the Partition</a></li><li><a href="02-Preparing-the-Host-System/06-Setting-The-$LFS-Variable.html"><strong aria-hidden="true">3.6.</strong> Setting The $LFS Variable</a></li><li><a href="02-Preparing-the-Host-System/07-Mounting-the-New-Partition.html"><strong aria-hidden="true">3.7.</strong> Mounting the New Partition</a></li></ol></li><li><a href="03-Packages-and-Patches/index.html"><strong aria-hidden="true">4.</strong> Packages and Patches</a></li><li><ol class="section"><li><a href="03-Packages-and-Patches/01-Introduction.html"><strong aria-hidden="true">4.1.</strong> Introduction</a></li><li><a href="03-Packages-and-Patches/02-All-Packages.html"><strong aria-hidden="true">4.2.</strong> All Packages</a></li><li><a href="03-Packages-and-Patches/03-Needed-Patches.html"><strong aria-hidden="true">4.3.</strong> Needed Patches</a></li></ol></li><li><a href="04-Final-Preparations/index.html"><strong aria-hidden="true">5.</strong> Final Preparations</a></li><li><ol class="section"><li><a href="04-Final-Preparations/01-Introduction.html"><strong aria-hidden="true">5.1.</strong> Introduction</a></li><li><a href="04-Final-Preparations/02-Creating-the-$LFS-tools-Directory.html"><strong aria-hidden="true">5.2.</strong> Creating the $LFS/tools Directory</a></li><li><a href="04-Final-Preparations/03-Adding-the-LFS-User.html"><strong aria-hidden="true">5.3.</strong> Adding the LFS User</a></li><li><a href="04-Final-Preparations/04-Setting-Up-the-Environment.html"><strong aria-hidden="true">5.4.</strong> Setting Up the Environment</a></li><li><a href="04-Final-Preparations/05-About-SBUs.html"><strong aria-hidden="true">5.5.</strong> About SBUs</a></li><li><a href="04-Final-Preparations/06-About-the-Test-Suites.html"><strong aria-hidden="true">5.6.</strong> About the Test Suites</a></li></ol></li><li><a href="05-Constructing-a-Temporary-System/index.html"><strong aria-hidden="true">6.</strong> Constructing a Temporary System</a></li><li><ol class="section"><li><a href="05-Constructing-a-Temporary-System/01-Introduction.html"><strong aria-hidden="true">6.1.</strong> Introduction</a></li><li><a href="05-Constructing-a-Temporary-System/02-Toolchain-Technical-Notes.html"><strong aria-hidden="true">6.2.</strong> Toolchain Technical Notes</a></li><li><a href="05-Constructing-a-Temporary-System/03-General-Compilation-Instructions.html"><strong aria-hidden="true">6.3.</strong> General Compilation Instructions</a></li><li><a href="05-Constructing-a-Temporary-System/04-Binutils-2.32-Pass-1.html"><strong aria-hidden="true">6.4.</strong> Binutils-2.32 - Pass 1</a></li><li><a href="05-Constructing-a-Temporary-System/05-GCC-8.2.0-Pass-1.html"><strong aria-hidden="true">6.5.</strong> GCC-8.2.0 - Pass 1</a></li><li><a href="05-Constructing-a-Temporary-System/06-Linux-4.20.12-API-Headers.html"><strong aria-hidden="true">6.6.</strong> Linux-4.20.12 API Headers</a></li><li><a href="05-Constructing-a-Temporary-System/07-Glibc-2.29.html"><strong aria-hidden="true">6.7.</strong> Glibc-2.29</a></li><li><a href="05-Constructing-a-Temporary-System/08-Libstdc++-from-GCC-8.2.0.html"><strong aria-hidden="true">6.8.</strong> Libstdc++ from GCC-8.2.0</a></li><li><a href="05-Constructing-a-Temporary-System/09-Binutils-2.32-Pass-2.html"><strong aria-hidden="true">6.9.</strong> Binutils-2.32 - Pass 2</a></li><li><a href="05-Constructing-a-Temporary-System/10-GCC-8.2.0-Pass-2.html"><strong aria-hidden="true">6.10.</strong> GCC-8.2.0 - Pass 2</a></li><li><a href="05-Constructing-a-Temporary-System/11-Tcl-8.6.9.html"><strong aria-hidden="true">6.11.</strong> Tcl-8.6.9</a></li><li><a href="05-Constructing-a-Temporary-System/12-Expect-5.45.4.html"><strong aria-hidden="true">6.12.</strong> Expect-5.45.4</a></li><li><a href="05-Constructing-a-Temporary-System/13-DejaGNU-1.6.2.html"><strong aria-hidden="true">6.13.</strong> DejaGNU-1.6.2</a></li><li><a href="05-Constructing-a-Temporary-System/14-M4-1.4.18.html"><strong aria-hidden="true">6.14.</strong> M4-1.4.18</a></li><li><a href="05-Constructing-a-Temporary-System/15-Ncurses-6.1.html"><strong aria-hidden="true">6.15.</strong> Ncurses-6.1</a></li><li><a href="05-Constructing-a-Temporary-System/16-Bash-5.0.html"><strong aria-hidden="true">6.16.</strong> Bash-5.0</a></li><li><a href="05-Constructing-a-Temporary-System/17-Bison-3.3.2.html"><strong aria-hidden="true">6.17.</strong> Bison-3.3.2</a></li><li><a href="05-Constructing-a-Temporary-System/18-Bzip2-1.0.6.html"><strong aria-hidden="true">6.18.</strong> Bzip2-1.0.6</a></li><li><a href="05-Constructing-a-Temporary-System/19-Coreutils-8.30.html"><strong aria-hidden="true">6.19.</strong> Coreutils-8.30</a></li><li><a href="05-Constructing-a-Temporary-System/20-Diffutils-3.7.html"><strong aria-hidden="true">6.20.</strong> Diffutils-3.7</a></li><li><a href="05-Constructing-a-Temporary-System/21-File-5.36.html"><strong aria-hidden="true">6.21.</strong> File-5.36</a></li><li><a href="05-Constructing-a-Temporary-System/22-Findutils-4.6.0.html"><strong aria-hidden="true">6.22.</strong> Findutils-4.6.0</a></li><li><a href="05-Constructing-a-Temporary-System/23-Gawk-4.2.1.html"><strong aria-hidden="true">6.23.</strong> Gawk-4.2.1</a></li><li><a href="05-Constructing-a-Temporary-System/24-Gettext-0.19.8.1.html"><strong aria-hidden="true">6.24.</strong> Gettext-0.19.8.1</a></li><li><a href="05-Constructing-a-Temporary-System/25-Grep-3.3.html"><strong aria-hidden="true">6.25.</strong> Grep-3.3</a></li><li><a href="05-Constructing-a-Temporary-System/26-Gzip-1.10.html"><strong aria-hidden="true">6.26.</strong> Gzip-1.10</a></li><li><a href="05-Constructing-a-Temporary-System/27-Make-4.2.1.html"><strong aria-hidden="true">6.27.</strong> Make-4.2.1</a></li><li><a href="05-Constructing-a-Temporary-System/28-Patch-2.7.6.html"><strong aria-hidden="true">6.28.</strong> Patch-2.7.6</a></li><li><a href="05-Constructing-a-Temporary-System/29-Perl-5.28.1.html"><strong aria-hidden="true">6.29.</strong> Perl-5.28.1</a></li><li><a href="05-Constructing-a-Temporary-System/30-Python-3.7.2.html"><strong aria-hidden="true">6.30.</strong> Python-3.7.2</a></li><li><a href="05-Constructing-a-Temporary-System/31-Sed-4.7.html"><strong aria-hidden="true">6.31.</strong> Sed-4.7</a></li><li><a href="05-Constructing-a-Temporary-System/32-Tar-1.31.html"><strong aria-hidden="true">6.32.</strong> Tar-1.31</a></li><li><a href="05-Constructing-a-Temporary-System/33-Texinfo-6.5.html"><strong aria-hidden="true">6.33.</strong> Texinfo-6.5</a></li><li><a href="05-Constructing-a-Temporary-System/34-Util-linux-2.33.1.html"><strong aria-hidden="true">6.34.</strong> Util-linux-2.33.1</a></li><li><a href="05-Constructing-a-Temporary-System/35-Xz-5.2.4.html"><strong aria-hidden="true">6.35.</strong> Xz-5.2.4</a></li><li><a href="05-Constructing-a-Temporary-System/36-Stripping.html"><strong aria-hidden="true">6.36.</strong> Stripping</a></li><li><a href="05-Constructing-a-Temporary-System/37-Changing-Ownership.html"><strong aria-hidden="true">6.37.</strong> Changing Ownership</a></li></ol></li><li><a href="06-Installing-Basic-System-Software/index.html"><strong aria-hidden="true">7.</strong> Installing Basic System Software</a></li><li><ol class="section"><li><a href="06-Installing-Basic-System-Software/01-Introduction.html"><strong aria-hidden="true">7.1.</strong> Introduction</a></li><li><a href="06-Installing-Basic-System-Software/02-Preparing-Virtual-Kernel-File-Systems.html"><strong aria-hidden="true">7.2.</strong> Preparing Virtual Kernel File Systems</a></li><li><a href="06-Installing-Basic-System-Software/03-Package-Management.html"><strong aria-hidden="true">7.3.</strong> Package Management</a></li><li><a href="06-Installing-Basic-System-Software/04-Entering-the-Chroot-Environment.html"><strong aria-hidden="true">7.4.</strong> Entering the Chroot Environment</a></li><li><a href="06-Installing-Basic-System-Software/05-Creating-Directories.html"><strong aria-hidden="true">7.5.</strong> Creating Directories</a></li><li><a href="06-Installing-Basic-System-Software/06-Creating-Essential-Files-and-Symlinks.html"><strong aria-hidden="true">7.6.</strong> Creating Essential Files and Symlinks</a></li><li><a href="06-Installing-Basic-System-Software/07-Linux-4.20.12-API-Headers.html"><strong aria-hidden="true">7.7.</strong> Linux-4.20.12 API Headers</a></li><li><a href="06-Installing-Basic-System-Software/08-Man-pages-4.16.html"><strong aria-hidden="true">7.8.</strong> Man-pages-4.16</a></li><li><a href="06-Installing-Basic-System-Software/09-Glibc-2.29.html"><strong aria-hidden="true">7.9.</strong> Glibc-2.29</a></li><li><a href="06-Installing-Basic-System-Software/10-Adjusting-the-Toolchain.html"><strong aria-hidden="true">7.10.</strong> Adjusting the Toolchain</a></li><li><a href="06-Installing-Basic-System-Software/11-Zlib-1.2.11.html"><strong aria-hidden="true">7.11.</strong> Zlib-1.2.11</a></li><li><a href="06-Installing-Basic-System-Software/12-File-5.36.html"><strong aria-hidden="true">7.12.</strong> File-5.36</a></li><li><a href="06-Installing-Basic-System-Software/13-Readline-8.0.html"><strong aria-hidden="true">7.13.</strong> Readline-8.0</a></li><li><a href="06-Installing-Basic-System-Software/14-M4-1.4.18.html"><strong aria-hidden="true">7.14.</strong> M4-1.4.18</a></li><li><a href="06-Installing-Basic-System-Software/15-Bc-1.07.1.html"><strong aria-hidden="true">7.15.</strong> Bc-1.07.1</a></li><li><a href="06-Installing-Basic-System-Software/16-Binutils-2.32.html"><strong aria-hidden="true">7.16.</strong> Binutils-2.32</a></li><li><a href="06-Installing-Basic-System-Software/17-GMP-6.1.2.html"><strong aria-hidden="true">7.17.</strong> GMP-6.1.2</a></li><li><a href="06-Installing-Basic-System-Software/18-MPFR-4.0.2.html"><strong aria-hidden="true">7.18.</strong> MPFR-4.0.2</a></li><li><a href="06-Installing-Basic-System-Software/19-MPC-1.1.0.html"><strong aria-hidden="true">7.19.</strong> MPC-1.1.0</a></li><li><a href="06-Installing-Basic-System-Software/20-Shadow-4.6.html"><strong aria-hidden="true">7.20.</strong> Shadow-4.6</a></li><li><a href="06-Installing-Basic-System-Software/21-GCC-8.2.0.html"><strong aria-hidden="true">7.21.</strong> GCC-8.2.0</a></li><li><a href="06-Installing-Basic-System-Software/22-Bzip2-1.0.6.html"><strong aria-hidden="true">7.22.</strong> Bzip2-1.0.6</a></li><li><a href="06-Installing-Basic-System-Software/23-Pkg-config-0.29.2.html"><strong aria-hidden="true">7.23.</strong> Pkg-config-0.29.2</a></li><li><a href="06-Installing-Basic-System-Software/24-Ncurses-6.1.html"><strong aria-hidden="true">7.24.</strong> Ncurses-6.1</a></li><li><a href="06-Installing-Basic-System-Software/25-Attr-2.4.48.html"><strong aria-hidden="true">7.25.</strong> Attr-2.4.48</a></li><li><a href="06-Installing-Basic-System-Software/26-Acl-2.2.53.html"><strong aria-hidden="true">7.26.</strong> Acl-2.2.53</a></li><li><a href="06-Installing-Basic-System-Software/27-Libcap-2.26.html"><strong aria-hidden="true">7.27.</strong> Libcap-2.26</a></li><li><a href="06-Installing-Basic-System-Software/28-Sed-4.7.html"><strong aria-hidden="true">7.28.</strong> Sed-4.7</a></li><li><a href="06-Installing-Basic-System-Software/29-Psmisc-23.2.html"><strong aria-hidden="true">7.29.</strong> Psmisc-23.2</a></li><li><a href="06-Installing-Basic-System-Software/30-Iana-Etc-2.30.html"><strong aria-hidden="true">7.30.</strong> Iana-Etc-2.30</a></li><li><a href="06-Installing-Basic-System-Software/31-Bison-3.3.2.html"><strong aria-hidden="true">7.31.</strong> Bison-3.3.2</a></li><li><a href="06-Installing-Basic-System-Software/32-Flex-2.6.4.html"><strong aria-hidden="true">7.32.</strong> Flex-2.6.4</a></li><li><a href="06-Installing-Basic-System-Software/33-Grep-3.3.html"><strong aria-hidden="true">7.33.</strong> Grep-3.3</a></li><li><a href="06-Installing-Basic-System-Software/34-Bash-5.0.html"><strong aria-hidden="true">7.34.</strong> Bash-5.0</a></li><li><a href="06-Installing-Basic-System-Software/35-Libtool-2.4.6.html"><strong aria-hidden="true">7.35.</strong> Libtool-2.4.6</a></li><li><a href="06-Installing-Basic-System-Software/36-GDBM-1.18.1.html"><strong aria-hidden="true">7.36.</strong> GDBM-1.18.1</a></li><li><a href="06-Installing-Basic-System-Software/37-Gperf-3.1.html"><strong aria-hidden="true">7.37.</strong> Gperf-3.1</a></li><li><a href="06-Installing-Basic-System-Software/38-Expat-2.2.6.html"><strong aria-hidden="true">7.38.</strong> Expat-2.2.6</a></li><li><a href="06-Installing-Basic-System-Software/39-Inetutils-1.9.4.html"><strong aria-hidden="true">7.39.</strong> Inetutils-1.9.4</a></li><li><a href="06-Installing-Basic-System-Software/40-Perl-5.28.1.html"><strong aria-hidden="true">7.40.</strong> Perl-5.28.1</a></li><li><a href="06-Installing-Basic-System-Software/41-XML::Parser-2.44.html"><strong aria-hidden="true">7.41.</strong> XML::Parser-2.44</a></li><li><a href="06-Installing-Basic-System-Software/42-Intltool-0.51.0.html"><strong aria-hidden="true">7.42.</strong> Intltool-0.51.0</a></li><li><a href="06-Installing-Basic-System-Software/43-Autoconf-2.69.html"><strong aria-hidden="true">7.43.</strong> Autoconf-2.69</a></li><li><a href="06-Installing-Basic-System-Software/44-Automake-1.16.1.html"><strong aria-hidden="true">7.44.</strong> Automake-1.16.1</a></li><li><a href="06-Installing-Basic-System-Software/45-Xz-5.2.4.html"><strong aria-hidden="true">7.45.</strong> Xz-5.2.4</a></li><li><a href="06-Installing-Basic-System-Software/46-Kmod-26-26tion.html"><strong aria-hidden="true">7.46.</strong> Kmod-26</a></li><li><a href="06-Installing-Basic-System-Software/47-Gettext-0.19.8.1.html"><strong aria-hidden="true">7.47.</strong> Gettext-0.19.8.1</a></li><li><a href="06-Installing-Basic-System-Software/48-Libelf-from-Elfutils-0.176.html"><strong aria-hidden="true">7.48.</strong> Libelf from Elfutils-0.176</a></li><li><a href="06-Installing-Basic-System-Software/49-OpenSSL-1.1.1a-3.2.1.html"><strong aria-hidden="true">7.49.</strong> OpenSSL-1.1.1a</a></li><li><a href="06-Installing-Basic-System-Software/50-Python-3.7.2.html"><strong aria-hidden="true">7.50.</strong> Python-3.7.2</a></li><li><a href="06-Installing-Basic-System-Software/51-Ninja-1.9.0.html"><strong aria-hidden="true">7.51.</strong> Ninja-1.9.0</a></li><li><a href="06-Installing-Basic-System-Software/52-Meson-0.49.2.html"><strong aria-hidden="true">7.52.</strong> Meson-0.49.2</a></li><li><a href="06-Installing-Basic-System-Software/53-Coreutils-8.30.html"><strong aria-hidden="true">7.53.</strong> Coreutils-8.30</a></li><li><a href="06-Installing-Basic-System-Software/54-Check-0.12.0.html"><strong aria-hidden="true">7.54.</strong> Check-0.12.0</a></li><li><a href="06-Installing-Basic-System-Software/55-Diffutils-3.7.html"><strong aria-hidden="true">7.55.</strong> Diffutils-3.7</a></li><li><a href="06-Installing-Basic-System-Software/56-Gawk-4.2.1.html"><strong aria-hidden="true">7.56.</strong> Gawk-4.2.1</a></li><li><a href="06-Installing-Basic-System-Software/57-Findutils-4.6.0.html"><strong aria-hidden="true">7.57.</strong> Findutils-4.6.0</a></li><li><a href="06-Installing-Basic-System-Software/58-Groff-1.22.4.html"><strong aria-hidden="true">7.58.</strong> Groff-1.22.4</a></li><li><a href="06-Installing-Basic-System-Software/59-GRUB-2.02.html"><strong aria-hidden="true">7.59.</strong> GRUB-2.02</a></li><li><a href="06-Installing-Basic-System-Software/60-Less-530.html"><strong aria-hidden="true">7.60.</strong> Less-530</a></li><li><a href="06-Installing-Basic-System-Software/61-Gzip-1.10.html"><strong aria-hidden="true">7.61.</strong> Gzip-1.10</a></li><li><a href="06-Installing-Basic-System-Software/62-IPRoute2-4.20.0.html"><strong aria-hidden="true">7.62.</strong> IPRoute2-4.20.0</a></li><li><a href="06-Installing-Basic-System-Software/63-Kbd-2.0.4.html"><strong aria-hidden="true">7.63.</strong> Kbd-2.0.4</a></li><li><a href="06-Installing-Basic-System-Software/64-Libpipeline-1.5.1.html"><strong aria-hidden="true">7.64.</strong> Libpipeline-1.5.1</a></li><li><a href="06-Installing-Basic-System-Software/65-Make-4.2.1.html"><strong aria-hidden="true">7.65.</strong> Make-4.2.1</a></li><li><a href="06-Installing-Basic-System-Software/66-Patch-2.7.6.html"><strong aria-hidden="true">7.66.</strong> Patch-2.7.6</a></li><li><a href="06-Installing-Basic-System-Software/67-Man-DB-2.8.5.html"><strong aria-hidden="true">7.67.</strong> Man-DB-2.8.5</a></li><li><a href="06-Installing-Basic-System-Software/68-Tar-1.31.html"><strong aria-hidden="true">7.68.</strong> Tar-1.31</a></li><li><a href="06-Installing-Basic-System-Software/69-Texinfo-6.5.html"><strong aria-hidden="true">7.69.</strong> Texinfo-6.5</a></li><li><a href="06-Installing-Basic-System-Software/70-Vim-8.1.html"><strong aria-hidden="true">7.70.</strong> Vim-8.1</a></li><li><a href="06-Installing-Basic-System-Software/71-Systemd-240.html"><strong aria-hidden="true">7.71.</strong> Systemd-240</a></li><li><a href="06-Installing-Basic-System-Software/72-D-Bus-1.12.12.html"><strong aria-hidden="true">7.72.</strong> D-Bus-1.12.12</a></li><li><a href="06-Installing-Basic-System-Software/73-Procps-ng-3.3.15.html"><strong aria-hidden="true">7.73.</strong> Procps-ng-3.3.15</a></li><li><a href="06-Installing-Basic-System-Software/74-Util-linux-2.33.1.html"><strong aria-hidden="true">7.74.</strong> Util-linux-2.33.1</a></li><li><a href="06-Installing-Basic-System-Software/75-E2fsprogs-1.44.5.html"><strong aria-hidden="true">7.75.</strong> E2fsprogs-1.44.5</a></li><li><a href="06-Installing-Basic-System-Software/76-About-Debugging-Symbols.html"><strong aria-hidden="true">7.76.</strong> About Debugging Symbols</a></li><li><a href="06-Installing-Basic-System-Software/77-Stripping-Again.html"><strong aria-hidden="true">7.77.</strong> Stripping Again</a></li><li><a href="06-Installing-Basic-System-Software/78-Cleaning-Up.html"><strong aria-hidden="true">7.78.</strong> Cleaning Up</a></li></ol></li><li><a href="07-System-Configuration/index.html"><strong aria-hidden="true">8.</strong> System Configuration</a></li><li><ol class="section"><li><a href="07-System-Configuration/01-Introduction.html"><strong aria-hidden="true">8.1.</strong> Introduction</a></li><li><a href="07-System-Configuration/02-General-Network-Configuration.html"><strong aria-hidden="true">8.2.</strong> General Network Configuration</a></li><li><a href="07-System-Configuration/03-Overview-of-Device-and-Module-Handling.html"><strong aria-hidden="true">8.3.</strong> Overview of Device and Module Handling</a></li><li><a href="07-System-Configuration/04-Managing-Devices.html"><strong aria-hidden="true">8.4.</strong> Managing Devices</a></li><li><a href="07-System-Configuration/05-Configuring-the-system-clock.html"><strong aria-hidden="true">8.5.</strong> Configuring the system clock</a></li><li><a href="07-System-Configuration/06-Configuring-the-Linux-Console.html"><strong aria-hidden="true">8.6.</strong> Configuring the Linux Console</a></li><li><a href="07-System-Configuration/07-Configuring-the-System-Locale.html"><strong aria-hidden="true">8.7.</strong> Configuring the System Locale</a></li><li><a href="07-System-Configuration/08-Creating-the-slash/etc-slash-inputrc-File.html"><strong aria-hidden="true">8.8.</strong> Creating the /etc/inputrc File</a></li><li><a href="07-System-Configuration/09-Creating-the-slash-etc-slash-shells-File.html"><strong aria-hidden="true">8.9.</strong> Creating the /etc/shells File</a></li><li><a href="07-System-Configuration/10-Systemd-Usage-and-Configuration.html"><strong aria-hidden="true">8.10.</strong> Systemd Usage and Configuration</a></li></ol></li><li><a href="08-Making-the-LFS-System-Bootable/index.html"><strong aria-hidden="true">9.</strong> Making the LFS System Bootable</a></li><li><ol class="section"><li><a href="08-Making-the-LFS-System-Bootable/01-Introduction.html"><strong aria-hidden="true">9.1.</strong> Introduction</a></li><li><a href="08-Making-the-LFS-System-Bootable/02-Creating-the-slash-etc-slash-fstab-File.html"><strong aria-hidden="true">9.2.</strong> Introduction</a></li><li><a href="08-Making-the-LFS-System-Bootable/03-Linux-4.20.12.html"><strong aria-hidden="true">9.3.</strong> Linux-4.20.12</a></li><li><a href="08-Making-the-LFS-System-Bootable/04-Using-GRUB-to-Set-Up-the-Boot-Process.html"><strong aria-hidden="true">9.4.</strong> Using GRUB to Set Up the Boot Process</a></li></ol></li><li><a href="09-The-End/index.html"><strong aria-hidden="true">10.</strong> The End</a></li><li><ol class="section"><li><a href="09-The-End/01-The-End.html"><strong aria-hidden="true">10.1.</strong> The End</a></li><li><a href="09-The-End/02-Get-Counted.html"><strong aria-hidden="true">10.2.</strong> Get Counted</a></li><li><a href="09-The-End/03-Rebooting-the-System.html"><strong aria-hidden="true">10.3.</strong> Rebooting the System</a></li><li><a href="09-The-End/04-What-Now.html"><strong aria-hidden="true">10.4.</strong> What Now?</a></li></ol></li><li><a href="10-Appendices/index.html"><strong aria-hidden="true">11.</strong> Appendices</a></li><li><ol class="section"><li><a href="10-Appendices/01-Acronyms-and-Terms.html"><strong aria-hidden="true">11.1.</strong> Acronyms and Terms</a></li><li><a href="10-Appendices/02-Acknowledgments.html"><strong aria-hidden="true">11.2.</strong> Acknowledgments</a></li><li><a href="10-Appendices/03-Dependencies.html"><strong aria-hidden="true">11.3.</strong> Dependencies</a></li><li><a href="10-Appendices/04-LFS-Licenses.html"><strong aria-hidden="true">11.4.</strong> LFS Licenses</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Linux From Scratch Version 8.4-Systemd</h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#preface" id="preface">Preface</a></h1>
+<h1><a class="header" href="#foreword" id="foreword">Foreword</a></h1>
+<p>My journey to learn and better understand Linux began back in 1998. I had just installed my first Linux distribution and had quickly become intrigued with the whole concept and philosophy behind Linux.</p>
+<p>There are always many ways to accomplish a single task. The same can be said about Linux distributions. A great many have existed over the years. Some still exist, some have morphed into something else, yet others have been relegated to our memories. They all do things differently to suit the needs of their target audience. Because so many different ways to accomplish the same end goal exist, I began to realize I no longer had to be limited by any one implementation. Prior to discovering Linux, we simply put up with issues in other Operating Systems as you had no choice. It was what it was, whether you liked it or not. With Linux, the concept of choice began to emerge. If you didn't like something, you were free, even encouraged, to change it.</p>
+<p>I tried a number of distributions and could not decide on any one. They were great systems in their own right. It wasn't a matter of right and wrong anymore. It had become a matter of personal taste. With all that choice available, it became apparent that there would not be a single system that would be perfect for me. So I set out to create my own Linux system that would fully conform to my personal preferences.</p>
+<p>To truly make it my own system, I resolved to compile everything from source code instead of using pre-compiled binary packages. This “perfect” Linux system would have the strengths of various systems without their perceived weaknesses. At first, the idea was rather daunting. I remained committed to the idea that such a system could be built.</p>
+<p>After sorting through issues such as circular dependencies and compile-time errors, I finally built a custom-built Linux system. It was fully operational and perfectly usable like any of the other Linux systems out there at the time. But it was my own creation. It was very satisfying to have put together such a system myself. The only thing better would have been to create each piece of software myself. This was the next best thing.</p>
+<p>As I shared my goals and experiences with other members of the Linux community, it became apparent that there was a sustained interest in these ideas. It quickly became plain that such custom-built Linux systems serve not only to meet user specific requirements, but also serve as an ideal learning opportunity for programmers and system administrators to enhance their (existing) Linux skills. Out of this broadened interest, the Linux From Scratch Project was born.</p>
+<p>This Linux From Scratch book is the central core around that project. It provides the background and instructions necessary for you to design and build your own system. While this book provides a template that will result in a correctly working system, you are free to alter the instructions to suit yourself, which is, in part, an important part of this project. You remain in control; we just lend a helping hand to get you started on your own journey.</p>
+<p>I sincerely hope you will have a great time working on your own Linux From Scratch system and enjoy the numerous benefits of having a system that is truly your own.</p>
+<p>--
+Gerard Beekmans
+gerard@linuxfromscratch.org</p>
+<h1><a class="header" href="#audience" id="audience">Audience</a></h1>
+<p>There are many reasons why you would want to read this book. One of the questions many people raise is, “why go through all the hassle of manually building a Linux system from scratch when you can just download and install an existing one?”</p>
+<p>One important reason for this project's existence is to help you learn how a Linux system works from the inside out. Building an LFS system helps demonstrate what makes Linux tick, and how things work together and depend on each other. One of the best things that this learning experience can provide is the ability to customize a Linux system to suit your own unique needs.</p>
+<p>Another key benefit of LFS is that it allows you to have more control over the system without relying on someone else's Linux implementation. With LFS, you are in the driver's seat and dictate every aspect of the system.</p>
+<p>LFS allows you to create very compact Linux systems. When installing regular distributions, you are often forced to install a great many programs which are probably never used or understood. These programs waste resources. You may argue that with today's hard drive and CPUs, such resources are no longer a consideration. Sometimes, however, you are still constrained by size considerations if nothing else. Think about bootable CDs, USB sticks, and embedded systems. Those are areas where LFS can be beneficial.</p>
+<p>Another advantage of a custom built Linux system is security. By compiling the entire system from source code, you are empowered to audit everything and apply all the security patches desired. It is no longer necessary to wait for somebody else to compile binary packages that fix a security hole. Unless you examine the patch and implement it yourself, you have no guarantee that the new binary package was built correctly and adequately fixes the problem.</p>
+<p>The goal of Linux From Scratch is to build a complete and usable foundation-level system. If you do not wish to build your own Linux system from scratch, you may nevertheless benefit from the information in this book.</p>
+<p>There are too many other good reasons to build your own LFS system to list them all here. In the end, education is by far the most powerful of reasons. As you continue in your LFS experience, you will discover the power that information and knowledge truly bring.</p>
+<h1><a class="header" href="#lfs-target-architectures" id="lfs-target-architectures">LFS Target Architectures</a></h1>
+<p>The primary target architectures of LFS are the AMD/Intel x86 (32-bit) and x86_64 (64-bit) CPUs. On the other hand, the instructions in this book are also known to work, with some modifications, with the Power PC and ARM CPUs. To build a system that utilizes one of these CPUs, the main prerequisite, in addition to those on the next few pages, is an existing Linux system such as an earlier LFS installation, Ubuntu, Red Hat/Fedora, SuSE, or other distribution that targets the architecture that you have. Also note that a 32-bit distribution can be installed and used as a host system on a 64-bit AMD/Intel computer.</p>
+<p>Some other facts about 64-bit systems need to be added here. When compared to a 32-bit system, the sizes of executable programs are slightly larger and the execution speeds of arbitrary programs are only slightly faster. For example, in a test build of LFS-6.5 on a Core2Duo CPU based system, the following statistics were measured:</p>
+<pre><code class="language-text">Architecture Build Time     Build Size
+32-bit       198.5 minutes  648 MB
+64-bit       190.6 minutes  709 MB
+</code></pre>
+<p>As you can see, the 64-bit build is only 4% faster and is 9% larger than the 32-bit build. The gain from going to a 64-bit system is relatively minimal. Of course, if you have more than 4GB of RAM or want to manipulate data that exceeds 4GB, the advantages of a 64-bit system are substantial.</p>
+<blockquote>
+<p>Note</p>
+<blockquote>
+<p>The above discussion is only appropriate when comparing builds on the same hardware. Modern 64-bit systems are considerably faster than older 64-bit systems and the LFS authors recommend building on a 64-bit system when given a choice.</p>
+</blockquote>
+</blockquote>
+<p>The default 64-bit build that results from LFS is considered a &quot;pure&quot; 64-bit system. That is, it supports 64-bit executables only. Building a &quot;multi-lib&quot; system requires compiling many applications twice, once for a 32-bit system and once for a 64-bit system. This is not directly supported in LFS because it would interfere with the educational objective of providing the instructions needed for a straightforward base Linux system. You can refer to the <a href="http://trac.clfs.org/">Cross Linux From Scratch</a> project for this advanced topic.</p>
+<h1><a class="header" href="#lfs-and-standards" id="lfs-and-standards">LFS and Standards</a></h1>
+<p>The structure of LFS follows Linux standards as closely as possible. The primary standards are:</p>
+<ul>
+<li><a href="http://pubs.opengroup.org/onlinepubs/9699919799/">POSIX.1-2008</a></li>
+<li><a href="http://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html">Filesystem Hierarchy Standard (FHS) Version 3.0</a></li>
+<li><a href="http://refspecs.linuxfoundation.org/lsb.shtml">Linux Standard Base (LSB) Version 5.0 (2015)</a></li>
+</ul>
+<p>The LSB has four separate standards: Core, Desktop, Runtime Languages, and Imaging. In addition to generic requirements there are also architecture specific requirements. There are also two areas for trial use: Gtk3 and Graphics. LFS attempts to conform to the architectures discussed in the previous section.</p>
+<blockquote>
+<p>Note</p>
+<blockquote>
+<p>Many people do not agree with the requirements of the LSB. The main purpose of defining it is to ensure that proprietary software will be able to be installed and run properly on a compliant system. Since LFS is source based, the user has complete control over what packages are desired and many choose not to install some packages that are specified by the LSB.</p>
+</blockquote>
+</blockquote>
+<h3><a class="header" href="#packages-supplied-by-lfs-needed-to-satisfy-the-lsb-requirements" id="packages-supplied-by-lfs-needed-to-satisfy-the-lsb-requirements">Packages supplied by LFS needed to satisfy the LSB Requirements</a></h3>
+<table border="0" class="variablelist">
+    <colgroup>
+    <col align="left" valign="top" />
+    <col />
+    </colgroup>
+    <tbody>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB
+            Core:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            Bash, Bc, Binutils, Coreutils, Diffutils, File, Findutils,
+            Gawk, Grep, Gzip, M4, Man-DB, Ncurses, Procps, Psmisc, Sed,
+            Shadow, Tar, Util-linux, Zlib
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB
+            Desktop:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            None
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB Runtime
+            Languages:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            Perl
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB
+            Imaging:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            None
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB Gtk3 and
+            LSB Graphics (Trial Use):</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            None
+        </p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h3><a class="header" href="#packages-supplied-by-blfs-needed-to-satisfy-the-lsb-requirements" id="packages-supplied-by-blfs-needed-to-satisfy-the-lsb-requirements">Packages supplied by BLFS needed to satisfy the LSB Requirements</a></h3>
+<table border="0" class="variablelist">
+    <colgroup>
+    <col align="left" valign="top" />
+    <col />
+    </colgroup>
+    <tbody>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB
+            Core:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            At, Batch (a part of At), Cpio, Ed, Fcrontab, Initd-tools,
+            Lsb_release, NSPR, NSS, PAM, Pax, Sendmail (or Postfix or
+            Exim), time
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB
+            Desktop:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            Alsa, ATK, Cairo, Desktop-file-utils, Freetype, Fontconfig,
+            Gdk-pixbuf, Glib2, GTK+2, Icon-naming-utils, Libjpeg-turbo,
+            Libpng, Libtiff, Libxml2, MesaLib, Pango, Xdg-utils, Xorg
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB Runtime
+            Languages:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            Python, Libxml2, Libxslt
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB
+            Imaging:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            CUPS, Cups-filters, Ghostscript, SANE
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB Gtk3 and
+            LSB Graphics (Trial Use):</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            GTK+3
+        </p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h3><a class="header" href="#packages-not-supplied-by-lfs-or-blfs-needed-to-satisfy-the-lsb-requirements" id="packages-not-supplied-by-lfs-or-blfs-needed-to-satisfy-the-lsb-requirements">Packages not supplied by LFS or BLFS needed to satisfy the LSB Requirements</a></h3>
+<table border="0" class="variablelist">
+    <colgroup>
+    <col align="left" valign="top" />
+    <col />
+    </colgroup>
+    <tbody>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB
+            Core:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            None
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB
+            Desktop:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            Qt4 (but Qt5 is provided)
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB Runtime
+            Languages:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            None
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB
+            Imaging:</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            None
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <p>
+            <span class="term"><span class="emphasis"><em>LSB Gtk3 and
+            LSB Graphics (Trial Use):</em></span></span>
+        </p>
+        </td>
+        <td>
+        <p>
+            None
+        </p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h1><a class="header" href="#rationale-for-packages-in-the-book" id="rationale-for-packages-in-the-book">Rationale for Packages in the Book</a></h1>
+<p>As stated earlier, the goal of LFS is to build a complete and usable foundation-level system. This includes all packages needed to replicate itself while providing a relatively minimal base from which to customize a more complete system based on the choices of the user. This does not mean that LFS is the smallest system possible. Several important packages are included that are not strictly required. The lists below document the rationale for each package in the book.</p>
+<ul>
+<li><strong>Acl</strong></li>
+</ul>
+<p>This package contains utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories.</p>
+<ul>
+<li><strong>Attr</strong></li>
+</ul>
+<p>This package contains programs for administering extended attributes on filesystem objects.</p>
+<ul>
+<li><strong>Autoconf</strong></li>
+</ul>
+<p>This package contains programs for producing shell scripts that can automatically configure source code from a developer's template. It is often needed to rebuild a package after updates to the build procedures.</p>
+<ul>
+<li><strong>Automake</strong></li>
+</ul>
+<p>This package contains programs for generating Make files from a template. It is often needed to rebuild a package after updates to the build procedures.</p>
+<ul>
+<li><strong>Bash</strong></li>
+</ul>
+<p>This package satisfies an LSB core requirement to provide a Bourne Shell interface to the system. It was chosen over other shell packages because of its common usage and extensive capabilities beyond basic shell functions.</p>
+<ul>
+<li><strong>Bc</strong></li>
+</ul>
+<p>This package provides an arbitrary precision numeric processing language. It satisfies a requirement needed when building the Linux kernel.</p>
+<ul>
+<li><strong>Binutils</strong></li>
+</ul>
+<p>This package contains a linker, an assembler, and other tools for handling object files. The programs in this package are needed to compile most of the packages in an LFS system and beyond.</p>
+<ul>
+<li><strong>Bison</strong></li>
+</ul>
+<p>This package contains the GNU version of yacc (Yet Another Compiler Compiler) needed to build several other LFS programs.</p>
+<ul>
+<li><strong>Bzip2</strong></li>
+</ul>
+<p>This package contains programs for compressing and decompressing files. It is required to decompress many LFS packages.</p>
+<ul>
+<li><strong>Check</strong></li>
+</ul>
+<p>This package contains a test harness for other programs. It is only installed in the temporary toolchain.</p>
+<ul>
+<li><strong>Coreutils</strong></li>
+</ul>
+<p>This package contains a number of essential programs for viewing and manipulating files and directories. These programs are needed for command line file management, and are necessary for the installation procedures of every package in LFS.</p>
+<ul>
+<li><strong>D-Bus</strong></li>
+</ul>
+<p>This package contains programs to implement a message bus system, which a simple way for applications to talk to one another.</p>
+<ul>
+<li><strong>DejaGNU</strong></li>
+</ul>
+<p>This package contains a framework for testing other programs. It is only installed in the temporary toolchain.</p>
+<ul>
+<li><strong>Diffutils</strong></li>
+</ul>
+<p>This package contains programs that show the differences between files or directories. These programs can be used to create patches, and are also used in many packages' build procedures.</p>
+<p>E2fsprogs</p>
+<p>This package contains the utilities for handling the ext2, ext3 and ext4 file systems. These are the most common and thoroughly tested file systems that Linux supports.</p>
+<p>Expat</p>
+<p>This package contains a relatively small XML parsing library. It is required by the XML::Parser Perl module.</p>
+<p>Expect</p>
+<p>This package contains a program for carrying out scripted dialogues with other interactive programs. It is commonly used for testing other packages. It is only installed in the temporary toolchain.</p>
+<p>File</p>
+<p>This package contains a utility for determining the type of a given file or files. A few packages need it to build.</p>
+<p>Findutils</p>
+<p>This package contains programs to find files in a file system. It is used in many packages' build scripts.</p>
+<p>Flex</p>
+<p>This package contains a utility for generating programs that recognize patterns in text. It is the GNU version of the lex (lexical analyzer) program. It is required to build several LFS packages.</p>
+<p>Gawk</p>
+<p>This package contains programs for manipulating text files. It is the GNU version of awk (Aho-Weinberg-Kernighan). It is used in many other packages' build scripts.</p>
+<p>Gcc</p>
+<p>This package is the Gnu Compiler Collection. It contains the C and C++ compilers as well as several others not built by LFS.</p>
+<p>GDBM</p>
+<p>This package contains the GNU Database Manager library. It is used by one other LFS package, Man-DB.</p>
+<p>Gettext</p>
+<p>This package contains utilities and libraries for internationalization and localization of numerous packages.</p>
+<p>Glibc</p>
+<p>This package contains the main C library. Linux programs would not run without it.</p>
+<p>GMP</p>
+<p>This package contains math libraries that provide useful functions for arbitrary precision arithmetic. It is required to build Gcc.</p>
+<p>Gperf</p>
+<p>This package contains a program that generates a perfect hash function from a key set. It is required for Eudev.</p>
+<p>Grep</p>
+<p>This package contains programs for searching through files. These programs are used by most packages' build scripts.</p>
+<p>Groff</p>
+<p>This package contains programs for processing and formatting text. One important function of these programs is to format man pages.</p>
+<p>GRUB</p>
+<p>This package is the Grand Unified Boot Loader. It is one of several boot loaders available, but is the most flexible.</p>
+<p>Gzip</p>
+<p>This package contains programs for compressing and decompressing files. It is needed to decompress many packages in LFS and beyond.</p>
+<p>Iana-etc</p>
+<p>This package provides data for network services and protocols. It is needed to enable proper networking capabilities.</p>
+<p>Inetutils</p>
+<p>This package contains programs for basic network administration.</p>
+<p>Intltool</p>
+<p>This package contains tools for extracting translatable strings from source files.</p>
+<p>IProute2</p>
+<p>This package contains programs for basic and advanced IPv4 and IPv6 networking. It was chosen over the other common network tools package (net-tools) for its IPv6 capabilities.</p>
+<p>Kbd</p>
+<p>This package contains key-table files, keyboard utilities for non-US keyboards, and a number of console fonts.</p>
+<p>Kmod</p>
+<p>This package contains programs needed to administer Linux kernel modules.</p>
+<p>Less</p>
+<p>This package contains a very nice text file viewer that allows scrolling up or down when viewing a file. It is also used by Man-DB for viewing manpages.</p>
+<p>Libcap</p>
+<p>This package implements the user-space interfaces to the POSIX 1003.1e capabilities available in Linux kernels.</p>
+<p>Libelf</p>
+<p>The elfutils project provides libraries and tools for ELF files and DWARF data. Most utilities in this package are available in other packages, but the library is needed to build the Linux kernel using the default (and most efficient) configuration.</p>
+<p>Libffi</p>
+<p>This package implements a portable, high level programming interface to various calling conventions. Some programs may not know at the time of compilation what arguments are to be passed to a function. For instance, an interpreter may be told at run-time about the number and types of arguments used to call a given function. Libffi can be used in such programs to provide a bridge from the interpreter program to compiled code.</p>
+<p>Libpipeline</p>
+<p>The Libpipeline package contains a library for manipulating pipelines of subprocesses in a flexible and convenient way. It is required by the Man-DB package.</p>
+<p>Libtool</p>
+<p>This package contains the GNU generic library support script. It wraps the complexity of using shared libraries in a consistent, portable interface. It is needed by the test suites in other LFS packages.</p>
+<p>Linux Kernel</p>
+<p>This package is the Operating System. It is the Linux in the GNU/Linux environment.</p>
+<p>M4</p>
+<p>This package contains a general text macro processor useful as a build tool for other programs.</p>
+<p>Make</p>
+<p>This package contains a program for directing the building of packages. It is required by almost every package in LFS.</p>
+<p>Man-DB</p>
+<p>This package contains programs for finding and viewing man pages. It was chosen instead of the man package due to superior internationalization capabilities. It supplies the man program.</p>
+<p>Man-pages</p>
+<p>This package contains the actual contents of the basic Linux man pages.</p>
+<p>Meson</p>
+<p>This package provides a software tool for automating the building of software. The main goal for Meson is to minimize the amount of time that software developers need to spend configuring their build system.</p>
+<p>MPC</p>
+<p>This package contains functions for the arithmetic of complex numbers. It is required by Gcc.</p>
+<p>MPFR</p>
+<p>This package contains functions for multiple precision arithmetic. It is required by Gcc.</p>
+<p>Ninja</p>
+<p>This package contains a small build system with a focus on speed. It is designed to have its input files generated by a higher-level build system, and to run builds as fast as possible.</p>
+<p>Ncurses</p>
+<p>This package contains libraries for terminal-independent handling of character screens. It is often used to provide cursor control for a menuing system. It is needed by a number of packages in LFS.</p>
+<p>Openssl</p>
+<p>This package provides management tools and libraries relating to cryptography. These are useful for providing cryptographic functions to other packages, including the Linux kernel.</p>
+<p>Patch</p>
+<p>This package contains a program for modifying or creating files by applying a patch file typically created by the diff program. It is needed by the build procedure for several LFS packages.</p>
+<p>Perl</p>
+<p>This package is an interpreter for the runtime language PERL. It is needed for the installation and test suites of several LFS packages.</p>
+<p>Pkg-config</p>
+<p>This package provides a program to return meta-data about an installed library or package.</p>
+<p>Procps-NG</p>
+<p>This package contains programs for monitoring processes. These programs are useful for system administration, and are also used by the LFS Bootscripts.</p>
+<p>Psmisc</p>
+<p>This package contains programs for displaying information about running processes. These programs are useful for system administration.</p>
+<p>Python 3</p>
+<p>This package provides an interpreted language that has a design philosophy that emphasizes code readability.</p>
+<p>Readline</p>
+<p>This package is a set of libraries that offers command-line editing and history capabilities. It is used by Bash.</p>
+<p>Sed</p>
+<p>This package allows editing of text without opening it in a text editor. It is also needed by most LFS packages' configure scripts.</p>
+<p>Shadow</p>
+<p>This package contains programs for handling passwords in a secure way.</p>
+<p>Systemd</p>
+<p>This package provides an init program and several additional boot and system control capabilities as an alternative to Sysvinit. It is used by many commercial distributions.</p>
+<p>Tar</p>
+<p>This package provides archiving and extraction capabilities of virtually all packages used in LFS.</p>
+<p>Tcl</p>
+<p>This package contains the Tool Command Language used in many test suites in LFS packages. It is only installed in the temporary toolchain.</p>
+<p>Texinfo</p>
+<p>This package contains programs for reading, writing, and converting info pages. It is used in the installation procedures of many LFS packages.</p>
+<p>Util-linux</p>
+<p>This package contains miscellaneous utility programs. Among them are utilities for handling file systems, consoles, partitions, and messages.</p>
+<p>Vim</p>
+<p>This package contains an editor. It was chosen because of its compatibility with the classic vi editor and its huge number of powerful capabilities. An editor is a very personal choice for many users and any other editor could be substituted if desired.</p>
+<p>XML::Parser</p>
+<p>This package is a Perl module that interfaces with Expat.</p>
+<p>XZ Utils</p>
+<p>This package contains programs for compressing and decompressing files. It provides the highest compression generally available and is useful for decompressing packages in XZ or LZMA format.</p>
+<p>Zlib</p>
+<p>This package contains compression and decompression routines used by some programs.</p>
+<h1><a class="header" href="#prerequisites" id="prerequisites">Prerequisites</a></h1>
+<h1><a class="header" href="#typography" id="typography">Typography</a></h1>
+<h1><a class="header" href="#structure" id="structure">Structure</a></h1>
+<h1><a class="header" href="#errata" id="errata">Errata</a></h1>
+<h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+<h1><a class="header" href="#how-to-build-an-lfs-system" id="how-to-build-an-lfs-system">How to Build an LFS System</a></h1>
+<h1><a class="header" href="#whats-new-since-the-last-release" id="whats-new-since-the-last-release">What's new since the last release</a></h1>
+<h1><a class="header" href="#changelog" id="changelog">Changelog</a></h1>
+<h1><a class="header" href="#resources" id="resources">Resources</a></h1>
+<h1><a class="header" href="#help" id="help">Help</a></h1>
+<h1><a class="header" href="#preparing-the-host-system" id="preparing-the-host-system">Preparing the Host System</a></h1>
+<h1><a class="header" href="#introduction-1" id="introduction-1">Introduction</a></h1>
+<h1><a class="header" href="#host-system-requirements" id="host-system-requirements">Host System Requirements</a></h1>
+<h1><a class="header" href="#introduction-2" id="introduction-2">Introduction</a></h1>
+<h1><a class="header" href="#introduction-3" id="introduction-3">Introduction</a></h1>
+<h1><a class="header" href="#introduction-4" id="introduction-4">Introduction</a></h1>
+<h1><a class="header" href="#setting-the-lfs-variable" id="setting-the-lfs-variable">Setting The $LFS Variable</a></h1>
+<h1><a class="header" href="#mounting-the-new-partition" id="mounting-the-new-partition">Mounting the New Partition</a></h1>
+<h1><a class="header" href="#packages-and-patches" id="packages-and-patches">Packages and Patches</a></h1>
+<h1><a class="header" href="#introduction-5" id="introduction-5">Introduction</a></h1>
+<h1><a class="header" href="#all-packages" id="all-packages">All Packages</a></h1>
+<h1><a class="header" href="#needed-patches" id="needed-patches">Needed Patches</a></h1>
+<h1><a class="header" href="#final-preparations" id="final-preparations">Final Preparations</a></h1>
+<h1><a class="header" href="#introduction-6" id="introduction-6">Introduction</a></h1>
+<h1><a class="header" href="#creating-the-lfstools-directory" id="creating-the-lfstools-directory">Creating the $LFS/tools Directory</a></h1>
+<h1><a class="header" href="#adding-the-lfs-user" id="adding-the-lfs-user">Adding the LFS User</a></h1>
+<h1><a class="header" href="#setting-up-the-environment" id="setting-up-the-environment">Setting Up the Environment</a></h1>
+<h1><a class="header" href="#about-sbus" id="about-sbus">About SBUs</a></h1>
+<h1><a class="header" href="#about-the-test-suites" id="about-the-test-suites">About the Test Suites</a></h1>
+<h1><a class="header" href="#constructing-a-temporary-system" id="constructing-a-temporary-system">Constructing a Temporary System</a></h1>
+<h1><a class="header" href="#introduction-7" id="introduction-7">Introduction</a></h1>
+<h1><a class="header" href="#toolchain-technical-notes" id="toolchain-technical-notes">Toolchain Technical Notes</a></h1>
+<h1><a class="header" href="#general-compilation-instructions" id="general-compilation-instructions">General Compilation Instructions</a></h1>
+<h1><a class="header" href="#binutils-232---pass-1" id="binutils-232---pass-1">Binutils-2.32 - Pass 1</a></h1>
+<h1><a class="header" href="#gcc-820---pass-1" id="gcc-820---pass-1">GCC-8.2.0 - Pass 1</a></h1>
+<h1><a class="header" href="#linux-42012-api-headers" id="linux-42012-api-headers">Linux-4.20.12 API Headers</a></h1>
+<h1><a class="header" href="#glibc-229" id="glibc-229">Glibc-2.29</a></h1>
+<h1><a class="header" href="#libstdc-from-gcc-820" id="libstdc-from-gcc-820">Libstdc++ from GCC-8.2.0</a></h1>
+<h1><a class="header" href="#binutils-232---pass-2" id="binutils-232---pass-2">Binutils-2.32 - Pass 2</a></h1>
+<h1><a class="header" href="#gcc-820---pass-2" id="gcc-820---pass-2">GCC-8.2.0 - Pass 2</a></h1>
+<h1><a class="header" href="#tcl-869" id="tcl-869">Tcl-8.6.9</a></h1>
+<h1><a class="header" href="#expect-5454" id="expect-5454">Expect-5.45.4</a></h1>
+<h1><a class="header" href="#dejagnu-162" id="dejagnu-162">DejaGNU-1.6.2</a></h1>
+<h1><a class="header" href="#m4-1418" id="m4-1418">M4-1.4.18</a></h1>
+<h1><a class="header" href="#ncurses-61" id="ncurses-61">Ncurses-6.1</a></h1>
+<h1><a class="header" href="#bash-50" id="bash-50">Bash-5.0</a></h1>
+<h1><a class="header" href="#bison-332" id="bison-332">Bison-3.3.2</a></h1>
+<h1><a class="header" href="#bzip2-106" id="bzip2-106">Bzip2-1.0.6</a></h1>
+<h1><a class="header" href="#coreutils-830" id="coreutils-830">Coreutils-8.30</a></h1>
+<h1><a class="header" href="#diffutils-37" id="diffutils-37">Diffutils-3.7</a></h1>
+<h1><a class="header" href="#file-536" id="file-536">File-5.36</a></h1>
+<h1><a class="header" href="#findutils-460" id="findutils-460">Findutils-4.6.0</a></h1>
+<h1><a class="header" href="#gawk-421" id="gawk-421">Gawk-4.2.1</a></h1>
+<h1><a class="header" href="#gettext-01981" id="gettext-01981">Gettext-0.19.8.1</a></h1>
+<h1><a class="header" href="#grep-33" id="grep-33">Grep-3.3</a></h1>
+<h1><a class="header" href="#gzip-110" id="gzip-110">Gzip-1.10</a></h1>
+<h1><a class="header" href="#make-421" id="make-421">Make-4.2.1</a></h1>
+<h1><a class="header" href="#patch-276" id="patch-276">Patch-2.7.6</a></h1>
+<h1><a class="header" href="#perl-5281" id="perl-5281">Perl-5.28.1</a></h1>
+<h1><a class="header" href="#python-372" id="python-372">Python-3.7.2</a></h1>
+<h1><a class="header" href="#sed-47" id="sed-47">Sed-4.7</a></h1>
+<h1><a class="header" href="#tar-131" id="tar-131">Tar-1.31</a></h1>
+<h1><a class="header" href="#texinfo-65" id="texinfo-65">Texinfo-6.5</a></h1>
+<h1><a class="header" href="#util-linux-2331" id="util-linux-2331">Util-linux-2.33.1</a></h1>
+<h1><a class="header" href="#xz-524" id="xz-524">Xz-5.2.4</a></h1>
+<h1><a class="header" href="#stripping" id="stripping">Stripping</a></h1>
+<h1><a class="header" href="#changing-ownership" id="changing-ownership">Changing Ownership</a></h1>
+<h1><a class="header" href="#installing-basic-system-software" id="installing-basic-system-software">Installing Basic System Software</a></h1>
+<h1><a class="header" href="#introduction-8" id="introduction-8">Introduction</a></h1>
+<h1><a class="header" href="#preparing-virtual-kernel-file-systems" id="preparing-virtual-kernel-file-systems">Preparing Virtual Kernel File Systems</a></h1>
+<h1><a class="header" href="#package-management" id="package-management">Package Management</a></h1>
+<h1><a class="header" href="#entering-the-chroot-environment" id="entering-the-chroot-environment">Entering the Chroot Environment</a></h1>
+<h1><a class="header" href="#creating-directories" id="creating-directories">Creating Directories</a></h1>
+<h1><a class="header" href="#creating-essential-files-and-symlinks" id="creating-essential-files-and-symlinks">Creating Essential Files and Symlinks</a></h1>
+<h1><a class="header" href="#linux-42012-api-headers-1" id="linux-42012-api-headers-1">Linux-4.20.12 API Headers</a></h1>
+<h1><a class="header" href="#man-pages-416" id="man-pages-416">Man-pages-4.16</a></h1>
+<h1><a class="header" href="#glibc-229-1" id="glibc-229-1">Glibc-2.29</a></h1>
+<h1><a class="header" href="#adjusting-the-toolchain" id="adjusting-the-toolchain">Adjusting the Toolchain</a></h1>
+<h1><a class="header" href="#zlib-1211" id="zlib-1211">Zlib-1.2.11</a></h1>
+<h1><a class="header" href="#file-536-1" id="file-536-1">File-5.36</a></h1>
+<h1><a class="header" href="#readline-80" id="readline-80">Readline-8.0</a></h1>
+<h1><a class="header" href="#m4-1418-1" id="m4-1418-1">M4-1.4.18</a></h1>
+<h1><a class="header" href="#bc-1071" id="bc-1071">Bc-1.07.1</a></h1>
+<h1><a class="header" href="#binutils-232" id="binutils-232">Binutils-2.32</a></h1>
+<h1><a class="header" href="#gmp-612" id="gmp-612">GMP-6.1.2</a></h1>
+<h1><a class="header" href="#mpfr-402" id="mpfr-402">MPFR-4.0.2</a></h1>
+<h1><a class="header" href="#mpc-110" id="mpc-110">MPC-1.1.0</a></h1>
+<h1><a class="header" href="#shadow-46" id="shadow-46">Shadow-4.6</a></h1>
+<h1><a class="header" href="#gcc-820" id="gcc-820">GCC-8.2.0</a></h1>
+<h1><a class="header" href="#bzip2-106-1" id="bzip2-106-1">Bzip2-1.0.6</a></h1>
+<h1><a class="header" href="#pkg-config-0292" id="pkg-config-0292">Pkg-config-0.29.2</a></h1>
+<h1><a class="header" href="#ncurses-61-1" id="ncurses-61-1">Ncurses-6.1</a></h1>
+<h1><a class="header" href="#attr-2448" id="attr-2448">Attr-2.4.48</a></h1>
+<h1><a class="header" href="#acl-2253" id="acl-2253">Acl-2.2.53</a></h1>
+<h1><a class="header" href="#libcap-226" id="libcap-226">Libcap-2.26</a></h1>
+<h1><a class="header" href="#sed-47-1" id="sed-47-1">Sed-4.7</a></h1>
+<h1><a class="header" href="#psmisc-232" id="psmisc-232">Psmisc-23.2</a></h1>
+<h1><a class="header" href="#iana-etc-230" id="iana-etc-230">Iana-Etc-2.30</a></h1>
+<h1><a class="header" href="#bison-332-1" id="bison-332-1">Bison-3.3.2</a></h1>
+<h1><a class="header" href="#flex-264" id="flex-264">Flex-2.6.4</a></h1>
+<h1><a class="header" href="#grep-33-1" id="grep-33-1">Grep-3.3</a></h1>
+<h1><a class="header" href="#bash-50-1" id="bash-50-1">Bash-5.0</a></h1>
+<h1><a class="header" href="#libtool-246" id="libtool-246">Libtool-2.4.6</a></h1>
+<h1><a class="header" href="#gdbm-1181" id="gdbm-1181">GDBM-1.18.1</a></h1>
+<h1><a class="header" href="#gperf-31" id="gperf-31">Gperf-3.1</a></h1>
+<h1><a class="header" href="#expat-226" id="expat-226">Expat-2.2.6</a></h1>
+<h1><a class="header" href="#inetutils-194" id="inetutils-194">Inetutils-1.9.4</a></h1>
+<h1><a class="header" href="#perl-5281-1" id="perl-5281-1">Perl-5.28.1</a></h1>
+<h1><a class="header" href="#xmlparser-244" id="xmlparser-244">XML::Parser-2.44</a></h1>
+<h1><a class="header" href="#intltool-0510" id="intltool-0510">Intltool-0.51.0</a></h1>
+<h1><a class="header" href="#autoconf-269" id="autoconf-269">Autoconf-2.69</a></h1>
+<h1><a class="header" href="#automake-1161" id="automake-1161">Automake-1.16.1</a></h1>
+<h1><a class="header" href="#xz-524-1" id="xz-524-1">Xz-5.2.4</a></h1>
+<h1><a class="header" href="#kmod-26" id="kmod-26">Kmod-26</a></h1>
+<h1><a class="header" href="#gettext-01981-1" id="gettext-01981-1">Gettext-0.19.8.1</a></h1>
+<h1><a class="header" href="#libelf-from-elfutils-0176" id="libelf-from-elfutils-0176">Libelf from Elfutils-0.176</a></h1>
+<h1><a class="header" href="#openssl-111a" id="openssl-111a">OpenSSL-1.1.1a</a></h1>
+<h1><a class="header" href="#python-372-1" id="python-372-1">Python-3.7.2</a></h1>
+<h1><a class="header" href="#ninja-190" id="ninja-190">Ninja-1.9.0</a></h1>
+<h1><a class="header" href="#meson-0492" id="meson-0492">Meson-0.49.2</a></h1>
+<h1><a class="header" href="#coreutils-830-1" id="coreutils-830-1">Coreutils-8.30</a></h1>
+<h1><a class="header" href="#check-0120" id="check-0120">Check-0.12.0</a></h1>
+<h1><a class="header" href="#diffutils-37-1" id="diffutils-37-1">Diffutils-3.7</a></h1>
+<h1><a class="header" href="#gawk-421-1" id="gawk-421-1">Gawk-4.2.1</a></h1>
+<h1><a class="header" href="#findutils-460-1" id="findutils-460-1">Findutils-4.6.0</a></h1>
+<h1><a class="header" href="#groff-1224" id="groff-1224">Groff-1.22.4</a></h1>
+<h1><a class="header" href="#grub-202" id="grub-202">GRUB-2.02</a></h1>
+<h1><a class="header" href="#less-530" id="less-530">Less-530</a></h1>
+<h1><a class="header" href="#gzip-110-1" id="gzip-110-1">Gzip-1.10</a></h1>
+<h1><a class="header" href="#iproute2-4200" id="iproute2-4200">IPRoute2-4.20.0</a></h1>
+<h1><a class="header" href="#kbd-204" id="kbd-204">Kbd-2.0.4</a></h1>
+<h1><a class="header" href="#libpipeline-151" id="libpipeline-151">Libpipeline-1.5.1</a></h1>
+<h1><a class="header" href="#make-421-1" id="make-421-1">Make-4.2.1</a></h1>
+<h1><a class="header" href="#patch-276-1" id="patch-276-1">Patch-2.7.6</a></h1>
+<h1><a class="header" href="#man-db-285" id="man-db-285">Man-DB-2.8.5</a></h1>
+<h1><a class="header" href="#tar-131-1" id="tar-131-1">Tar-1.31</a></h1>
+<h1><a class="header" href="#texinfo-65-1" id="texinfo-65-1">Texinfo-6.5</a></h1>
+<h1><a class="header" href="#vim-81" id="vim-81">Vim-8.1</a></h1>
+<h1><a class="header" href="#systemd-240" id="systemd-240">Systemd-240</a></h1>
+<h1><a class="header" href="#d-bus-11212" id="d-bus-11212">D-Bus-1.12.12</a></h1>
+<h1><a class="header" href="#procps-ng-3315" id="procps-ng-3315">Procps-ng-3.3.15</a></h1>
+<h1><a class="header" href="#util-linux-2331-1" id="util-linux-2331-1">Util-linux-2.33.1</a></h1>
+<h1><a class="header" href="#e2fsprogs-1445" id="e2fsprogs-1445">E2fsprogs-1.44.5</a></h1>
+<h1><a class="header" href="#about-debugging-symbols" id="about-debugging-symbols">About Debugging Symbols</a></h1>
+<h1><a class="header" href="#stripping-again" id="stripping-again">Stripping Again</a></h1>
+<h1><a class="header" href="#cleaning-up" id="cleaning-up">Cleaning Up</a></h1>
+<h1><a class="header" href="#system-configuration" id="system-configuration">System Configuration</a></h1>
+<h1><a class="header" href="#introduction-9" id="introduction-9">Introduction</a></h1>
+<h1><a class="header" href="#general-network-configuration" id="general-network-configuration">General Network Configuration</a></h1>
+<h1><a class="header" href="#overview-of-device-and-module-handling" id="overview-of-device-and-module-handling">Overview of Device and Module Handling</a></h1>
+<h1><a class="header" href="#managing-devices" id="managing-devices">Managing Devices</a></h1>
+<h1><a class="header" href="#configuring-the-system-clock" id="configuring-the-system-clock">Configuring the system clock</a></h1>
+<h1><a class="header" href="#configuring-the-linux-console" id="configuring-the-linux-console">Configuring the Linux Console</a></h1>
+<h1><a class="header" href="#configuring-the-system-locale" id="configuring-the-system-locale">Configuring the System Locale</a></h1>
+<h1><a class="header" href="#creating-the-etcinputrc-file" id="creating-the-etcinputrc-file">Creating the /etc/inputrc File</a></h1>
+<h1><a class="header" href="#creating-the-etcshells-file" id="creating-the-etcshells-file">Creating the /etc/shells File</a></h1>
+<h1><a class="header" href="#systemd-usage-and-configuration" id="systemd-usage-and-configuration">Systemd Usage and Configuration</a></h1>
+<h1><a class="header" href="#making-the-lfs-system-bootable" id="making-the-lfs-system-bootable">Making the LFS System Bootable</a></h1>
+<h1><a class="header" href="#introduction-10" id="introduction-10">Introduction</a></h1>
+<h1><a class="header" href="#introduction-11" id="introduction-11">Introduction</a></h1>
+<h1><a class="header" href="#linux-42012" id="linux-42012">Linux-4.20.12</a></h1>
+<h1><a class="header" href="#using-grub-to-set-up-the-boot-process" id="using-grub-to-set-up-the-boot-process">Using GRUB to Set Up the Boot Process</a></h1>
+<h1><a class="header" href="#the-end" id="the-end">The End</a></h1>
+<h1><a class="header" href="#the-end-1" id="the-end-1">The End</a></h1>
+<h1><a class="header" href="#get-counted" id="get-counted">Get Counted</a></h1>
+<h1><a class="header" href="#rebooting-the-system" id="rebooting-the-system">Rebooting the System</a></h1>
+<h1><a class="header" href="#what-now" id="what-now">What Now?</a></h1>
+<h1><a class="header" href="#appendices" id="appendices">Appendices</a></h1>
+<h1><a class="header" href="#acronyms-and-terms" id="acronyms-and-terms">Acronyms and Terms</a></h1>
+<h1><a class="header" href="#acknowledgments" id="acknowledgments">Acknowledgments</a></h1>
+<h1><a class="header" href="#dependencies" id="dependencies">Dependencies</a></h1>
+<h1><a class="header" href="#lfs-licenses" id="lfs-licenses">LFS Licenses</a></h1>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://127.0.0.1:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+        
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+        
+        
+
+    </body>
+</html>
