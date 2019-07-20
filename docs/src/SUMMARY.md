@@ -176,7 +176,7 @@
   - [Configuring the system clock](./07-System-Configuration/05-Configuring-the-system-clock.md)
   - [Configuring the Linux Console](./07-System-Configuration/06-Configuring-the-Linux-Console.md)
   - [Configuring the System Locale](./07-System-Configuration/07-Configuring-the-System-Locale.md)
-  - [Creating the /etc/inputrc File](./07-System-Configuration/08-Creating-the-slash/etc-slash-inputrc-File.md)
+  - [Creating the /etc/inputrc File](./07-System-Configuration/08-Creating-the-slash-etc-slash-inputrc-File.md)
   - [Creating the /etc/shells File](./07-System-Configuration/09-Creating-the-slash-etc-slash-shells-File.md)
   - [Systemd Usage and Configuration](./07-System-Configuration/10-Systemd-Usage-and-Configuration.md)
 
@@ -200,3 +200,6 @@
   - [Acknowledgments](./10-Appendices/02-Acknowledgments.md)
   - [Dependencies](./10-Appendices/03-Dependencies.md)
   - [LFS Licenses](./10-Appendices/04-LFS-Licenses.md)
+
+[Creative Commons License](./10-Appendices/CCL.md)
+[The MIT License](./10-Appendices/MITL.md)
