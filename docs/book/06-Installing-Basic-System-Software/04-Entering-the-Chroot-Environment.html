@@ -146,6 +146,24 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#entering-the-chroot-environment" id="entering-the-chroot-environment">Entering the Chroot Environment</a></h1>
+<p>It is time to enter the chroot environment to begin building and installing the final LFS system. As user <em>root</em>, run the following command to enter the realm that is, at the moment, populated with only the temporary tools:</p>
+<pre><code class="language-sh">chroot &quot;$LFS&quot; /tools/bin/env -i \
+    HOME=/root                  \
+    TERM=&quot;$TERM&quot;                \
+    PS1='(lfs chroot) \u:\w\$ ' \
+    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin \
+    /tools/bin/bash --login +h
+</code></pre>
+<p>The <em>-i</em> option given to the <strong>env</strong> command will clear all variables of the chroot environment. After that, only the <strong>HOME</strong>, <strong>TERM</strong>, <strong>PS1</strong>, and <strong>PATH</strong> variables are set again. The <strong><em>TERM=$TERM</em></strong> construct will set the <strong>TERM</strong> variable inside chroot to the same value as outside chroot. This variable is needed for programs like <strong>vim</strong> and <strong>less</strong> to operate properly. If other variables are needed, such as <strong>CFLAGS</strong> or <strong>CXXFLAGS</strong>, this is a good place to set them again.</p>
+<p>From this point on, there is no need to use the <strong>LFS</strong> variable anymore, because all work will be restricted to the LFS file system. This is because the Bash shell is told that $LFS is now the root (/) directory.</p>
+<p>Notice that <code>/tools/bin</code> comes last in the <strong>PATH</strong>. This means that a temporary tool will no longer be used once its final version is installed. This occurs when the shell does not “remember” the locations of executed binaries—for this reason, hashing is switched off by passing the <em>+h</em> option to <strong>bash</strong>.</p>
+<p>Note that the <strong>bash</strong> prompt will say <code>I have no name!</code> This is normal because the <code>/etc/passwd</code> file has not been created yet.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>It is important that all the commands throughout the remainder of this chapter and the following chapters are run from within the chroot environment. If you leave this environment for any reason (rebooting for example), ensure that the virtual kernel filesystems are mounted as explained in <a href="./02-Preparing-Virtual-Kernel-File-Systems.html">Section 6.2.2, “Mounting and Populating /dev”</a> and <a href="./02-Preparing-Virtual-Kernel-File-Systems.html">Section 6.2.3, “Mounting Virtual Kernel File Systems”</a> and enter chroot again before continuing with the installation.</p>
+</blockquote>
+</blockquote>
 
                     </main>
 
