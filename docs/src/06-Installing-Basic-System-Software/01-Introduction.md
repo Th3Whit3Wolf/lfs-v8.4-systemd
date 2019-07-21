@@ -20,4 +20,4 @@ In general, the LFS editors discourage building and installing static libraries.
 
 In the procedures in Chapter 6, we remove or disable installation of most static libraries. Usually this is done by passing a `--disable-static` option to **configure**. In other cases, alternate means are needed. In a few cases, especially glibc and gcc, the use of static libraries remains essential to the general package building process.
 
-For a more complete discussion of libraries, see the discussion [Libraries: Static or shared?](http://www.linuxfromscratch.org/blfs//view/8.4/introduction/libraries.html) in the BLFS book.
+For a more complete discussion of libraries, see the discussion [Libraries: Static or shared?](http://www.linuxfromscratch.org/blfs//view/8.4/introduction/libraries.html) in the [BLFS](http://www.linuxfromscratch.org/blfs/index.html) book.
