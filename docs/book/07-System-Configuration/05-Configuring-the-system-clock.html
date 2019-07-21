@@ -146,6 +146,45 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#configuring-the-system-clock" id="configuring-the-system-clock">Configuring the system clock</a></h1>
+<p>This section discusses how to configure the <strong>systemd-timedated</strong> system service, which configures system clock and timezone.</p>
+<p>If you cannot remember whether or not the hardware clock is set to UTC, find out by running the <strong>hwclock --localtime --show</strong> command. This will display what the current time is according to the hardware clock. If this time matches whatever your watch says, then the hardware clock is set to local time. If the output from <strong>hwclock</strong> is not local time, chances are it is set to UTC time. Verify this by adding or subtracting the proper amount of hours for the timezone to the time shown by hwclock. For example, if you are currently in the MST timezone, which is also known as GMT -0700, add seven hours to the local time.</p>
+<p><strong>systemd-timedated</strong> reads <code>/etc/adjtime</code>, and depending on the contents of the file, it sets the clock to either UTC or local time.</p>
+<p>Create the <code>/etc/adjtime</code> file with the following contents if your hardware clock is set to local time:</p>
+<pre><code class="language-sh">cat &gt; /etc/adjtime &lt;&lt; &quot;EOF&quot;
+0.0 0 0.0
+0
+LOCAL
+EOF
+</code></pre>
+<p>If <code>/etc/adjtime</code> isn't present at first boot, <strong>systemd-timedated</strong> will assume that hardware clock is set to UTC and adjust the file according to that.</p>
+<p>You can also use the <strong>timedatectl</strong> utility to tell <strong>systemd-timedated</strong> if your hardware clock is set to UTC or local time:</p>
+<pre><code class="language-sh">timedatectl set-local-rtc 1
+</code></pre>
+<p><strong>timedatectl</strong> can also be used to change system time and time zone.</p>
+<p>To change your current system time, issue:</p>
+<pre><code class="language-sh">timedatectl set-time YYYY-MM-DD HH:MM:SS
+</code></pre>
+<p>Hardware clock will also be updated accordingly.</p>
+<p>To change your current time zone, issue:</p>
+<pre><code class="language-sh">timedatectl set-timezone TIMEZONE
+</code></pre>
+<p>You can get a list of available time zones by running:</p>
+<pre><code class="language-sh">timedatectl list-timezones
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Please note that the <strong>timedatectl</strong> command can be used only on a system booted with systemd.</p>
+</blockquote>
+</blockquote>
+<h1><a class="header" href="#network-time-synchronization" id="network-time-synchronization">Network Time Synchronization</a></h1>
+<p>Starting with version 213, systemd ships a daemon called <strong>systemd-timesyncd</strong> which can be used to synchronize the system time with remote NTP servers.</p>
+<p>The daemon is not intended as a replacement for the well established NTP daemon, but as a client only implementation of the SNTP protocol which can be used for less advanced tasks and on resource limited systems.</p>
+<p>Starting with systemd version 216, the <strong>systemd-timesyncd</strong> daemon is enabled by default. If you want to disable it, issue the following command:</p>
+<pre><code class="language-sh">systemctl disable systemd-timesyncd
+</code></pre>
+<p>The <code>/etc/systemd/timesyncd.conf</code> file can be used to change the NTP servers that <strong>systemd-timesyncd</strong> synchronizes with.</p>
+<p>Please note that when system clock is set to Local Time, <strong>systemd-timesyncd</strong> won't update hardware clock.</p>
 
                     </main>
 

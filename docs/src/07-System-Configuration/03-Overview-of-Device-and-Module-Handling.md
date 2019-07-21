@@ -1,1 +1,105 @@
 # Overview of Device and Module Handling
+
+In [Chapter 6](./06-Installing-Basic-System-Software/index.md), we installed the Udev package when systemd was built. Before we go into the details regarding how this works, a brief history of previous methods of handling devices is in order.
+
+Linux systems in general traditionally used a static device creation method, whereby a great many device nodes were created under `/dev` (sometimes literally thousands of nodes), regardless of whether the corresponding hardware devices actually existed. This was typically done via a **MAKEDEV** script, which contains a number of calls to the **mknod** program with the relevant major and minor device numbers for every possible device that might exist in the world.
+
+Using the Udev method, only those devices which are detected by the kernel get device nodes created for them. Because these device nodes will be created each time the system boots, they will be stored on a _devtmpfs_ file system (a virtual file system that resides entirely in system memory). Device nodes do not require much space, so the memory that is used is negligible.
+
+# History
+
+In February 2000, a new filesystem called _devfs_ was merged into the 2.3.46 kernel and was made available during the 2.4 series of stable kernels. Although it was present in the kernel source itself, this method of creating devices dynamically never received overwhelming support from the core kernel developers.
+
+The main problem with the approach adopted by _devfs_ was the way it handled device detection, creation, and naming. The latter issue, that of device node naming, was perhaps the most critical. It is generally accepted that if device names are allowed to be configurable, then the device naming policy should be up to a system administrator, not imposed on them by any particular developer(s). The _devfs_ file system also suffered from race conditions that were inherent in its design and could not be fixed without a substantial revision to the kernel. It was marked as deprecated for a long period – due to a lack of maintenance – and was finally removed from the kernel in June, 2006.
+
+With the development of the unstable 2.5 kernel tree, later released as the 2.6 series of stable kernels, a new virtual filesystem called _sysfs_ came to be. The job of _sysfs_ is to export a view of the system's hardware configuration to userspace processes. With this userspace-visible representation, the possibility of developing a userspace replacement for _devfs_ became much more realistic.
+
+# Udev Implementation
+
+## Sysfs
+
+The _sysfs_ filesystem was mentioned briefly above. One may wonder how _sysfs_ knows about the devices present on a system and what device numbers should be used for them. Drivers that have been compiled into the kernel directly register their objects with a _sysfs_ (devtmpfs internally) as they are detected by the kernel. For drivers compiled as modules, this registration will happen when the module is loaded. Once the _sysfs_ filesystem is mounted (on `/sys`), data which the drivers register with _sysfs_ are available to userspace processes and to udevd for processing (including modifications to device nodes).
+
+## Device Node Creation
+
+Device files are created by the kernel by the _devtmpfs_ filesystem. Any driver that wishes to register a device node will go through the _devtmpfs_ (via the driver core) to do it. When a _devtmpfs_ instance is mounted on `/dev`, the device node will initially be created with a fixed name, permissions, and owner.
+
+A short time later, the kernel will send a uevent to **udevd**. Based on the rules specified in the files within the `/etc/udev/rules.d`, `/lib/udev/rules.d`, and `/run/udev/rules.d` directories, **udevd** will create additional symlinks to the device node, or change its permissions, owner, or group, or modify the internal **udevd** database entry (name) for that object.
+
+The rules in these three directories are numbered and all three directories are merged together. If **udevd** can't find a rule for the device it is creating, it will leave the permissions and ownership at whatever _devtmpfs_ used initially.
+
+## Module Loading
+
+Device drivers compiled as modules may have aliases built into them. Aliases are visible in the output of the **modinfo** program and are usually related to the bus-specific identifiers of devices supported by a module. For example, the snd-fm801 driver supports PCI devices with vendor ID 0x1319 and device ID 0x0801, and has an alias of “pci:v00001319d00000801sv*sd*bc04sc01i\*”. For most devices, the bus driver exports the alias of the driver that would handle the device via sysfs. E.g., the `/sys/bus/pci/devices/0000:00:0d.0/modalias` file might contain the string “pci:v00001319d00000801sv00001319sd00001319bc04sc01i00”. The default rules provided with Udev will cause **udevd** to call out to **/sbin/modprobe** with the contents of the MODALIAS uevent environment variable (which should be the same as the contents of the `modalias` file in sysfs), thus loading all modules whose aliases match this string after wildcard expansion.
+
+In this example, this means that, in addition to _snd-fm801_, the obsolete (and unwanted) forte driver will be loaded if it is available. See below for ways in which the loading of unwanted drivers can be prevented.
+
+The kernel itself is also able to load modules for network protocols, filesystems and NLS support on demand.
+
+## Handling Hotpluggable/Dynamic Devices
+
+When you plug in a device, such as a Universal Serial Bus (USB) MP3 player, the kernel recognizes that the device is now connected and generates a uevent. This uevent is then handled by **udevd** as described above.
+
+# Problems with Loading Modules and Creating Devices
+
+There are a few possible problems when it comes to automatically creating device nodes.
+
+## A kernel module is not loaded automatically
+
+Udev will only load a module if it has a bus-specific alias and the bus driver properly exports the necessary aliases to _sysfs_. In other cases, one should arrange module loading by other means. With Linux-4.20.12, Udev is known to load properly-written drivers for INPUT, IDE, PCI, USB, SCSI, SERIO, and FireWire devices.
+
+To determine if the device driver you require has the necessary support for Udev, run **modinfo** with the module name as the argument. Now try locating the device directory under `/sys/bus` and check whether there is a modalias file there.
+
+If the `modalias` file exists in _sysfs_, the driver supports the device and can talk to it directly, but doesn't have the alias, it is a bug in the driver. Load the driver without the help from Udev and expect the issue to be fixed later.
+
+If there is no `modalias` file in the relevant directory under `/sys/bus`, this means that the kernel developers have not yet added modalias support to this bus type. With Linux-4.20.12, this is the case with ISA busses. Expect this issue to be fixed in later kernel versions.
+
+Udev is not intended to load “wrapper” drivers such as _snd-pcm-oss_ and non-hardware drivers such as _loop_ at all.
+
+## A kernel module is not loaded automatically, and Udev is not intended to load it
+
+If the “wrapper” module only enhances the functionality provided by some other module (e.g., _snd-pcm-oss_ enhances the functionality of _snd-pcm_ by making the sound cards available to OSS applications), configure **modprobe** to load the wrapper after Udev loads the wrapped module. To do this, add a “softdep” line to the corresponding _`/etc/modprobe.d/<filename>.conf`_ file. For example:
+
+```sh
+softdep snd-pcm post: snd-pcm-oss
+```
+
+Note that the “softdep” command also allows `pre:` dependencies, or a mixture of both `pre:` and `post:.` See the `modprobe.d(5)` manual page for more information on “softdep” syntax and capabilities.
+
+If the module in question is not a wrapper and is useful by itself, configure the modules **bootscript** to load this module on system boot. To do this, add the module name to the `/etc/sysconfig/modules` file on a separate line. This works for wrapper modules too, but is suboptimal in that case.
+
+## Udev loads some unwanted module
+
+Either don't build the module, or blacklist it in a `/etc/modprobe.d/blacklist.conf` file as done with the forte module in the example below:
+
+```sh
+blacklist forte
+```
+
+Blacklisted modules can still be loaded manually with the explicit **modprobe** command.
+
+## Udev creates a device incorrectly, or makes a wrong symlink
+
+This usually happens if a rule unexpectedly matches a device. For example, a poorly-written rule can match both a SCSI disk (as desired) and the corresponding SCSI generic device (incorrectly) by vendor. Find the offending rule and make it more specific, with the help of the **udevadm info** command.
+
+## Udev rule works unreliably
+
+This may be another manifestation of the previous problem. If not, and your rule uses _sysfs_ attributes, it may be a kernel timing issue, to be fixed in later kernels. For now, you can work around it by creating a rule that waits for the used _sysfs_ attribute and appending it to the `/etc/udev/rules.d/10-wait_for_sysfs.rules`file (create this file if it does not exist). Please notify the LFS Development list if you do so and it helps.
+
+## Udev does not create a device
+
+Further text assumes that the driver is built statically into the kernel or already loaded as a module, and that you have already checked that Udev doesn't create a misnamed device.
+
+Udev has no information needed to create a device node if a kernel driver does not export its data to _sysfs_. This is most common with third party drivers from outside the kernel tree. Create a static device node in `/lib/udev/devices` with the appropriate major/minor numbers (see the file `devices.txt` inside the kernel documentation or the documentation provided by the third party driver vendor). The static device node will be copied to `/dev` by **udev**.
+
+## Device naming order changes randomly after rebooting
+
+This is due to the fact that Udev, by design, handles uevents and loads modules in parallel, and thus in an unpredictable order. This will never be “fixed”. You should not rely upon the kernel device names being stable. Instead, create your own rules that make symlinks with stable names based on some stable attributes of the device, such as a serial number or the output of various \*\_id utilities installed by Udev. See [Section 7.4, “Managing Devices”](./04-Managing-Devices.md) and [Section 7.2, “General Network Configuration”](./02-General-Network-Configuration.md) for examples.
+
+# Useful Reading
+
+Additional helpful documentation is available at the following sites:
+
+- A Userspace Implementation of _devfs_ http://www.kroah.com/linux/talks/ols_2003_udev_paper/Reprint-Kroah-Hartman-OLS2003.pdf
+
+- The _sysfs_ Filesystem http://www.kernel.org/pub/linux/kernel/people/mochel/doc/papers/ols-2005/mochel.pdf

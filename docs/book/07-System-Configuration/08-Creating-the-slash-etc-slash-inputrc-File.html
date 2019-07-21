@@ -146,6 +146,54 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#creating-the-etcinputrc-file" id="creating-the-etcinputrc-file">Creating the /etc/inputrc File</a></h1>
+<p>The <code>inputrc</code> file is the configuration file for the Readline library, which provides editing capabilities while the user is entering a line from the terminal. It works by translating keyboard inputs into specific actions. Readline is used by Bash and most other shells as well as many other applications.</p>
+<p>Most people do not need user-specific functionality so the command below creates a global <code>/etc/inputrc</code> used by everyone who logs in. If you later decide you need to override the defaults on a per-user basis, you can create a <code>.inputrc</code> file in the user's home directory with the modified mappings.</p>
+<p>For more information on how to edit the <code>inputrc</code> file, see <strong>info bash</strong> under the <em>Readline Init File</em> section. info readline is also a good source of information.</p>
+<p>Below is a generic global <code>inputrc</code> along with comments to explain what the various options do. Note that comments cannot be on the same line as commands. Create the file using the following command:</p>
+<pre><code class="language-sh">cat &gt; /etc/inputrc &lt;&lt; &quot;EOF&quot;
+# Begin /etc/inputrc
+# Modified by Chris Lynn &lt;roryo@roryo.dynup.net&gt;
+
+# Allow the command prompt to wrap to the next line
+set horizontal-scroll-mode Off
+
+# Enable 8bit input
+set meta-flag On
+set input-meta On
+
+# Turns off 8th bit stripping
+set convert-meta Off
+
+# Keep the 8th bit for display
+set output-meta On
+
+# none, visible or audible
+set bell-style none
+
+# All of the following map the escape sequence of the value
+# contained in the 1st argument to the readline specific functions
+&quot;\eOd&quot;: backward-word
+&quot;\eOc&quot;: forward-word
+
+# for linux console
+&quot;\e[1~&quot;: beginning-of-line
+&quot;\e[4~&quot;: end-of-line
+&quot;\e[5~&quot;: beginning-of-history
+&quot;\e[6~&quot;: end-of-history
+&quot;\e[3~&quot;: delete-char
+&quot;\e[2~&quot;: quoted-insert
+
+# for xterm
+&quot;\eOH&quot;: beginning-of-line
+&quot;\eOF&quot;: end-of-line
+
+# for Konsole
+&quot;\e[H&quot;: beginning-of-line
+&quot;\e[F&quot;: end-of-line
+
+# End /etc/inputrc
+EOF
+</code></pre>
 
                     </main>
 

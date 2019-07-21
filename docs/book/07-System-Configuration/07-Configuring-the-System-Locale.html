@@ -146,6 +146,68 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#configuring-the-system-locale" id="configuring-the-system-locale">Configuring the System Locale</a></h1>
+<p>The <code>/etc/locale.conf</code> below sets some environment variables necessary for native language support. Setting them properly results in:</p>
+<ul>
+<li>
+<p>The output of programs translated into the native language</p>
+</li>
+<li>
+<p>Correct classification of characters into letters, digits and other classes. This is necessary for <strong>bash</strong> to properly accept non-ASCII characters in command lines in non-English locales</p>
+</li>
+<li>
+<p>The correct alphabetical sorting order for the country</p>
+</li>
+<li>
+<p>Appropriate default paper size</p>
+</li>
+<li>
+<p>Correct formatting of monetary, time, and date values</p>
+</li>
+</ul>
+<p>Replace <em>&lt;ll&gt;</em> below with the two-letter code for the desired language (e.g., “en”) and <em>&lt;CC&gt;</em> with the two-letter code for the appropriate country (e.g., “GB”). <em>&lt;charmap&gt;</em> should be replaced with the canonical charmap for your chosen locale. Optional modifiers such as “@euro” may also be present.</p>
+<p>The list of all locales supported by Glibc can be obtained by running the following command:</p>
+<pre><code class="language-sh">locale -a
+</code></pre>
+<p>Charmaps can have a number of aliases, e.g., “ISO-8859-1” is also referred to as “iso8859-1” and “iso88591”. Some applications cannot handle the various synonyms correctly (e.g., require that “UTF-8” is written as “UTF-8”, not “utf8”), so it is safest in most cases to choose the canonical name for a particular locale. To determine the canonical name, run the following command, where <em>&lt;locale name&gt;</em> is the output given by <strong>locale -a</strong> for your preferred locale (“en_GB.iso88591” in our example).</p>
+<pre><code class="language-sh">LC_ALL=&lt;locale name&gt; locale charmap
+</code></pre>
+<p>For the “en_GB.iso88591” locale, the above command will print:</p>
+<pre><code class="language-sh">ISO-8859-1
+</code></pre>
+<p>This results in a final locale setting of “en_GB.ISO-8859-1”. It is important that the locale found using the heuristic above is tested prior to it being added to the Bash startup files:</p>
+<pre><code class="language-sh">LC_ALL=&lt;locale name&gt; locale language
+LC_ALL=&lt;locale name&gt; locale charmap
+LC_ALL=&lt;locale name&gt; locale int_curr_symbol
+LC_ALL=&lt;locale name&gt; locale int_prefix
+</code></pre>
+<p>The above commands should print the language name, the character encoding used by the locale, the local currency, and the prefix to dial before the telephone number in order to get into the country. If any of the commands above fail with a message similar to the one shown below, this means that your locale was either not installed in Chapter 6 or is not supported by the default installation of Glibc.</p>
+<pre><code class="language-sh">locale: Cannot set LC_* to default locale: No such file or directory
+</code></pre>
+<p>If this happens, you should either install the desired locale using the <strong>localedef</strong> command, or consider choosing a different locale. Further instructions assume that there are no such error messages from Glibc.</p>
+<p>Some packages beyond LFS may also lack support for your chosen locale. One example is the X library (part of the X Window System), which outputs the following error message if the locale does not exactly match one of the character map names in its internal files:</p>
+<pre><code class="language-sh">Warning: locale not supported by Xlib, locale set to C
+</code></pre>
+<p>In several cases Xlib expects that the character map will be listed in uppercase notation with canonical dashes. For instance, &quot;ISO-8859-1&quot; rather than &quot;iso88591&quot;. It is also possible to find an appropriate specification by removing the charmap part of the locale specification. This can be checked by running the <strong>locale charmap</strong> command in both locales. For example, one would have to change &quot;de_DE.ISO-8859-15@euro&quot; to &quot;de_DE@euro&quot; in order to get this locale recognized by Xlib.</p>
+<p>Other packages can also function incorrectly (but may not necessarily display any error messages) if the locale name does not meet their expectations. In those cases, investigating how other Linux distributions support your locale might provide some useful information.</p>
+<p>Once the proper locale settings have been determined, create the <code>/etc/locale.conf</code> file:</p>
+<pre><code class="language-sh">cat &gt; /etc/locale.conf &lt;&lt; &quot;EOF&quot;
+LANG=&lt;ll&gt;_&lt;CC&gt;.&lt;charmap&gt;&lt;@modifiers&gt;
+EOF
+</code></pre>
+<p>Note that you can modify <code>/etc/locale.conf</code> with the systemd <strong>localectl</strong> utility. To use <strong>localectl</strong> for the example above, run:</p>
+<pre><code class="language-sh">localectl set-locale LANG=&quot;&lt;ll&gt;_&lt;CC&gt;.&lt;charmap&gt;&lt;@modifiers&gt;&quot;
+</code></pre>
+<p>You can also specify other language specific environment variables such as <strong>LANG</strong>, <strong>LC_CTYPE</strong>, <strong>LC_NUMERIC</strong> or any other environment variable from locale output. Just separate them with a space. An example where <strong>LANG</strong> is set as en_US.UTF-8 but <strong>LC_CTYPE</strong> is set as just en_US is:</p>
+<pre><code class="language-sh">localectl set-locale LANG=&quot;en_US.UTF-8&quot; LC_CTYPE=&quot;en_US&quot;
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Please note that the <strong>localectl</strong> command can be used only on a system booted with systemd.</p>
+</blockquote>
+</blockquote>
+<p>The “C” (default) and “en_US” (the recommended one for United States English users) locales are different. “C” uses the US-ASCII 7-bit character set, and treats bytes with the high bit set as invalid characters. That's why, e.g., the <strong>ls</strong> command substitutes them with question marks in that locale. Also, an attempt to send mail with such characters from Mutt or Pine results in non-RFC-conforming messages being sent (the charset in the outgoing mail is indicated as “unknown 8-bit”). So you can use the “C” locale only if you are sure that you will never need 8-bit characters.</p>
+<p>UTF-8 based locales are not supported well by many programs. Work is in progress to document and, if possible, fix such problems, see <a href="http://www.linuxfromscratch.org/blfs/view/8.4/introduction/locale-issues.html">http://www.linuxfromscratch.org/blfs/view/8.4/introduction/locale-issues.html</a>.</p>
 
                     </main>
 

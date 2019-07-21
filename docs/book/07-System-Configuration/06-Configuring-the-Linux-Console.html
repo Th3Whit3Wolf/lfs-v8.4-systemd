@@ -146,6 +146,112 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#configuring-the-linux-console" id="configuring-the-linux-console">Configuring the Linux Console</a></h1>
+<p>This section discusses how to configure the <strong>systemd-vconsole-setup</strong> system service, which configures the virtual console font and console keymap.</p>
+<p>The <strong>systemd-vconsole-setup</strong> service reads the <code>/etc/vconsole.conf</code> file for configuration information. Decide which keymap and screen font will be used. Various language-specific HOWTOs can also help with this, see <a href="http://www.tldp.org/HOWTO/HOWTO-INDEX/other-lang.html">http://www.tldp.org/HOWTO/HOWTO-INDEX/other-lang.html</a>. Examine <strong>localectl list-keymaps</strong> output for a list of valid console keymaps. Look in <code>/usr/share/consolefonts</code> directory for valid screen fonts.</p>
+<p>The <code>/etc/vconsole.conf</code> file should contain lines of the form: VARIABLE=&quot;value&quot;. The following variables are recognized:</p>
+<dl class="variablelist">
+    <dt>
+    <span class="term"><b>KEYMAP</b></span>
+    </dt>
+    <dd>
+    <p>
+        This variable specifies the key mapping table for the keyboard.
+        If unset, it defaults to <code class="literal">us</code>.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>KEYMAP_TOGGLE</b></span>
+    </dt>
+    <dd>
+    <p>
+        This variable can be used to configure a second toggle keymap
+        and is unset by default.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>FONT</b></span>
+    </dt>
+    <dd>
+    <p>
+        This variable specifies the font used by the virtual console.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>FONT_MAP</b></span>
+    </dt>
+    <dd>
+    <p>
+        This variable specifies the console map to be used.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>FONT_UNIMAP</b></span>
+    </dt>
+    <dd>
+    <p>
+        This variable specifies the Unicode font map.
+    </p>
+    </dd>
+</dl>
+<p>An example for a German keyboard and console is given below:</p>
+<pre><code class="language-sh">cat &gt; /etc/vconsole.conf &lt;&lt; &quot;EOF&quot;
+KEYMAP=de-latin1
+FONT=Lat2-Terminus16
+EOF
+</code></pre>
+<p>You can change KEYMAP value at runtime by using the <strong>localectl</strong> utility:</p>
+<pre><code class="language-sh">localectl set-keymap MAP
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Please note that the <strong>localectl</strong> command can be used only on a system booted with systemd.</p>
+</blockquote>
+</blockquote>
+<p>You can also use <strong>localectl</strong> utility with the corresponding parameters to change X11 keyboard layout, model, variant and options:</p>
+<pre><code class="language-sh">localectl set-x11-keymap LAYOUT [MODEL] [VARIANT] [OPTIONS]
+</code></pre>
+<p>To list possible values for localectl set-x11-keymap parameters, run localectl with parameters listed below:</p>
+<dl class="variablelist">
+    <dt>
+    <span class="term"><b>list-x11-keymap-models</b></span>
+    </dt>
+    <dd>
+    <p>
+        Show known X11 keyboard mapping models.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>list-x11-keymap-layouts</b></span>
+    </dt>
+    <dd>
+    <p>
+        Show known X11 keyboard mapping layouts.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>list-x11-keymap-variants</b></span>
+    </dt>
+    <dd>
+    <p>
+        Show known X11 keyboard mapping variants.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>list-x11-keymap-options</b></span>
+    </dt>
+    <dd>
+    <p>
+        Show known X11 keyboard mapping options.
+    </p>
+    </dd>
+</dl>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Using any of the parameters listed above requires the XKeyboard Config package from BLFS.</p>
+</blockquote>
+</blockquote>
 
                     </main>
 

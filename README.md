@@ -9,4 +9,4 @@ Linux From Scratch Manual built with [mdbook](https://github.com/rust-lang-nurse
 ### Notes
 
 - As of July 20th, 2019 [mdbook](https://github.com/rust-lang-nursery/mdBook) doesn't support categories.
-  Sections are split up with empty pages for the sake of keeping the navbar similiar to lfs table of contents.
+  Sections are split up with a table of contents for that section.

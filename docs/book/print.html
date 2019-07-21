@@ -5033,18 +5033,649 @@ cp -Rv lib/\* /tools/lib/perl5/5.28.1
 <h1><a class="header" href="#stripping-again" id="stripping-again">Stripping Again</a></h1>
 <h1><a class="header" href="#cleaning-up" id="cleaning-up">Cleaning Up</a></h1>
 <h1><a class="header" href="#system-configuration" id="system-configuration">System Configuration</a></h1>
-<h1><a class="header" href="#introduction-6" id="introduction-6">Introduction</a></h1>
-<h1><a class="header" href="#general-network-configuration" id="general-network-configuration">General Network Configuration</a></h1>
-<h1><a class="header" href="#overview-of-device-and-module-handling" id="overview-of-device-and-module-handling">Overview of Device and Module Handling</a></h1>
-<h1><a class="header" href="#managing-devices" id="managing-devices">Managing Devices</a></h1>
-<h1><a class="header" href="#configuring-the-system-clock" id="configuring-the-system-clock">Configuring the system clock</a></h1>
-<h1><a class="header" href="#configuring-the-linux-console" id="configuring-the-linux-console">Configuring the Linux Console</a></h1>
-<h1><a class="header" href="#configuring-the-system-locale" id="configuring-the-system-locale">Configuring the System Locale</a></h1>
-<h1><a class="header" href="#creating-the-etcinputrc-file" id="creating-the-etcinputrc-file">Creating the /etc/inputrc File</a></h1>
-<h1><a class="header" href="#creating-the-etcshells-file" id="creating-the-etcshells-file">Creating the /etc/shells File</a></h1>
-<h1><a class="header" href="#systemd-usage-and-configuration" id="systemd-usage-and-configuration">Systemd Usage and Configuration</a></h1>
-<h1><a class="header" href="#making-the-lfs-system-bootable" id="making-the-lfs-system-bootable">Making the LFS System Bootable</a></h1>
 <h3><a class="header" href="#table-of-contents-6" id="table-of-contents-6">Table of Contents</a></h3>
+<ul>
+<li><a href="07-System-Configuration/./01-Introduction.html">Introduction</a></li>
+<li><a href="07-System-Configuration/./02-General-Network-Configuration.html">General Network Configuration</a></li>
+<li><a href="07-System-Configuration/./03-Overview-of-Device-and-Module-Handling.html">Overview of Device and Module Handling</a></li>
+<li><a href="07-System-Configuration/./04-Managing-Devices.html">Managing Devices</a></li>
+<li><a href="07-System-Configuration/./05-Configuring-the-system-clock.html">Configuring the system clock</a></li>
+<li><a href="07-System-Configuration/./06-Configuring-the-Linux-Console.html">Configuring the Linux Console</a></li>
+<li><a href="07-System-Configuration/./07-Configuring-the-System-Locale.html">Configuring the System Locale</a></li>
+<li><a href="07-System-Configuration/./08-Creating-the-slash-etc-slash-inputrc-File.html">Creating the /etc/inputrc File</a></li>
+<li><a href="07-System-Configuration/./09-Creating-the-slash-etc-slash-shells-File.html">Creating the /etc/shells File</a></li>
+<li><a href="07-System-Configuration/./10-Systemd-Usage-and-Configuration.html">Systemd Usage and Configuration</a></li>
+</ul>
+<h1><a class="header" href="#introduction-6" id="introduction-6">Introduction</a></h1>
+<p>This chapter discusses configuration files and systemd services. First, the general configuration files needed to set up networking are presented.</p>
+<ul>
+<li>
+<p><a href="07-System-Configuration/./02-General-Network-Configuration.html">Section 7.2, “General Network Configuration”</a>.</p>
+</li>
+<li>
+<p><a href="07-System-Configuration/./02-General-Network-Configuration.html">Section 7.2.3, “Configuring the system hostname”</a>.</p>
+</li>
+<li>
+<p><a href="07-System-Configuration/./02-General-Network-Configuration.html">Section 7.2.4, “Customizing the /etc/hosts File”</a>.</p>
+</li>
+</ul>
+<p>Second, issues that affect the proper setup of devices are discussed.</p>
+<ul>
+<li>
+<p><a href="07-System-Configuration/./03-Overview-of-Device-and-Module-Handling.html">Section 7.3, “Overview of Device and Module Handling”</a>.</p>
+</li>
+<li>
+<p><a href="07-System-Configuration/./04-Managing-Devices.html">Section 7.4, “Managing Devices”</a>.</p>
+</li>
+</ul>
+<p>Third, configuring the system clock and keyboard layout.</p>
+<ul>
+<li>
+<p><a href="07-System-Configuration/./05-Configuring-the-system-clock.html">Section 7.5, “Configuring the system clock”</a>.</p>
+</li>
+<li>
+<p><a href="07-System-Configuration/./06-Configuring-the-Linux-Console.html">Section 7.6, “Configuring the Linux Console”</a>.</p>
+</li>
+</ul>
+<p>Fourth, a brief introduction to the scripts and configuration files used when the user logs into the system.</p>
+<ul>
+<li>
+<p><a href="07-System-Configuration/./07-Configuring-the-System-Locale.html">Section 7.7, “Configuring the System Locale”</a>.</p>
+</li>
+<li>
+<p><a href="07-System-Configuration/./08-Creating-the-slash-etc-slash-inputrc-File.html">Section 7.8, “Creating the /etc/inputrc File”</a>.</p>
+</li>
+</ul>
+<p>And finally, configuring the systemd behavior.</p>
+<ul>
+<li><a href="07-System-Configuration/./10-Systemd-Usage-and-Configuration.html">Section 7.10, “Systemd Usage and Configuration”</a>.</li>
+</ul>
+<h1><a class="header" href="#general-network-configuration" id="general-network-configuration">General Network Configuration</a></h1>
+<p>This section only applies if a network card is to be configured.</p>
+<h1><a class="header" href="#network-interface-configuration-files" id="network-interface-configuration-files">Network Interface Configuration Files</a></h1>
+<p>Starting with version 209, systemd ships a network configuration daemon called <strong>systemd-networkd</strong> which can be used for basic network configuration. Additionally, since version 213, DNS name resolution can be handled by <strong>systemd-resolved</strong> in place of a static <code>/etc/resolv.conf</code> file. Both services are enabled by default.</p>
+<p>Configuration files for <strong>systemd-networkd</strong> (and <strong>systemd-resolved</strong>) can be placed in <code>/usr/lib/systemd/network</code> or <code>/etc/systemd/network</code>. Files in <code>/etc/systemd/network</code> have a higher priority than the ones in <code>/usr/lib/systemd/network</code>. There are three types of configuration files: .link, .netdev and .network files. For detailed descriptions and example contents of these configuration files, consult the <code>systemd-link(5)</code>, <code>systemd-netdev(5)</code> and <code>systemd-network(5)</code> manual pages.</p>
+<h1><a class="header" href="#network-device-naming" id="network-device-naming">Network Device Naming</a></h1>
+<p>Udev normally assigns network card interface names based on system physical characteristics such as enp2s1. If you are not sure what your interface name is, you can always run <strong>ip link</strong> after you have booted your system.</p>
+<p>For most systems, there is only one network interface for each type of connection. For example, the classic interface name for a wired connection is eth0. A wireless connection will usually have the name wifi0 or wlan0.</p>
+<p>If you prefer to use the classic or customized network interface names, there are three alternative ways to do that:</p>
+<ul>
+<li>
+<p>Mask udev's .link file for the default policy:</p>
+<pre><code class="language-sh">ln -s /dev/null /etc/systemd/network/99-default.link
+</code></pre>
+</li>
+<li>
+<p>Create a manual naming scheme, for example by naming the interfaces something like &quot;internet0&quot;, &quot;dmz0&quot;, or &quot;lan0&quot;. For that, create .link files in /etc/systemd/network/, that choose an explicit name or a better naming scheme for one, some, or all of your interfaces. For example:</p>
+<pre><code class="language-sh">cat &gt; /etc/systemd/network/10-ether0.link &lt;&lt; &quot;EOF&quot;
+[Match]
+
+# Change the MAC address as appropriate for your network device
+
+MACAddress=12:34:45:78:90:AB
+
+[Link]
+Name=ether0
+EOF
+</code></pre>
+<p>
+<p>See the man page systemd.link(5) for more information. <p></p>
+</li>
+<li>
+<p>In <code>/boot/grub/grub.cfg</code>, pass the option net.ifnames=0 on the kernel command line.</p>
+</li>
+</ul>
+<h1><a class="header" href="#static-ip-configuration" id="static-ip-configuration">Static IP Configuration</a></h1>
+<p>The command below creates a basic configuration file for a Static IP setup (using both systemd-networkd and systemd-resolved):</p>
+<pre><code class="language-sh">cat &gt; /etc/systemd/network/10-eth-static.network &lt;&lt; &quot;EOF&quot;
+[Match]
+Name=&lt;network-device-name&gt;
+
+[Network]
+Address=192.168.0.2/24
+Gateway=192.168.0.1
+DNS=192.168.0.1
+Domains=&lt;Your Domain Name&gt;
+EOF
+</code></pre>
+<p>Multiple DNS entries can be added if you have more than one DNS server. Do not include DNS or Domains entries if you intend to use a static <code>/etc/resolv.conf</code> file.</p>
+<h1><a class="header" href="#dhcp-configuration" id="dhcp-configuration">DHCP Configuration</a></h1>
+<p>The command below creates a basic configuration file for an IPv4 DHCP setup:</p>
+<pre><code class="language-sh">cat &gt; /etc/systemd/network/10-eth-dhcp.network &lt;&lt; &quot;EOF&quot;
+[Match]
+Name=&lt;network-device-name&gt;
+
+[Network]
+DHCP=ipv4
+
+[DHCP]
+UseDomains=true
+EOF
+</code></pre>
+<h1><a class="header" href="#creating-the-etcresolvconf-file" id="creating-the-etcresolvconf-file">Creating the /etc/resolv.conf File</a></h1>
+<p>If the system is going to be connected to the Internet, it will need some means of Domain Name Service (DNS) name resolution to resolve Internet domain names to IP addresses, and vice versa. This is best achieved by placing the IP address of the DNS server, available from the ISP or network administrator, into <code>/etc/resolv.conf</code>.</p>
+<h1><a class="header" href="#systemd-resolved-configuration" id="systemd-resolved-configuration">systemd-resolved Configuration</a></h1>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>If using another means to configure your network interfaces (ex: ppp, network-manager, etc.), or if using any type of local resolver (ex: bind, dnsmasq, etc.), or any other software that generates an /etc/resolv.conf (ex: resolvconf), the systemd-resolved service should not be used.</p>
+</blockquote>
+</blockquote>
+<p>When using <strong>systemd-resolved</strong> for DNS configuration, it creates the file <code>/run/systemd/resolve/resolv.conf</code>. Create a symlink in <code>/etc</code> to use the generated file:</p>
+<h1><a class="header" href="#static-resolvconf-configuration" id="static-resolvconf-configuration">Static resolv.conf Configuration</a></h1>
+<p>If a static <code>/etc/resolv.conf</code> is desired, create it by running the following command:</p>
+<pre><code class="language-sh">cat &gt; /etc/resolv.conf &lt;&lt; &quot;EOF&quot;
+# Begin /etc/resolv.conf
+
+domain &lt;Your Domain Name&gt;
+nameserver _&lt;IP address of your primary nameserver&gt;_
+nameserver _&lt;IP address of your secondary nameserver&gt;_
+
+# End /etc/resolv.conf
+EOF
+</code></pre>
+<p>The domain statement can be omitted or replaced with a <code>search</code> statement. See the man page for resolv.conf for more details.</p>
+<p>Replace <code>&lt;IP address of the nameserver&gt;</code> with the IP address of the DNS most appropriate for the setup. There will often be more than one entry (requirements demand secondary servers for fallback capability). If you only need or want one DNS server, remove the second <em>nameserver</em> line from the file. The IP address may also be a router on the local network.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>The Google Public IPv4 DNS addresses are <em>8.8.8.8</em> and <em>8.8.4.4</em> for IPv4, and <em>2001:4860:4860::8888</em> and <em>2001:4860:4860::8844</em> for IPv6.</p>
+</blockquote>
+</blockquote>
+<h1><a class="header" href="#configuring-the-system-hostname" id="configuring-the-system-hostname">Configuring the system hostname</a></h1>
+<p>During the boot process, the file <code>/etc/hostname</code> is used for establishing the system's hostname.</p>
+<p>Create the <code>/etc/hostname</code> file and enter a hostname by running:</p>
+<pre><code class="language-sh">echo &quot;&lt;lfs&gt;&quot; &gt; /etc/hostname
+</code></pre>
+<p><em>&lt;lfs&gt;</em> needs to be replaced with the name given to the computer. Do not enter the Fully Qualified Domain Name (FQDN) here. That information is put in the <code>/etc/hosts</code> file.</p>
+<h1><a class="header" href="#customizing-the-etchosts-file" id="customizing-the-etchosts-file">Customizing the /etc/hosts File</a></h1>
+<p>Decide on a fully-qualified domain name (FQDN), and possible aliases for use in the <code>/etc/hosts</code> file. If using static addresses, you'll also need to decide on an IP address. The syntax for a hosts file entry is:</p>
+<pre><code class="language-sh">IP_address myhost.example.org aliases
+</code></pre>
+<p>Unless the computer is to be visible to the Internet (i.e., there is a registered domain and a valid block of assigned IP addresses—most users do not have this), make sure that the IP address is in the private network IP address range. Valid ranges are:</p>
+<pre><code class="language-sh">Private Network Address Range      Normal Prefix
+10.0.0.1 - 10.255.255.254           8
+172.x.0.1 - 172.x.255.254           16
+192.168.y.1 - 192.168.y.254         24
+</code></pre>
+<p>x can be any number in the range 16-31. y can be any number in the range 0-255.</p>
+<p>A valid private IP address could be 192.168.1.1. A valid FQDN for this IP could be lfs.example.org.</p>
+<p>Even if not using a network card, a valid FQDN is still required. This is necessary for certain programs to operate correctly.</p>
+<p>If using DHCP, DHCPv6, IPv6 Autoconfiguration, or if a network card is not going to be configured, create the <code>/etc/hosts</code>file by running the following command:</p>
+<pre><code class="language-sh">cat &gt; /etc/hosts &lt;&lt; &quot;EOF&quot;
+# Begin /etc/hosts
+
+127.0.0.1 localhost
+127.0.1.1 _&lt;FQDN&gt;_ _&lt;HOSTNAME&gt;_
+::1       localhost ip6-localhost ip6-loopback
+ff02::1   ip6-allnodes
+ff02::2   ip6-allrouters
+
+# End /etc/hosts
+EOF
+</code></pre>
+<p>The ::1 entry is the IPv6 counterpart of 127.0.0.1 and represents the IPv6 loopback interface. 127.0.1.1 is a loopback entry reserved specifically for the FQDN.</p>
+<p>If using a static address, create the <code>/etc/hosts</code> file by running this command instead:</p>
+<pre><code class="language-sh">cat &gt; /etc/hosts &lt;&lt; &quot;EOF&quot;
+# Begin /etc/hosts
+
+127.0.0.1 localhost
+127.0.1.1 _&lt;FQDN&gt;_ _&lt;HOSTNAME&gt;_
+_&lt;192.168.0.2&gt;_ _&lt;FQDN&gt;_ _&lt;HOSTNAME&gt;_ [alias1] [alias2] ...
+::1       localhost ip6-localhost ip6-loopback
+ff02::1   ip6-allnodes
+ff02::2   ip6-allrouters
+
+# End /etc/hosts
+EOF
+</code></pre>
+<p>The <em>&lt;192.168.0.2&gt;</em>, <em>&lt;FQDN&gt;</em>, and <em>&lt;HOSTNAME&gt;</em> values need to be changed for specific uses or requirements (if assigned an IP address by a network/system administrator and the machine will be connected to an existing network). The optional alias name(s) can be omitted.</p>
+<h1><a class="header" href="#overview-of-device-and-module-handling" id="overview-of-device-and-module-handling">Overview of Device and Module Handling</a></h1>
+<p>In <a href="07-System-Configuration/./06-Installing-Basic-System-Software/index.html">Chapter 6</a>, we installed the Udev package when systemd was built. Before we go into the details regarding how this works, a brief history of previous methods of handling devices is in order.</p>
+<p>Linux systems in general traditionally used a static device creation method, whereby a great many device nodes were created under <code>/dev</code> (sometimes literally thousands of nodes), regardless of whether the corresponding hardware devices actually existed. This was typically done via a <strong>MAKEDEV</strong> script, which contains a number of calls to the <strong>mknod</strong> program with the relevant major and minor device numbers for every possible device that might exist in the world.</p>
+<p>Using the Udev method, only those devices which are detected by the kernel get device nodes created for them. Because these device nodes will be created each time the system boots, they will be stored on a <em>devtmpfs</em> file system (a virtual file system that resides entirely in system memory). Device nodes do not require much space, so the memory that is used is negligible.</p>
+<h1><a class="header" href="#history" id="history">History</a></h1>
+<p>In February 2000, a new filesystem called <em>devfs</em> was merged into the 2.3.46 kernel and was made available during the 2.4 series of stable kernels. Although it was present in the kernel source itself, this method of creating devices dynamically never received overwhelming support from the core kernel developers.</p>
+<p>The main problem with the approach adopted by <em>devfs</em> was the way it handled device detection, creation, and naming. The latter issue, that of device node naming, was perhaps the most critical. It is generally accepted that if device names are allowed to be configurable, then the device naming policy should be up to a system administrator, not imposed on them by any particular developer(s). The <em>devfs</em> file system also suffered from race conditions that were inherent in its design and could not be fixed without a substantial revision to the kernel. It was marked as deprecated for a long period – due to a lack of maintenance – and was finally removed from the kernel in June, 2006.</p>
+<p>With the development of the unstable 2.5 kernel tree, later released as the 2.6 series of stable kernels, a new virtual filesystem called <em>sysfs</em> came to be. The job of <em>sysfs</em> is to export a view of the system's hardware configuration to userspace processes. With this userspace-visible representation, the possibility of developing a userspace replacement for <em>devfs</em> became much more realistic.</p>
+<h1><a class="header" href="#udev-implementation" id="udev-implementation">Udev Implementation</a></h1>
+<h2><a class="header" href="#sysfs" id="sysfs">Sysfs</a></h2>
+<p>The <em>sysfs</em> filesystem was mentioned briefly above. One may wonder how <em>sysfs</em> knows about the devices present on a system and what device numbers should be used for them. Drivers that have been compiled into the kernel directly register their objects with a <em>sysfs</em> (devtmpfs internally) as they are detected by the kernel. For drivers compiled as modules, this registration will happen when the module is loaded. Once the <em>sysfs</em> filesystem is mounted (on <code>/sys</code>), data which the drivers register with <em>sysfs</em> are available to userspace processes and to udevd for processing (including modifications to device nodes).</p>
+<h2><a class="header" href="#device-node-creation" id="device-node-creation">Device Node Creation</a></h2>
+<p>Device files are created by the kernel by the <em>devtmpfs</em> filesystem. Any driver that wishes to register a device node will go through the <em>devtmpfs</em> (via the driver core) to do it. When a <em>devtmpfs</em> instance is mounted on <code>/dev</code>, the device node will initially be created with a fixed name, permissions, and owner.</p>
+<p>A short time later, the kernel will send a uevent to <strong>udevd</strong>. Based on the rules specified in the files within the <code>/etc/udev/rules.d</code>, <code>/lib/udev/rules.d</code>, and <code>/run/udev/rules.d</code> directories, <strong>udevd</strong> will create additional symlinks to the device node, or change its permissions, owner, or group, or modify the internal <strong>udevd</strong> database entry (name) for that object.</p>
+<p>The rules in these three directories are numbered and all three directories are merged together. If <strong>udevd</strong> can't find a rule for the device it is creating, it will leave the permissions and ownership at whatever <em>devtmpfs</em> used initially.</p>
+<h2><a class="header" href="#module-loading" id="module-loading">Module Loading</a></h2>
+<p>Device drivers compiled as modules may have aliases built into them. Aliases are visible in the output of the <strong>modinfo</strong> program and are usually related to the bus-specific identifiers of devices supported by a module. For example, the snd-fm801 driver supports PCI devices with vendor ID 0x1319 and device ID 0x0801, and has an alias of “pci:v00001319d00000801sv<em>sd</em>bc04sc01i*”. For most devices, the bus driver exports the alias of the driver that would handle the device via sysfs. E.g., the <code>/sys/bus/pci/devices/0000:00:0d.0/modalias</code> file might contain the string “pci:v00001319d00000801sv00001319sd00001319bc04sc01i00”. The default rules provided with Udev will cause <strong>udevd</strong> to call out to <strong>/sbin/modprobe</strong> with the contents of the MODALIAS uevent environment variable (which should be the same as the contents of the <code>modalias</code> file in sysfs), thus loading all modules whose aliases match this string after wildcard expansion.</p>
+<p>In this example, this means that, in addition to <em>snd-fm801</em>, the obsolete (and unwanted) forte driver will be loaded if it is available. See below for ways in which the loading of unwanted drivers can be prevented.</p>
+<p>The kernel itself is also able to load modules for network protocols, filesystems and NLS support on demand.</p>
+<h2><a class="header" href="#handling-hotpluggabledynamic-devices" id="handling-hotpluggabledynamic-devices">Handling Hotpluggable/Dynamic Devices</a></h2>
+<p>When you plug in a device, such as a Universal Serial Bus (USB) MP3 player, the kernel recognizes that the device is now connected and generates a uevent. This uevent is then handled by <strong>udevd</strong> as described above.</p>
+<h1><a class="header" href="#problems-with-loading-modules-and-creating-devices" id="problems-with-loading-modules-and-creating-devices">Problems with Loading Modules and Creating Devices</a></h1>
+<p>There are a few possible problems when it comes to automatically creating device nodes.</p>
+<h2><a class="header" href="#a-kernel-module-is-not-loaded-automatically" id="a-kernel-module-is-not-loaded-automatically">A kernel module is not loaded automatically</a></h2>
+<p>Udev will only load a module if it has a bus-specific alias and the bus driver properly exports the necessary aliases to <em>sysfs</em>. In other cases, one should arrange module loading by other means. With Linux-4.20.12, Udev is known to load properly-written drivers for INPUT, IDE, PCI, USB, SCSI, SERIO, and FireWire devices.</p>
+<p>To determine if the device driver you require has the necessary support for Udev, run <strong>modinfo</strong> with the module name as the argument. Now try locating the device directory under <code>/sys/bus</code> and check whether there is a modalias file there.</p>
+<p>If the <code>modalias</code> file exists in <em>sysfs</em>, the driver supports the device and can talk to it directly, but doesn't have the alias, it is a bug in the driver. Load the driver without the help from Udev and expect the issue to be fixed later.</p>
+<p>If there is no <code>modalias</code> file in the relevant directory under <code>/sys/bus</code>, this means that the kernel developers have not yet added modalias support to this bus type. With Linux-4.20.12, this is the case with ISA busses. Expect this issue to be fixed in later kernel versions.</p>
+<p>Udev is not intended to load “wrapper” drivers such as <em>snd-pcm-oss</em> and non-hardware drivers such as <em>loop</em> at all.</p>
+<h2><a class="header" href="#a-kernel-module-is-not-loaded-automatically-and-udev-is-not-intended-to-load-it" id="a-kernel-module-is-not-loaded-automatically-and-udev-is-not-intended-to-load-it">A kernel module is not loaded automatically, and Udev is not intended to load it</a></h2>
+<p>If the “wrapper” module only enhances the functionality provided by some other module (e.g., <em>snd-pcm-oss</em> enhances the functionality of <em>snd-pcm</em> by making the sound cards available to OSS applications), configure <strong>modprobe</strong> to load the wrapper after Udev loads the wrapped module. To do this, add a “softdep” line to the corresponding <em><code>/etc/modprobe.d/&lt;filename&gt;.conf</code></em> file. For example:</p>
+<pre><code class="language-sh">softdep snd-pcm post: snd-pcm-oss
+</code></pre>
+<p>Note that the “softdep” command also allows <code>pre:</code> dependencies, or a mixture of both <code>pre:</code> and <code>post:.</code> See the <code>modprobe.d(5)</code> manual page for more information on “softdep” syntax and capabilities.</p>
+<p>If the module in question is not a wrapper and is useful by itself, configure the modules <strong>bootscript</strong> to load this module on system boot. To do this, add the module name to the <code>/etc/sysconfig/modules</code> file on a separate line. This works for wrapper modules too, but is suboptimal in that case.</p>
+<h2><a class="header" href="#udev-loads-some-unwanted-module" id="udev-loads-some-unwanted-module">Udev loads some unwanted module</a></h2>
+<p>Either don't build the module, or blacklist it in a <code>/etc/modprobe.d/blacklist.conf</code> file as done with the forte module in the example below:</p>
+<pre><code class="language-sh">blacklist forte
+</code></pre>
+<p>Blacklisted modules can still be loaded manually with the explicit <strong>modprobe</strong> command.</p>
+<h2><a class="header" href="#udev-creates-a-device-incorrectly-or-makes-a-wrong-symlink" id="udev-creates-a-device-incorrectly-or-makes-a-wrong-symlink">Udev creates a device incorrectly, or makes a wrong symlink</a></h2>
+<p>This usually happens if a rule unexpectedly matches a device. For example, a poorly-written rule can match both a SCSI disk (as desired) and the corresponding SCSI generic device (incorrectly) by vendor. Find the offending rule and make it more specific, with the help of the <strong>udevadm info</strong> command.</p>
+<h2><a class="header" href="#udev-rule-works-unreliably" id="udev-rule-works-unreliably">Udev rule works unreliably</a></h2>
+<p>This may be another manifestation of the previous problem. If not, and your rule uses <em>sysfs</em> attributes, it may be a kernel timing issue, to be fixed in later kernels. For now, you can work around it by creating a rule that waits for the used <em>sysfs</em> attribute and appending it to the <code>/etc/udev/rules.d/10-wait_for_sysfs.rules</code>file (create this file if it does not exist). Please notify the LFS Development list if you do so and it helps.</p>
+<h2><a class="header" href="#udev-does-not-create-a-device" id="udev-does-not-create-a-device">Udev does not create a device</a></h2>
+<p>Further text assumes that the driver is built statically into the kernel or already loaded as a module, and that you have already checked that Udev doesn't create a misnamed device.</p>
+<p>Udev has no information needed to create a device node if a kernel driver does not export its data to <em>sysfs</em>. This is most common with third party drivers from outside the kernel tree. Create a static device node in <code>/lib/udev/devices</code> with the appropriate major/minor numbers (see the file <code>devices.txt</code> inside the kernel documentation or the documentation provided by the third party driver vendor). The static device node will be copied to <code>/dev</code> by <strong>udev</strong>.</p>
+<h2><a class="header" href="#device-naming-order-changes-randomly-after-rebooting" id="device-naming-order-changes-randomly-after-rebooting">Device naming order changes randomly after rebooting</a></h2>
+<p>This is due to the fact that Udev, by design, handles uevents and loads modules in parallel, and thus in an unpredictable order. This will never be “fixed”. You should not rely upon the kernel device names being stable. Instead, create your own rules that make symlinks with stable names based on some stable attributes of the device, such as a serial number or the output of various *_id utilities installed by Udev. See <a href="07-System-Configuration/./04-Managing-Devices.html">Section 7.4, “Managing Devices”</a> and <a href="07-System-Configuration/./02-General-Network-Configuration.html">Section 7.2, “General Network Configuration”</a> for examples.</p>
+<h1><a class="header" href="#useful-reading" id="useful-reading">Useful Reading</a></h1>
+<p>Additional helpful documentation is available at the following sites:</p>
+<ul>
+<li>
+<p>A Userspace Implementation of <em>devfs</em> http://www.kroah.com/linux/talks/ols_2003_udev_paper/Reprint-Kroah-Hartman-OLS2003.pdf</p>
+</li>
+<li>
+<p>The <em>sysfs</em> Filesystem http://www.kernel.org/pub/linux/kernel/people/mochel/doc/papers/ols-2005/mochel.pdf</p>
+</li>
+</ul>
+<h1><a class="header" href="#managing-devices" id="managing-devices">Managing Devices</a></h1>
+<p>As explained in <a href="07-System-Configuration/./03-Overview-of-Device-and-Module-Handling.html">Section 7.3, “Overview of Device and Module Handling”</a>, the order in which devices with the same function appear in <code>/dev</code> is essentially random. E.g., if you have a USB web camera and a TV tuner, sometimes <code>/dev/video0</code> refers to the camera and <code>/dev/video1</code> refers to the tuner, and sometimes after a reboot the order changes to the opposite one. For all classes of hardware except sound cards and network cards, this is fixable by creating Udev rules for custom persistent symlinks. The case of network cards is covered separately in <a href="07-System-Configuration/./02-General-Network-Configuration.html">Section 7.2, “General Network Configuration”</a>, and sound card configuration can be found in <a href="http://www.linuxfromscratch.org/blfs/view/8.4/postlfs/devices.html">BLFS</a>.</p>
+<p>For each of your devices that is likely to have this problem (even if the problem doesn't exist in your current Linux distribution), find the corresponding directory under <code>/sys/class</code> or <code>/sys/block</code>. For video devices, this may be <code>/sys/class/video4linux/videoX</code>. Figure out the attributes that identify the device uniquely (usually, vendor and product IDs and/or serial numbers work):</p>
+<pre><code class="language-sh">udevadm info -a -p /sys/class/video4linux/video0
+</code></pre>
+<p>Then write rules that create the symlinks, e.g.:</p>
+<pre><code class="language-sh">cat &gt; /etc/udev/rules.d/83-duplicate_devs.rules &lt;&lt; &quot;EOF&quot;
+
+# Persistent symlinks for webcam and tuner
+KERNEL==&quot;video*&quot;, ATTRS{idProduct}==&quot;1910&quot;, ATTRS{idVendor}==&quot;0d81&quot;, \
+   SYMLINK+=&quot;webcam&quot;
+KERNEL==&quot;video*&quot;, ATTRS{device}==&quot;0x036f&quot;, ATTRS{vendor}==&quot;0x109e&quot;, \
+   SYMLINK+=&quot;tvtuner&quot;
+
+EOF
+</code></pre>
+<p>The result is that <code>/dev/video0</code> and <code>/dev/video1</code> devices still refer randomly to the tuner and the web camera (and thus should never be used directly), but there are symlinks <code>/dev/tvtuner</code> and <code>/dev/webcam</code> that always point to the correct device.</p>
+<h1><a class="header" href="#configuring-the-system-clock" id="configuring-the-system-clock">Configuring the system clock</a></h1>
+<p>This section discusses how to configure the <strong>systemd-timedated</strong> system service, which configures system clock and timezone.</p>
+<p>If you cannot remember whether or not the hardware clock is set to UTC, find out by running the <strong>hwclock --localtime --show</strong> command. This will display what the current time is according to the hardware clock. If this time matches whatever your watch says, then the hardware clock is set to local time. If the output from <strong>hwclock</strong> is not local time, chances are it is set to UTC time. Verify this by adding or subtracting the proper amount of hours for the timezone to the time shown by hwclock. For example, if you are currently in the MST timezone, which is also known as GMT -0700, add seven hours to the local time.</p>
+<p><strong>systemd-timedated</strong> reads <code>/etc/adjtime</code>, and depending on the contents of the file, it sets the clock to either UTC or local time.</p>
+<p>Create the <code>/etc/adjtime</code> file with the following contents if your hardware clock is set to local time:</p>
+<pre><code class="language-sh">cat &gt; /etc/adjtime &lt;&lt; &quot;EOF&quot;
+0.0 0 0.0
+0
+LOCAL
+EOF
+</code></pre>
+<p>If <code>/etc/adjtime</code> isn't present at first boot, <strong>systemd-timedated</strong> will assume that hardware clock is set to UTC and adjust the file according to that.</p>
+<p>You can also use the <strong>timedatectl</strong> utility to tell <strong>systemd-timedated</strong> if your hardware clock is set to UTC or local time:</p>
+<pre><code class="language-sh">timedatectl set-local-rtc 1
+</code></pre>
+<p><strong>timedatectl</strong> can also be used to change system time and time zone.</p>
+<p>To change your current system time, issue:</p>
+<pre><code class="language-sh">timedatectl set-time YYYY-MM-DD HH:MM:SS
+</code></pre>
+<p>Hardware clock will also be updated accordingly.</p>
+<p>To change your current time zone, issue:</p>
+<pre><code class="language-sh">timedatectl set-timezone TIMEZONE
+</code></pre>
+<p>You can get a list of available time zones by running:</p>
+<pre><code class="language-sh">timedatectl list-timezones
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Please note that the <strong>timedatectl</strong> command can be used only on a system booted with systemd.</p>
+</blockquote>
+</blockquote>
+<h1><a class="header" href="#network-time-synchronization" id="network-time-synchronization">Network Time Synchronization</a></h1>
+<p>Starting with version 213, systemd ships a daemon called <strong>systemd-timesyncd</strong> which can be used to synchronize the system time with remote NTP servers.</p>
+<p>The daemon is not intended as a replacement for the well established NTP daemon, but as a client only implementation of the SNTP protocol which can be used for less advanced tasks and on resource limited systems.</p>
+<p>Starting with systemd version 216, the <strong>systemd-timesyncd</strong> daemon is enabled by default. If you want to disable it, issue the following command:</p>
+<pre><code class="language-sh">systemctl disable systemd-timesyncd
+</code></pre>
+<p>The <code>/etc/systemd/timesyncd.conf</code> file can be used to change the NTP servers that <strong>systemd-timesyncd</strong> synchronizes with.</p>
+<p>Please note that when system clock is set to Local Time, <strong>systemd-timesyncd</strong> won't update hardware clock.</p>
+<h1><a class="header" href="#configuring-the-linux-console" id="configuring-the-linux-console">Configuring the Linux Console</a></h1>
+<p>This section discusses how to configure the <strong>systemd-vconsole-setup</strong> system service, which configures the virtual console font and console keymap.</p>
+<p>The <strong>systemd-vconsole-setup</strong> service reads the <code>/etc/vconsole.conf</code> file for configuration information. Decide which keymap and screen font will be used. Various language-specific HOWTOs can also help with this, see <a href="http://www.tldp.org/HOWTO/HOWTO-INDEX/other-lang.html">http://www.tldp.org/HOWTO/HOWTO-INDEX/other-lang.html</a>. Examine <strong>localectl list-keymaps</strong> output for a list of valid console keymaps. Look in <code>/usr/share/consolefonts</code> directory for valid screen fonts.</p>
+<p>The <code>/etc/vconsole.conf</code> file should contain lines of the form: VARIABLE=&quot;value&quot;. The following variables are recognized:</p>
+<dl class="variablelist">
+    <dt>
+    <span class="term"><b>KEYMAP</b></span>
+    </dt>
+    <dd>
+    <p>
+        This variable specifies the key mapping table for the keyboard.
+        If unset, it defaults to <code class="literal">us</code>.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>KEYMAP_TOGGLE</b></span>
+    </dt>
+    <dd>
+    <p>
+        This variable can be used to configure a second toggle keymap
+        and is unset by default.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>FONT</b></span>
+    </dt>
+    <dd>
+    <p>
+        This variable specifies the font used by the virtual console.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>FONT_MAP</b></span>
+    </dt>
+    <dd>
+    <p>
+        This variable specifies the console map to be used.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>FONT_UNIMAP</b></span>
+    </dt>
+    <dd>
+    <p>
+        This variable specifies the Unicode font map.
+    </p>
+    </dd>
+</dl>
+<p>An example for a German keyboard and console is given below:</p>
+<pre><code class="language-sh">cat &gt; /etc/vconsole.conf &lt;&lt; &quot;EOF&quot;
+KEYMAP=de-latin1
+FONT=Lat2-Terminus16
+EOF
+</code></pre>
+<p>You can change KEYMAP value at runtime by using the <strong>localectl</strong> utility:</p>
+<pre><code class="language-sh">localectl set-keymap MAP
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Please note that the <strong>localectl</strong> command can be used only on a system booted with systemd.</p>
+</blockquote>
+</blockquote>
+<p>You can also use <strong>localectl</strong> utility with the corresponding parameters to change X11 keyboard layout, model, variant and options:</p>
+<pre><code class="language-sh">localectl set-x11-keymap LAYOUT [MODEL] [VARIANT] [OPTIONS]
+</code></pre>
+<p>To list possible values for localectl set-x11-keymap parameters, run localectl with parameters listed below:</p>
+<dl class="variablelist">
+    <dt>
+    <span class="term"><b>list-x11-keymap-models</b></span>
+    </dt>
+    <dd>
+    <p>
+        Show known X11 keyboard mapping models.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>list-x11-keymap-layouts</b></span>
+    </dt>
+    <dd>
+    <p>
+        Show known X11 keyboard mapping layouts.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>list-x11-keymap-variants</b></span>
+    </dt>
+    <dd>
+    <p>
+        Show known X11 keyboard mapping variants.
+    </p>
+    </dd>
+    <dt>
+    <span class="term"><b>list-x11-keymap-options</b></span>
+    </dt>
+    <dd>
+    <p>
+        Show known X11 keyboard mapping options.
+    </p>
+    </dd>
+</dl>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Using any of the parameters listed above requires the XKeyboard Config package from BLFS.</p>
+</blockquote>
+</blockquote>
+<h1><a class="header" href="#configuring-the-system-locale" id="configuring-the-system-locale">Configuring the System Locale</a></h1>
+<p>The <code>/etc/locale.conf</code> below sets some environment variables necessary for native language support. Setting them properly results in:</p>
+<ul>
+<li>
+<p>The output of programs translated into the native language</p>
+</li>
+<li>
+<p>Correct classification of characters into letters, digits and other classes. This is necessary for <strong>bash</strong> to properly accept non-ASCII characters in command lines in non-English locales</p>
+</li>
+<li>
+<p>The correct alphabetical sorting order for the country</p>
+</li>
+<li>
+<p>Appropriate default paper size</p>
+</li>
+<li>
+<p>Correct formatting of monetary, time, and date values</p>
+</li>
+</ul>
+<p>Replace <em>&lt;ll&gt;</em> below with the two-letter code for the desired language (e.g., “en”) and <em>&lt;CC&gt;</em> with the two-letter code for the appropriate country (e.g., “GB”). <em>&lt;charmap&gt;</em> should be replaced with the canonical charmap for your chosen locale. Optional modifiers such as “@euro” may also be present.</p>
+<p>The list of all locales supported by Glibc can be obtained by running the following command:</p>
+<pre><code class="language-sh">locale -a
+</code></pre>
+<p>Charmaps can have a number of aliases, e.g., “ISO-8859-1” is also referred to as “iso8859-1” and “iso88591”. Some applications cannot handle the various synonyms correctly (e.g., require that “UTF-8” is written as “UTF-8”, not “utf8”), so it is safest in most cases to choose the canonical name for a particular locale. To determine the canonical name, run the following command, where <em>&lt;locale name&gt;</em> is the output given by <strong>locale -a</strong> for your preferred locale (“en_GB.iso88591” in our example).</p>
+<pre><code class="language-sh">LC_ALL=&lt;locale name&gt; locale charmap
+</code></pre>
+<p>For the “en_GB.iso88591” locale, the above command will print:</p>
+<pre><code class="language-sh">ISO-8859-1
+</code></pre>
+<p>This results in a final locale setting of “en_GB.ISO-8859-1”. It is important that the locale found using the heuristic above is tested prior to it being added to the Bash startup files:</p>
+<pre><code class="language-sh">LC_ALL=&lt;locale name&gt; locale language
+LC_ALL=&lt;locale name&gt; locale charmap
+LC_ALL=&lt;locale name&gt; locale int_curr_symbol
+LC_ALL=&lt;locale name&gt; locale int_prefix
+</code></pre>
+<p>The above commands should print the language name, the character encoding used by the locale, the local currency, and the prefix to dial before the telephone number in order to get into the country. If any of the commands above fail with a message similar to the one shown below, this means that your locale was either not installed in Chapter 6 or is not supported by the default installation of Glibc.</p>
+<pre><code class="language-sh">locale: Cannot set LC_* to default locale: No such file or directory
+</code></pre>
+<p>If this happens, you should either install the desired locale using the <strong>localedef</strong> command, or consider choosing a different locale. Further instructions assume that there are no such error messages from Glibc.</p>
+<p>Some packages beyond LFS may also lack support for your chosen locale. One example is the X library (part of the X Window System), which outputs the following error message if the locale does not exactly match one of the character map names in its internal files:</p>
+<pre><code class="language-sh">Warning: locale not supported by Xlib, locale set to C
+</code></pre>
+<p>In several cases Xlib expects that the character map will be listed in uppercase notation with canonical dashes. For instance, &quot;ISO-8859-1&quot; rather than &quot;iso88591&quot;. It is also possible to find an appropriate specification by removing the charmap part of the locale specification. This can be checked by running the <strong>locale charmap</strong> command in both locales. For example, one would have to change &quot;de_DE.ISO-8859-15@euro&quot; to &quot;de_DE@euro&quot; in order to get this locale recognized by Xlib.</p>
+<p>Other packages can also function incorrectly (but may not necessarily display any error messages) if the locale name does not meet their expectations. In those cases, investigating how other Linux distributions support your locale might provide some useful information.</p>
+<p>Once the proper locale settings have been determined, create the <code>/etc/locale.conf</code> file:</p>
+<pre><code class="language-sh">cat &gt; /etc/locale.conf &lt;&lt; &quot;EOF&quot;
+LANG=&lt;ll&gt;_&lt;CC&gt;.&lt;charmap&gt;&lt;@modifiers&gt;
+EOF
+</code></pre>
+<p>Note that you can modify <code>/etc/locale.conf</code> with the systemd <strong>localectl</strong> utility. To use <strong>localectl</strong> for the example above, run:</p>
+<pre><code class="language-sh">localectl set-locale LANG=&quot;&lt;ll&gt;_&lt;CC&gt;.&lt;charmap&gt;&lt;@modifiers&gt;&quot;
+</code></pre>
+<p>You can also specify other language specific environment variables such as <strong>LANG</strong>, <strong>LC_CTYPE</strong>, <strong>LC_NUMERIC</strong> or any other environment variable from locale output. Just separate them with a space. An example where <strong>LANG</strong> is set as en_US.UTF-8 but <strong>LC_CTYPE</strong> is set as just en_US is:</p>
+<pre><code class="language-sh">localectl set-locale LANG=&quot;en_US.UTF-8&quot; LC_CTYPE=&quot;en_US&quot;
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<blockquote>
+<p>Please note that the <strong>localectl</strong> command can be used only on a system booted with systemd.</p>
+</blockquote>
+</blockquote>
+<p>The “C” (default) and “en_US” (the recommended one for United States English users) locales are different. “C” uses the US-ASCII 7-bit character set, and treats bytes with the high bit set as invalid characters. That's why, e.g., the <strong>ls</strong> command substitutes them with question marks in that locale. Also, an attempt to send mail with such characters from Mutt or Pine results in non-RFC-conforming messages being sent (the charset in the outgoing mail is indicated as “unknown 8-bit”). So you can use the “C” locale only if you are sure that you will never need 8-bit characters.</p>
+<p>UTF-8 based locales are not supported well by many programs. Work is in progress to document and, if possible, fix such problems, see <a href="http://www.linuxfromscratch.org/blfs/view/8.4/introduction/locale-issues.html">http://www.linuxfromscratch.org/blfs/view/8.4/introduction/locale-issues.html</a>.</p>
+<h1><a class="header" href="#creating-the-etcinputrc-file" id="creating-the-etcinputrc-file">Creating the /etc/inputrc File</a></h1>
+<p>The <code>inputrc</code> file is the configuration file for the Readline library, which provides editing capabilities while the user is entering a line from the terminal. It works by translating keyboard inputs into specific actions. Readline is used by Bash and most other shells as well as many other applications.</p>
+<p>Most people do not need user-specific functionality so the command below creates a global <code>/etc/inputrc</code> used by everyone who logs in. If you later decide you need to override the defaults on a per-user basis, you can create a <code>.inputrc</code> file in the user's home directory with the modified mappings.</p>
+<p>For more information on how to edit the <code>inputrc</code> file, see <strong>info bash</strong> under the <em>Readline Init File</em> section. info readline is also a good source of information.</p>
+<p>Below is a generic global <code>inputrc</code> along with comments to explain what the various options do. Note that comments cannot be on the same line as commands. Create the file using the following command:</p>
+<pre><code class="language-sh">cat &gt; /etc/inputrc &lt;&lt; &quot;EOF&quot;
+# Begin /etc/inputrc
+# Modified by Chris Lynn &lt;roryo@roryo.dynup.net&gt;
+
+# Allow the command prompt to wrap to the next line
+set horizontal-scroll-mode Off
+
+# Enable 8bit input
+set meta-flag On
+set input-meta On
+
+# Turns off 8th bit stripping
+set convert-meta Off
+
+# Keep the 8th bit for display
+set output-meta On
+
+# none, visible or audible
+set bell-style none
+
+# All of the following map the escape sequence of the value
+# contained in the 1st argument to the readline specific functions
+&quot;\eOd&quot;: backward-word
+&quot;\eOc&quot;: forward-word
+
+# for linux console
+&quot;\e[1~&quot;: beginning-of-line
+&quot;\e[4~&quot;: end-of-line
+&quot;\e[5~&quot;: beginning-of-history
+&quot;\e[6~&quot;: end-of-history
+&quot;\e[3~&quot;: delete-char
+&quot;\e[2~&quot;: quoted-insert
+
+# for xterm
+&quot;\eOH&quot;: beginning-of-line
+&quot;\eOF&quot;: end-of-line
+
+# for Konsole
+&quot;\e[H&quot;: beginning-of-line
+&quot;\e[F&quot;: end-of-line
+
+# End /etc/inputrc
+EOF
+</code></pre>
+<h1><a class="header" href="#creating-the-etcshells-file" id="creating-the-etcshells-file">Creating the /etc/shells File</a></h1>
+<p>The shells file contains a list of login shells on the system. Applications use this file to determine whether a shell is valid. For each shell a single line should be present, consisting of the shell's path, relative to the root of the directory structure (/).</p>
+<p>For example, this file is consulted by chsh to determine whether an unprivileged user may change the login shell for her own account. If the command name is not listed, the user will be denied of change.</p>
+<p>It is a requirement for applications such as GDM which does not populate the face browser if it can't find <code>/etc/shells</code>, or FTP daemons which traditionally disallow access to users with shells not included in this file.</p>
+<pre><code class="language-sh">cat &gt; /etc/shells &lt;&lt; &quot;EOF&quot;
+# Begin /etc/shells
+
+/bin/sh
+/bin/bash
+
+# End /etc/shells
+EOF
+</code></pre>
+<h1><a class="header" href="#systemd-usage-and-configuration" id="systemd-usage-and-configuration">Systemd Usage and Configuration</a></h1>
+<h2><a class="header" href="#basic-configuration" id="basic-configuration">Basic Configuration</a></h2>
+<p>The <code>/etc/systemd/system.conf</code> file contains a set of options to control basic systemd operations. The default file has all entries commented out with the default settings indicated. This file is where the log level may be changed as well as some basic logging settings. See the <code>systemd-system.conf(5)</code> manual page for details on each configuration option.</p>
+<h2><a class="header" href="#disabling-screen-clearing-at-boot-time" id="disabling-screen-clearing-at-boot-time">Disabling Screen Clearing at Boot Time</a></h2>
+<p>The normal behavior for systemd is to clear the screen at the end of the boot sequence. If desired, this behavior may be changed by running the following command:</p>
+<pre><code class="language-sh">mkdir -pv /etc/systemd/system/getty@tty1.service.d
+
+cat &gt; /etc/systemd/system/getty@tty1.service.d/noclear.conf &lt;&lt; EOF
+[Service]
+TTYVTDisallocate=no
+EOF
+</code></pre>
+<p>The boot messages can always be reviewed by using the <strong>journalctl -b</strong> command as the root user.</p>
+<h2><a class="header" href="#disabling-tmpfs-for-tmp" id="disabling-tmpfs-for-tmp">Disabling tmpfs for /tmp</a></h2>
+<p>By default, <code>/tmp</code> is created as a tmpfs. If this is not desired, it can be overridden by the following:</p>
+<pre><code class="language-sh">ln -sfv /dev/null /etc/systemd/system/tmp.mount
+</code></pre>
+<p>Alternatively, if a a separate partition for <code>/tmp</code> is desired, specify that partition in an <code>/etc/fstab</code> entry.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<blockquote>
+<p>Do not create the symbolic link above if a separate partition is used for <code>/tmp</code>. This will prevent the root file system (/) from being remounted r/w and make the system unusable when booted.</p>
+</blockquote>
+</blockquote>
+<h2><a class="header" href="#configuring-automatic-file-creation-and-deletion" id="configuring-automatic-file-creation-and-deletion">Configuring Automatic File Creation and Deletion</a></h2>
+<p>There are several services that create or delete files or directories:</p>
+<ul>
+<li>systemd-tmpfiles-clean.service</li>
+<li>systemd-tmpfiles-setup-dev.service</li>
+<li>systemd-tmpfiles-setup.service</li>
+</ul>
+<p>The system location for the configuration files is <code>/usr/lib/tmpfiles.d/\*.conf</code>. The local configuration files are in <code>/etc/tmpfiles.d</code>. Files in <code>/etc/tmpfiles.d override</code> files with the same name in <code>/usr/lib/tmpfiles.d</code>. See <code>tmpfiles.d(5)</code> manual page for file format details.</p>
+<p>Note that the syntax for the <code>/usr/lib/tmpfiles.d/\*.conf</code> files can be confusing. For example, the default deletion of files in the <code>/tmp</code> directory is located in <code>/usr/lib/tmpfiles.d/tmp.conf</code> with the line:</p>
+<pre><code class="language-sh">q /tmp 1777 root root 10d
+</code></pre>
+<p>The type field, q, discusses creating a subvolume with quotas which is really only applicable to btrfs filesystems. It references type v which in turn references type d (directory). This then creates the specified directory if is is not present and adjusts the permissions and ownership as specified. Contents of the directory will be subject to time based cleanup if the age argument is specified.</p>
+<p>If the default parameters are not desired, then the file should be copied to <code>/etc/tmpfiles.d</code> and edited as desired. For example:</p>
+<pre><code class="language-sh">mkdir -p /etc/tempfiles.d
+cp /usr/lib/tmpfiles.d/tmp.conf /etc/tempfiles.d
+</code></pre>
+<h2><a class="header" href="#overriding-default-services-behavior" id="overriding-default-services-behavior">Overriding Default Services Behavior</a></h2>
+<p>The parameter of a unit can be overriden by creating a directory and a configuration file in <code>/etc/systemd/system</code>. For example:</p>
+<pre><code class="language-sh">mkdir -pv /etc/systemd/system/foobar.service.d
+
+cat &gt; /etc/systemd/system/foobar.service.d/foobar.conf &lt;&lt; EOF
+[Service]
+Restart=always
+RestartSec=30
+EOF
+</code></pre>
+<p>See <code>systemd.unit(5)</code> manual page for more information. After creating the configuration file, run <strong>systemctl daemon-reload</strong> and <strong>systemctl restart foobar</strong> to activate the changes to a service.</p>
+<h2><a class="header" href="#debugging-the-boot-sequence" id="debugging-the-boot-sequence">Debugging the Boot Sequence</a></h2>
+<p>Rather than plain shell scripts used in SysVinit or BSD style init systems, systemd uses a unified format for different types of startup files (or units). The command <strong>systemctl</strong> is used to enable, disable, control state, and obtain status of unit files. Here are some examples of frequently used commands:</p>
+<ul>
+<li>
+<p><strong>systemctl list-units -t <service> [--all]:</strong> lists loaded unit files of type service.</p>
+</li>
+<li>
+<p><strong>systemctl list-units -t <target> [--all]:</strong> lists loaded unit files of type target.</p>
+</li>
+<li>
+<p><strong>systemctl show -p Wants &lt;multi-user.target&gt;:</strong> shows all units that depend on the multi-user target. Targets are special unit files that are anogalous to runlevels under SysVinit.</p>
+</li>
+<li>
+<p><strong>systemctl status &lt;servicename.service&gt;:</strong> shows the status of the servicename service. The .service extension can be omitted if there are no other unit files with the same name, such as .socket files (which create a listening socket that provides similar functionality to inetd/xinetd).</p>
+</li>
+</ul>
+<h2><a class="header" href="#working-with-the-systemd-journal" id="working-with-the-systemd-journal">Working with the Systemd Journal</a></h2>
+<p>Logging on a system booted with systemd is handled with systemd-journald (by default), rather than a typical unix syslog daemon. You can also add a normal syslog daemon and have both work side by side if desired. The systemd-journald program stores journal entries in a binary format rather than a plain text log file. To assist with parsing the file, the command journalctl is provided. Here are some examples of frequently used commands:</p>
+<ul>
+<li>
+<p><strong>journalctl -r:</strong> shows all contents of the journal in reverse chronological order.</p>
+</li>
+<li>
+<p><strong>journalctl -u UNIT:</strong> shows the journal entries associated with the specified UNIT file.</p>
+</li>
+<li>
+<p><strong>journalctl -b[=ID] -r:</strong> shows the journal entries since last successful boot (or for boot ID) in reverse chronological order.</p>
+</li>
+<li>
+<p><strong>journalctl -f:</strong> povides functionality similar to tail -f (follow).</p>
+</li>
+</ul>
+<h2><a class="header" href="#long-running-processes" id="long-running-processes">Long Running Processes</a></h2>
+<p>Beginning with systemd-230, all user processes are killed when a user session is ended, even if nohup is used, or the process uses the <code>daemon()</code> or <code>setsid()</code> functions. This is a deliberate change from a historically permissive environment to a more restrictive one. The new behavior may cause issues if you depend on long running programs (e.g., <strong>screen</strong> or <strong>tmux</strong>) to remain active after ending your user session. There are three ways to enable lingering processes to remain after a user session is ended.</p>
+<ul>
+<li>
+<p><em>Enable process lingering for only selected users:</em> Normal users have permission to enable process lingering with the command <strong>loginctl enable-linger</strong> for their own user. System administrators can use the same command with a user argument to enable for a user. That user can then use the <strong>systemd-run</strong> command to start long running processes. For example: <strong>systemd-run --scope --user /usr/bin/screen</strong>. If you enable lingering for your user, the user@.service will remain even after all login sessions are closed, and will automatically start at system boot. This has the advantage of explicitly allowing and disallowing processes to run after the user session has ended, but breaks backwards compatibility with tools like <strong>nohup</strong> and utilities that use <code>deamon()</code>.</p>
+</li>
+<li>
+<p><em>Enable system-wide process lingering:</em> You can set <em>KillUserProcesses=no</em> in <code>/etc/logind.conf</code> to enable process lingering globally for all users. This has the benefit of leaving the old method available to all users at the expense of explicit control.</p>
+</li>
+<li>
+<p><em>Disable at build-time:</em> You can enable lingering by default while building systemd by adding the switch <em>-Ddefault-kill-user-processes=no</em> to the <strong>meson</strong> command for systemd. This completely disables the ability of systemd to kill user processes at session end.</p>
+</li>
+</ul>
+<h1><a class="header" href="#making-the-lfs-system-bootable" id="making-the-lfs-system-bootable">Making the LFS System Bootable</a></h1>
+<h3><a class="header" href="#table-of-contents-7" id="table-of-contents-7">Table of Contents</a></h3>
 <ul>
 <li><a href="08-Making-the-LFS-System-Bootable/./01-Introduction.html">Introduction</a></li>
 <li><a href="08-Making-the-LFS-System-Bootable/./02-Creating-the-slash-etc-slash-fstab-File.html">Creating the /etc/fstab File</a></li>
