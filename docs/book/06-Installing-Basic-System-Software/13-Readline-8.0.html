@@ -145,7 +145,53 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#readline-80" id="readline-80">Readline-8.0</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#readline-80" id="readline-80">Readline-8.0</a></h1>
+<p>The Readline package is a set of libraries that offers command-line editing and history capabilities.</p>
+<p><strong>Approximate Build Time:</strong> 0.1 SBU</p>
+<p><strong>Required Disk Space:</strong> 15 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-readline" id="installation-of-readline">Installation of Readline</a></h1>
+<p>Reinstalling Readline will cause the old libraries to be moved to &lt;libraryname&gt;.old. While this is normally not a problem, in some cases it can trigger a linking bug in ldconfig. This can be avoided by issuing the following two seds:</p>
+<pre><code class="language-sh">sed -i '/MV.*old/d' Makefile.in
+sed -i '/{OLDSUFF}/c:' support/shlib-install
+</code></pre>
+<p>Prepare Readline for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/usr    \
+            --disable-static \
+            --docdir=/usr/share/doc/readline-8.0
+</code></pre>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make SHLIB_LIBS=&quot;-L/tools/lib -lncursesw&quot;
+</code></pre>
+<h3><a class="header" href="#the-meaning-of-the-make-option" id="the-meaning-of-the-make-option">The meaning of the make option:</a></h3>
+<blockquote>
+<p><strong>SHLIB_LIBS=&quot;-L/tools/lib -lncursesw&quot;</strong></p>
+<blockquote>
+<p>This option forces Readline to link against the libncursesw library.</p>
+</blockquote>
+</blockquote>
+<p>This package does not come with a test suite.</p>
+<p>Install the package:</p>
+<pre><code class="language-sh">make SHLIB_LIBS=&quot;-L/tools/lib -lncursesw&quot; install
+</code></pre>
+<p>Now move the dynamic libraries to a more appropriate location and fix up some permissions and symbolic links:</p>
+<pre><code class="language-sh">mv -v /usr/lib/lib{readline,history}.so.* /lib
+chmod -v u+w /lib/lib{readline,history}.so.*
+ln -sfv ../../lib/$(readlink /usr/lib/libreadline.so) /usr/lib/libreadline.so
+ln -sfv ../../lib/$(readlink /usr/lib/libhistory.so ) /usr/lib/libhistory.so
+</code></pre>
+<p>If desired, install the documentation:</p>
+<p>install -v -m644 doc/*.{ps,pdf,html,dvi} /usr/share/doc/readline-8.0</p>
+<blockquote>
+<h2><a class="header" href="#contents-of-readline" id="contents-of-readline">Contents of Readline</a></h2>
+<p><strong>Installed Libraries:</strong> libhistory.so and libreadline.so</p>
+<p><strong>Installed Directories:</strong> /usr/include/readline, /usr/share/readline, and /usr/share/doc/readline-8.0</p>
+<table><thead><tr><th align="left">Installed</th><th align="left">Description</th></tr></thead><tbody>
+<tr><td align="left">libhistory</td><td align="left">Provides a consistent user interface for recalling lines of history</td></tr>
+<tr><td align="left">libreadline</td><td align="left">Provides a set of commands for manipulating text entered in an interactive session of a program.</td></tr>
+</tbody></table>
+</blockquote>
 
                     </main>
 

@@ -145,7 +145,36 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#zlib-1211" id="zlib-1211">Zlib-1.2.11</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#zlib-1211" id="zlib-1211">Zlib-1.2.11</a></h1>
+<p>The Zlib package contains compression and decompression routines used by some programs.</p>
+<p><strong>Approximate Build Time:</strong> less than 0.1 SBU</p>
+<p><strong>Required Disk Space:</strong> 4.4 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-zlib" id="installation-of-zlib">Installation of Zlib</a></h1>
+<p>Prepare Zlib for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/usr
+</code></pre>
+<p>Compile the package:</p>
+<pre><code class="language-sh">make
+</code></pre>
+<p>To test the results, issue:</p>
+<pre><code class="language-sh">make check
+</code></pre>
+<p>Install the package:</p>
+<pre><code class="language-sh">make install
+</code></pre>
+<p>The shared library needs to be moved to <code>/lib</code>, and as a result the <code>.so</code> file in <code>/usr/lib</code> will need to be recreated:</p>
+<pre><code class="language-sh">mv -v /usr/lib/libz.so.\* /lib
+ln -sfv ../../lib/\$(readlink /usr/lib/libz.so) /usr/lib/libz.so
+</code></pre>
+<blockquote>
+<h2><a class="header" href="#contents-of-zlib" id="contents-of-zlib">Contents of Zlib</a></h2>
+<p><strong>Installed Libraries:</strong> libz.{a,so}</p>
+<table><thead><tr><th align="left">Installed</th><th align="left">Description</th></tr></thead><tbody>
+<tr><td align="left">libz</td><td align="left">Contains compression and decompression functions used by some programs</td></tr>
+</tbody></table>
+</blockquote>
 
                     </main>
 
