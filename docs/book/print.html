@@ -5600,6 +5600,73 @@ mkdir -pv /etc/ld.so.conf.d
 </tbody></table>
 </blockquote>
 <h1><a class="header" href="#adjusting-the-toolchain" id="adjusting-the-toolchain">Adjusting the Toolchain</a></h1>
+<p>Now that the final C libraries have been installed, it is time to adjust the toolchain so that it will link any newly compiled program against these new libraries.</p>
+<p>First, backup the /tools linker, and replace it with the adjusted linker we made in chapter 5. We'll also create a link to its counterpart in <code>/tools/\$(uname -m)-pc-linux-gnu/bin</code>:</p>
+<pre><code class="language-sh">mv -v /tools/bin/{ld,ld-old}
+mv -v /tools/$(uname -m)-pc-linux-gnu/bin/{ld,ld-old}
+mv -v /tools/bin/{ld-new,ld}
+ln -sv /tools/bin/ld /tools/$(uname -m)-pc-linux-gnu/bin/ld
+</code></pre>
+<p>Next, amend the GCC specs file so that it points to the new dynamic linker. Simply deleting all instances of “/tools” should leave us with the correct path to the dynamic linker. Also adjust the specs file so that GCC knows where to find the correct headers and Glibc start files. A <strong>sed</strong> command accomplishes this:</p>
+<pre><code class="language-sh">gcc -dumpspecs | sed -e 's@/tools@@g'                   \
+    -e '/\*startfile_prefix_spec:/{n;s@.*@/usr/lib/ @}' \
+    -e '/\*cpp:/{n;s@$@ -isystem /usr/include@}' &gt;      \
+    `dirname $(gcc --print-libgcc-file-name)`/specs
+</code></pre>
+<p>It is a good idea to visually inspect the specs file to verify the intended change was actually made.</p>
+<p>It is imperative at this point to ensure that the basic functions (compiling and linking) of the adjusted toolchain are working as expected. To do this, perform the following sanity checks:</p>
+<pre><code class="language-sh">echo 'int main(){}' &gt; dummy.c
+cc dummy.c -v -Wl,--verbose &amp;&gt; dummy.log
+readelf -l a.out | grep ': /lib'
+</code></pre>
+<p>There should be no errors, and the output of the last command will be (allowing for platform-specific differences in dynamic linker name):</p>
+<pre><code class="language-sh">[Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]
+</code></pre>
+<p>Note that on 64-bit systems <code>/lib</code> is the location of our dynamic linker, but is accessed via a symbolic link in <code>/lib64</code>.</p>
+<blockquote>
+<blockquote>
+<p><strong>NOTE</strong></p>
+</blockquote>
+<p>On 32-bit systems the interpreter should be /lib/ld-linux.so.2.</p>
+</blockquote>
+<p>Now make sure that we're setup to use the correct start files:</p>
+<pre><code class="language-sh">grep -o '/usr/lib.*/crt[1in].*succeeded' dummy.log
+</code></pre>
+<p>The output of the last command should be:</p>
+<pre><code class="language-sh">/usr/lib/../lib/crt1.o succeeded
+/usr/lib/../lib/crti.o succeeded
+/usr/lib/../lib/crtn.o succeeded
+</code></pre>
+<p>Verify that the compiler is searching for the correct header files:</p>
+<pre><code class="language-sh">grep -B1 '^ /usr/include' dummy.log
+</code></pre>
+<p>This command should return the following output:</p>
+<pre><code class="language-sh">#include &lt;...&gt; search starts here:
+/usr/include
+</code></pre>
+<p>Next, verify that the new linker is being used with the correct search paths:</p>
+<pre><code class="language-sh">grep 'SEARCH.*/usr/lib' dummy.log |sed 's|; |\n|g'
+</code></pre>
+<p>References to paths that have components with '-linux-gnu' should be ignored, but otherwise the output of the last command should be:</p>
+<pre><code class="language-sh">SEARCH_DIR(&quot;/usr/lib&quot;)
+SEARCH_DIR(&quot;/lib&quot;)
+</code></pre>
+<p>Next make sure that we're using the correct libc:</p>
+<pre><code class="language-sh">grep &quot;/lib.*/libc.so.6 &quot; dummy.log
+</code></pre>
+<p>The output of the last command should be:</p>
+<pre><code class="language-sh">attempt to open /lib/libc.so.6 succeeded
+</code></pre>
+<p>Lastly, make sure GCC is using the correct dynamic linker:</p>
+<pre><code class="language-sh">grep found dummy.log
+</code></pre>
+<p>The output of the last command should be (allowing for platform-specific differences in dynamic linker name):</p>
+<pre><code class="language-sh">found ld-linux-x86-64.so.2 at /lib/ld-linux-x86-64.so.2
+</code></pre>
+<p>If the output does not appear as shown above or is not received at all, then something is seriously wrong. Investigate and retrace the steps to find out where the problem is and correct it. The most likely reason is that something went wrong with the specs file adjustment. Any issues will need to be resolved before continuing with the process.</p>
+<p>Once everything is working correctly, clean up the test files:</p>
+<pre><code class="language-sh">rm -v dummy.c a.out dummy.log
+</code></pre>
 <h1><a class="header" href="#zlib-1211" id="zlib-1211">Zlib-1.2.11</a></h1>
 <h1><a class="header" href="#file-536-1" id="file-536-1">File-5.36</a></h1>
 <h1><a class="header" href="#readline-80" id="readline-80">Readline-8.0</a></h1>
@@ -11205,7 +11272,7 @@ umount -v $LFS
         
         <!-- Livereload script (if served using the cli tool) -->
         <script type="text/javascript">
-            var socket = new WebSocket("ws://127.0.0.1:3001");
+            var socket = new WebSocket("ws://localhost:3001");
             socket.onmessage = function (event) {
                 if (event.data === "reload") {
                     socket.close();
