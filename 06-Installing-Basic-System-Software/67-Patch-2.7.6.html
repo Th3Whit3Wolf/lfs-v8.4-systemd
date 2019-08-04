@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Patch-2.7.6 - Linux From Scratch Version 8.4-Systemd</title>
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li><a href="../00-preface/index.html"><strong aria-hidden="true">1.</strong> Preface</a></li><li><ol class="section"><li><a href="../00-preface/01-Foreword.html"><strong aria-hidden="true">1.1.</strong> Foreword</a></li><li><a href="../00-preface/02-Audience.html"><strong aria-hidden="true">1.2.</strong> Audience</a></li><li><a href="../00-preface/03-LFS-Target-Architectures.html"><strong aria-hidden="true">1.3.</strong> LFS Target Architectures</a></li><li><a href="../00-preface/04-LFS-and-Standards.html"><strong aria-hidden="true">1.4.</strong> LFS and Standards</a></li><li><a href="../00-preface/05-Rationale-for-Packages-in-the-Book.html"><strong aria-hidden="true">1.5.</strong> Rationale for Packages in the Book</a></li><li><a href="../00-preface/06-Prerequisites.html"><strong aria-hidden="true">1.6.</strong> Prerequisites</a></li><li><a href="../00-preface/07-Typography.html"><strong aria-hidden="true">1.7.</strong> Typography</a></li><li><a href="../00-preface/08-Structure.html"><strong aria-hidden="true">1.8.</strong> Structure</a></li><li><a href="../00-preface/09-Errata.html"><strong aria-hidden="true">1.9.</strong> Errata</a></li></ol></li><li><a href="../01-introduction/index.html"><strong aria-hidden="true">2.</strong> Introduction</a></li><li><ol class="section"><li><a href="../01-introduction/01-How-to-Build-an-LFS-System.html"><strong aria-hidden="true">2.1.</strong> How to Build an LFS System</a></li><li><a href="../01-introduction/02-Whats-new-since-the-last-release.html"><strong aria-hidden="true">2.2.</strong> What's new since the last release</a></li><li><a href="../01-introduction/03-Changelog.html"><strong aria-hidden="true">2.3.</strong> Changelog</a></li><li><a href="../01-introduction/04-Resources.html"><strong aria-hidden="true">2.4.</strong> Resources</a></li><li><a href="../01-introduction/05-Help.html"><strong aria-hidden="true">2.5.</strong> Help</a></li></ol></li><li><a href="../02-Preparing-the-Host-System/index.html"><strong aria-hidden="true">3.</strong> Preparing the Host System</a></li><li><ol class="section"><li><a href="../02-Preparing-the-Host-System/01-Introduction.html"><strong aria-hidden="true">3.1.</strong> Introduction</a></li><li><a href="../02-Preparing-the-Host-System/02-Host-System-Requirements.html"><strong aria-hidden="true">3.2.</strong> Host System Requirements</a></li><li><a href="../02-Preparing-the-Host-System/03-Building-LFS-in-Stages.html"><strong aria-hidden="true">3.3.</strong> Building LFS in Stages</a></li><li><a href="../02-Preparing-the-Host-System/04-Creating-a-New-Partition.html"><strong aria-hidden="true">3.4.</strong> Creating a New Partition</a></li><li><a href="../02-Preparing-the-Host-System/05-Creating-a-File-System-on-the-Partition.html"><strong aria-hidden="true">3.5.</strong> Creating a File System on the Partition</a></li><li><a href="../02-Preparing-the-Host-System/06-Setting-The-$LFS-Variable.html"><strong aria-hidden="true">3.6.</strong> Setting The $LFS Variable</a></li><li><a href="../02-Preparing-the-Host-System/07-Mounting-the-New-Partition.html"><strong aria-hidden="true">3.7.</strong> Mounting the New Partition</a></li></ol></li><li><a href="../03-Packages-and-Patches/index.html"><strong aria-hidden="true">4.</strong> Packages and Patches</a></li><li><ol class="section"><li><a href="../03-Packages-and-Patches/01-Introduction.html"><strong aria-hidden="true">4.1.</strong> Introduction</a></li><li><a href="../03-Packages-and-Patches/02-All-Packages.html"><strong aria-hidden="true">4.2.</strong> All Packages</a></li><li><a href="../03-Packages-and-Patches/03-Needed-Patches.html"><strong aria-hidden="true">4.3.</strong> Needed Patches</a></li></ol></li><li><a href="../04-Final-Preparations/index.html"><strong aria-hidden="true">5.</strong> Final Preparations</a></li><li><ol class="section"><li><a href="../04-Final-Preparations/01-Introduction.html"><strong aria-hidden="true">5.1.</strong> Introduction</a></li><li><a href="../04-Final-Preparations/02-Creating-the-$LFS-tools-Directory.html"><strong aria-hidden="true">5.2.</strong> Creating the $LFS/tools Directory</a></li><li><a href="../04-Final-Preparations/03-Adding-the-LFS-User.html"><strong aria-hidden="true">5.3.</strong> Adding the LFS User</a></li><li><a href="../04-Final-Preparations/04-Setting-Up-the-Environment.html"><strong aria-hidden="true">5.4.</strong> Setting Up the Environment</a></li><li><a href="../04-Final-Preparations/05-About-SBUs.html"><strong aria-hidden="true">5.5.</strong> About SBUs</a></li><li><a href="../04-Final-Preparations/06-About-the-Test-Suites.html"><strong aria-hidden="true">5.6.</strong> About the Test Suites</a></li></ol></li><li><a href="../05-Constructing-a-Temporary-System/index.html"><strong aria-hidden="true">6.</strong> Constructing a Temporary System</a></li><li><ol class="section"><li><a href="../05-Constructing-a-Temporary-System/01-Introduction.html"><strong aria-hidden="true">6.1.</strong> Introduction</a></li><li><a href="../05-Constructing-a-Temporary-System/02-Toolchain-Technical-Notes.html"><strong aria-hidden="true">6.2.</strong> Toolchain Technical Notes</a></li><li><a href="../05-Constructing-a-Temporary-System/03-General-Compilation-Instructions.html"><strong aria-hidden="true">6.3.</strong> General Compilation Instructions</a></li><li><a href="../05-Constructing-a-Temporary-System/04-Binutils-2.32-Pass-1.html"><strong aria-hidden="true">6.4.</strong> Binutils-2.32 - Pass 1</a></li><li><a href="../05-Constructing-a-Temporary-System/05-GCC-8.2.0-Pass-1.html"><strong aria-hidden="true">6.5.</strong> GCC-8.2.0 - Pass 1</a></li><li><a href="../05-Constructing-a-Temporary-System/06-Linux-4.20.12-API-Headers.html"><strong aria-hidden="true">6.6.</strong> Linux-4.20.12 API Headers</a></li><li><a href="../05-Constructing-a-Temporary-System/07-Glibc-2.29.html"><strong aria-hidden="true">6.7.</strong> Glibc-2.29</a></li><li><a href="../05-Constructing-a-Temporary-System/08-Libstdc++-from-GCC-8.2.0.html"><strong aria-hidden="true">6.8.</strong> Libstdc++ from GCC-8.2.0</a></li><li><a href="../05-Constructing-a-Temporary-System/09-Binutils-2.32-Pass-2.html"><strong aria-hidden="true">6.9.</strong> Binutils-2.32 - Pass 2</a></li><li><a href="../05-Constructing-a-Temporary-System/10-GCC-8.2.0-Pass-2.html"><strong aria-hidden="true">6.10.</strong> GCC-8.2.0 - Pass 2</a></li><li><a href="../05-Constructing-a-Temporary-System/11-Tcl-8.6.9.html"><strong aria-hidden="true">6.11.</strong> Tcl-8.6.9</a></li><li><a href="../05-Constructing-a-Temporary-System/12-Expect-5.45.4.html"><strong aria-hidden="true">6.12.</strong> Expect-5.45.4</a></li><li><a href="../05-Constructing-a-Temporary-System/13-DejaGNU-1.6.2.html"><strong aria-hidden="true">6.13.</strong> DejaGNU-1.6.2</a></li><li><a href="../05-Constructing-a-Temporary-System/14-M4-1.4.18.html"><strong aria-hidden="true">6.14.</strong> M4-1.4.18</a></li><li><a href="../05-Constructing-a-Temporary-System/15-Ncurses-6.1.html"><strong aria-hidden="true">6.15.</strong> Ncurses-6.1</a></li><li><a href="../05-Constructing-a-Temporary-System/16-Bash-5.0.html"><strong aria-hidden="true">6.16.</strong> Bash-5.0</a></li><li><a href="../05-Constructing-a-Temporary-System/17-Bison-3.3.2.html"><strong aria-hidden="true">6.17.</strong> Bison-3.3.2</a></li><li><a href="../05-Constructing-a-Temporary-System/18-Bzip2-1.0.6.html"><strong aria-hidden="true">6.18.</strong> Bzip2-1.0.6</a></li><li><a href="../05-Constructing-a-Temporary-System/19-Coreutils-8.30.html"><strong aria-hidden="true">6.19.</strong> Coreutils-8.30</a></li><li><a href="../05-Constructing-a-Temporary-System/20-Diffutils-3.7.html"><strong aria-hidden="true">6.20.</strong> Diffutils-3.7</a></li><li><a href="../05-Constructing-a-Temporary-System/21-File-5.36.html"><strong aria-hidden="true">6.21.</strong> File-5.36</a></li><li><a href="../05-Constructing-a-Temporary-System/22-Findutils-4.6.0.html"><strong aria-hidden="true">6.22.</strong> Findutils-4.6.0</a></li><li><a href="../05-Constructing-a-Temporary-System/23-Gawk-4.2.1.html"><strong aria-hidden="true">6.23.</strong> Gawk-4.2.1</a></li><li><a href="../05-Constructing-a-Temporary-System/24-Gettext-0.19.8.1.html"><strong aria-hidden="true">6.24.</strong> Gettext-0.19.8.1</a></li><li><a href="../05-Constructing-a-Temporary-System/25-Grep-3.3.html"><strong aria-hidden="true">6.25.</strong> Grep-3.3</a></li><li><a href="../05-Constructing-a-Temporary-System/26-Gzip-1.10.html"><strong aria-hidden="true">6.26.</strong> Gzip-1.10</a></li><li><a href="../05-Constructing-a-Temporary-System/27-Make-4.2.1.html"><strong aria-hidden="true">6.27.</strong> Make-4.2.1</a></li><li><a href="../05-Constructing-a-Temporary-System/28-Patch-2.7.6.html"><strong aria-hidden="true">6.28.</strong> Patch-2.7.6</a></li><li><a href="../05-Constructing-a-Temporary-System/29-Perl-5.28.1.html"><strong aria-hidden="true">6.29.</strong> Perl-5.28.1</a></li><li><a href="../05-Constructing-a-Temporary-System/30-Python-3.7.2.html"><strong aria-hidden="true">6.30.</strong> Python-3.7.2</a></li><li><a href="../05-Constructing-a-Temporary-System/31-Sed-4.7.html"><strong aria-hidden="true">6.31.</strong> Sed-4.7</a></li><li><a href="../05-Constructing-a-Temporary-System/32-Tar-1.31.html"><strong aria-hidden="true">6.32.</strong> Tar-1.31</a></li><li><a href="../05-Constructing-a-Temporary-System/33-Texinfo-6.5.html"><strong aria-hidden="true">6.33.</strong> Texinfo-6.5</a></li><li><a href="../05-Constructing-a-Temporary-System/34-Util-linux-2.33.1.html"><strong aria-hidden="true">6.34.</strong> Util-linux-2.33.1</a></li><li><a href="../05-Constructing-a-Temporary-System/35-Xz-5.2.4.html"><strong aria-hidden="true">6.35.</strong> Xz-5.2.4</a></li><li><a href="../05-Constructing-a-Temporary-System/36-Stripping.html"><strong aria-hidden="true">6.36.</strong> Stripping</a></li><li><a href="../05-Constructing-a-Temporary-System/37-Changing-Ownership.html"><strong aria-hidden="true">6.37.</strong> Changing Ownership</a></li></ol></li><li><a href="../06-Installing-Basic-System-Software/index.html"><strong aria-hidden="true">7.</strong> Installing Basic System Software</a></li><li><ol class="section"><li><a href="../06-Installing-Basic-System-Software/01-Introduction.html"><strong aria-hidden="true">7.1.</strong> Introduction</a></li><li><a href="../06-Installing-Basic-System-Software/02-Preparing-Virtual-Kernel-File-Systems.html"><strong aria-hidden="true">7.2.</strong> Preparing Virtual Kernel File Systems</a></li><li><a href="../06-Installing-Basic-System-Software/03-Package-Management.html"><strong aria-hidden="true">7.3.</strong> Package Management</a></li><li><a href="../06-Installing-Basic-System-Software/04-Entering-the-Chroot-Environment.html"><strong aria-hidden="true">7.4.</strong> Entering the Chroot Environment</a></li><li><a href="../06-Installing-Basic-System-Software/05-Creating-Directories.html"><strong aria-hidden="true">7.5.</strong> Creating Directories</a></li><li><a href="../06-Installing-Basic-System-Software/06-Creating-Essential-Files-and-Symlinks.html"><strong aria-hidden="true">7.6.</strong> Creating Essential Files and Symlinks</a></li><li><a href="../06-Installing-Basic-System-Software/07-Linux-4.20.12-API-Headers.html"><strong aria-hidden="true">7.7.</strong> Linux-4.20.12 API Headers</a></li><li><a href="../06-Installing-Basic-System-Software/08-Man-pages-4.16.html"><strong aria-hidden="true">7.8.</strong> Man-pages-4.16</a></li><li><a href="../06-Installing-Basic-System-Software/09-Glibc-2.29.html"><strong aria-hidden="true">7.9.</strong> Glibc-2.29</a></li><li><a href="../06-Installing-Basic-System-Software/10-Adjusting-the-Toolchain.html"><strong aria-hidden="true">7.10.</strong> Adjusting the Toolchain</a></li><li><a href="../06-Installing-Basic-System-Software/11-Zlib-1.2.11.html"><strong aria-hidden="true">7.11.</strong> Zlib-1.2.11</a></li><li><a href="../06-Installing-Basic-System-Software/12-File-5.36.html"><strong aria-hidden="true">7.12.</strong> File-5.36</a></li><li><a href="../06-Installing-Basic-System-Software/13-Readline-8.0.html"><strong aria-hidden="true">7.13.</strong> Readline-8.0</a></li><li><a href="../06-Installing-Basic-System-Software/14-M4-1.4.18.html"><strong aria-hidden="true">7.14.</strong> M4-1.4.18</a></li><li><a href="../06-Installing-Basic-System-Software/15-Bc-1.07.1.html"><strong aria-hidden="true">7.15.</strong> Bc-1.07.1</a></li><li><a href="../06-Installing-Basic-System-Software/16-Binutils-2.32.html"><strong aria-hidden="true">7.16.</strong> Binutils-2.32</a></li><li><a href="../06-Installing-Basic-System-Software/17-GMP-6.1.2.html"><strong aria-hidden="true">7.17.</strong> GMP-6.1.2</a></li><li><a href="../06-Installing-Basic-System-Software/18-MPFR-4.0.2.html"><strong aria-hidden="true">7.18.</strong> MPFR-4.0.2</a></li><li><a href="../06-Installing-Basic-System-Software/19-MPC-1.1.0.html"><strong aria-hidden="true">7.19.</strong> MPC-1.1.0</a></li><li><a href="../06-Installing-Basic-System-Software/20-Shadow-4.6.html"><strong aria-hidden="true">7.20.</strong> Shadow-4.6</a></li><li><a href="../06-Installing-Basic-System-Software/21-GCC-8.2.0.html"><strong aria-hidden="true">7.21.</strong> GCC-8.2.0</a></li><li><a href="../06-Installing-Basic-System-Software/22-Bzip2-1.0.6.html"><strong aria-hidden="true">7.22.</strong> Bzip2-1.0.6</a></li><li><a href="../06-Installing-Basic-System-Software/23-Pkg-config-0.29.2.html"><strong aria-hidden="true">7.23.</strong> Pkg-config-0.29.2</a></li><li><a href="../06-Installing-Basic-System-Software/24-Ncurses-6.1.html"><strong aria-hidden="true">7.24.</strong> Ncurses-6.1</a></li><li><a href="../06-Installing-Basic-System-Software/25-Attr-2.4.48.html"><strong aria-hidden="true">7.25.</strong> Attr-2.4.48</a></li><li><a href="../06-Installing-Basic-System-Software/26-Acl-2.2.53.html"><strong aria-hidden="true">7.26.</strong> Acl-2.2.53</a></li><li><a href="../06-Installing-Basic-System-Software/27-Libcap-2.26.html"><strong aria-hidden="true">7.27.</strong> Libcap-2.26</a></li><li><a href="../06-Installing-Basic-System-Software/28-Sed-4.7.html"><strong aria-hidden="true">7.28.</strong> Sed-4.7</a></li><li><a href="../06-Installing-Basic-System-Software/29-Psmisc-23.2.html"><strong aria-hidden="true">7.29.</strong> Psmisc-23.2</a></li><li><a href="../06-Installing-Basic-System-Software/30-Iana-Etc-2.30.html"><strong aria-hidden="true">7.30.</strong> Iana-Etc-2.30</a></li><li><a href="../06-Installing-Basic-System-Software/31-Bison-3.3.2.html"><strong aria-hidden="true">7.31.</strong> Bison-3.3.2</a></li><li><a href="../06-Installing-Basic-System-Software/32-Flex-2.6.4.html"><strong aria-hidden="true">7.32.</strong> Flex-2.6.4</a></li><li><a href="../06-Installing-Basic-System-Software/33-Grep-3.3.html"><strong aria-hidden="true">7.33.</strong> Grep-3.3</a></li><li><a href="../06-Installing-Basic-System-Software/34-Bash-5.0.html"><strong aria-hidden="true">7.34.</strong> Bash-5.0</a></li><li><a href="../06-Installing-Basic-System-Software/35-Libtool-2.4.6.html"><strong aria-hidden="true">7.35.</strong> Libtool-2.4.6</a></li><li><a href="../06-Installing-Basic-System-Software/36-GDBM-1.18.1.html"><strong aria-hidden="true">7.36.</strong> GDBM-1.18.1</a></li><li><a href="../06-Installing-Basic-System-Software/37-Gperf-3.1.html"><strong aria-hidden="true">7.37.</strong> Gperf-3.1</a></li><li><a href="../06-Installing-Basic-System-Software/38-Expat-2.2.6.html"><strong aria-hidden="true">7.38.</strong> Expat-2.2.6</a></li><li><a href="../06-Installing-Basic-System-Software/39-Inetutils-1.9.4.html"><strong aria-hidden="true">7.39.</strong> Inetutils-1.9.4</a></li><li><a href="../06-Installing-Basic-System-Software/40-Perl-5.28.1.html"><strong aria-hidden="true">7.40.</strong> Perl-5.28.1</a></li><li><a href="../06-Installing-Basic-System-Software/41-XML::Parser-2.44.html"><strong aria-hidden="true">7.41.</strong> XML::Parser-2.44</a></li><li><a href="../06-Installing-Basic-System-Software/42-Intltool-0.51.0.html"><strong aria-hidden="true">7.42.</strong> Intltool-0.51.0</a></li><li><a href="../06-Installing-Basic-System-Software/43-Autoconf-2.69.html"><strong aria-hidden="true">7.43.</strong> Autoconf-2.69</a></li><li><a href="../06-Installing-Basic-System-Software/44-Automake-1.16.1.html"><strong aria-hidden="true">7.44.</strong> Automake-1.16.1</a></li><li><a href="../06-Installing-Basic-System-Software/45-Xz-5.2.4.html"><strong aria-hidden="true">7.45.</strong> Xz-5.2.4</a></li><li><a href="../06-Installing-Basic-System-Software/46-Kmod-26-26tion.html"><strong aria-hidden="true">7.46.</strong> Kmod-26</a></li><li><a href="../06-Installing-Basic-System-Software/47-Gettext-0.19.8.1.html"><strong aria-hidden="true">7.47.</strong> Gettext-0.19.8.1</a></li><li><a href="../06-Installing-Basic-System-Software/48-Libelf-from-Elfutils-0.176.html"><strong aria-hidden="true">7.48.</strong> Libelf from Elfutils-0.176</a></li><li><a href="../06-Installing-Basic-System-Software/49-Libffi-3.2.1.html"><strong aria-hidden="true">7.49.</strong> Libffi-3.2.1</a></li><li><a href="../06-Installing-Basic-System-Software/50-OpenSSL-1.1.1a-3.2.1.html"><strong aria-hidden="true">7.50.</strong> OpenSSL-1.1.1a</a></li><li><a href="../06-Installing-Basic-System-Software/51-Python-3.7.2.html"><strong aria-hidden="true">7.51.</strong> Python-3.7.2</a></li><li><a href="../06-Installing-Basic-System-Software/52-Ninja-1.9.0.html"><strong aria-hidden="true">7.52.</strong> Ninja-1.9.0</a></li><li><a href="../06-Installing-Basic-System-Software/53-Meson-0.49.2.html"><strong aria-hidden="true">7.53.</strong> Meson-0.49.2</a></li><li><a href="../06-Installing-Basic-System-Software/54-Coreutils-8.30.html"><strong aria-hidden="true">7.54.</strong> Coreutils-8.30</a></li><li><a href="../06-Installing-Basic-System-Software/55-Check-0.12.0.html"><strong aria-hidden="true">7.55.</strong> Check-0.12.0</a></li><li><a href="../06-Installing-Basic-System-Software/56-Diffutils-3.7.html"><strong aria-hidden="true">7.56.</strong> Diffutils-3.7</a></li><li><a href="../06-Installing-Basic-System-Software/57-Gawk-4.2.1.html"><strong aria-hidden="true">7.57.</strong> Gawk-4.2.1</a></li><li><a href="../06-Installing-Basic-System-Software/58-Findutils-4.6.0.html"><strong aria-hidden="true">7.58.</strong> Findutils-4.6.0</a></li><li><a href="../06-Installing-Basic-System-Software/59-Groff-1.22.4.html"><strong aria-hidden="true">7.59.</strong> Groff-1.22.4</a></li><li><a href="../06-Installing-Basic-System-Software/60-GRUB-2.02.html"><strong aria-hidden="true">7.60.</strong> GRUB-2.02</a></li><li><a href="../06-Installing-Basic-System-Software/61-Less-530.html"><strong aria-hidden="true">7.61.</strong> Less-530</a></li><li><a href="../06-Installing-Basic-System-Software/62-Gzip-1.10.html"><strong aria-hidden="true">7.62.</strong> Gzip-1.10</a></li><li><a href="../06-Installing-Basic-System-Software/63-IPRoute2-4.20.0.html"><strong aria-hidden="true">7.63.</strong> IPRoute2-4.20.0</a></li><li><a href="../06-Installing-Basic-System-Software/64-Kbd-2.0.4.html"><strong aria-hidden="true">7.64.</strong> Kbd-2.0.4</a></li><li><a href="../06-Installing-Basic-System-Software/65-Libpipeline-1.5.1.html"><strong aria-hidden="true">7.65.</strong> Libpipeline-1.5.1</a></li><li><a href="../06-Installing-Basic-System-Software/66-Make-4.2.1.html"><strong aria-hidden="true">7.66.</strong> Make-4.2.1</a></li><li><a href="../06-Installing-Basic-System-Software/67-Patch-2.7.6.html" class="active"><strong aria-hidden="true">7.67.</strong> Patch-2.7.6</a></li><li><a href="../06-Installing-Basic-System-Software/68-Man-DB-2.8.5.html"><strong aria-hidden="true">7.68.</strong> Man-DB-2.8.5</a></li><li><a href="../06-Installing-Basic-System-Software/69-Tar-1.31.html"><strong aria-hidden="true">7.69.</strong> Tar-1.31</a></li><li><a href="../06-Installing-Basic-System-Software/70-Texinfo-6.5.html"><strong aria-hidden="true">7.70.</strong> Texinfo-6.5</a></li><li><a href="../06-Installing-Basic-System-Software/71-Vim-8.1.html"><strong aria-hidden="true">7.71.</strong> Vim-8.1</a></li><li><a href="../06-Installing-Basic-System-Software/72-Systemd-240.html"><strong aria-hidden="true">7.72.</strong> Systemd-240</a></li><li><a href="../06-Installing-Basic-System-Software/73-D-Bus-1.12.12.html"><strong aria-hidden="true">7.73.</strong> D-Bus-1.12.12</a></li><li><a href="../06-Installing-Basic-System-Software/74-Procps-ng-3.3.15.html"><strong aria-hidden="true">7.74.</strong> Procps-ng-3.3.15</a></li><li><a href="../06-Installing-Basic-System-Software/75-Util-linux-2.33.1.html"><strong aria-hidden="true">7.75.</strong> Util-linux-2.33.1</a></li><li><a href="../06-Installing-Basic-System-Software/76-E2fsprogs-1.44.5.html"><strong aria-hidden="true">7.76.</strong> E2fsprogs-1.44.5</a></li><li><a href="../06-Installing-Basic-System-Software/77-About-Debugging-Symbols.html"><strong aria-hidden="true">7.77.</strong> About Debugging Symbols</a></li><li><a href="../06-Installing-Basic-System-Software/78-Stripping-Again.html"><strong aria-hidden="true">7.78.</strong> Stripping Again</a></li><li><a href="../06-Installing-Basic-System-Software/79-Cleaning-Up.html"><strong aria-hidden="true">7.79.</strong> Cleaning Up</a></li></ol></li><li><a href="../07-System-Configuration/index.html"><strong aria-hidden="true">8.</strong> System Configuration</a></li><li><ol class="section"><li><a href="../07-System-Configuration/01-Introduction.html"><strong aria-hidden="true">8.1.</strong> Introduction</a></li><li><a href="../07-System-Configuration/02-General-Network-Configuration.html"><strong aria-hidden="true">8.2.</strong> General Network Configuration</a></li><li><a href="../07-System-Configuration/03-Overview-of-Device-and-Module-Handling.html"><strong aria-hidden="true">8.3.</strong> Overview of Device and Module Handling</a></li><li><a href="../07-System-Configuration/04-Managing-Devices.html"><strong aria-hidden="true">8.4.</strong> Managing Devices</a></li><li><a href="../07-System-Configuration/05-Configuring-the-system-clock.html"><strong aria-hidden="true">8.5.</strong> Configuring the system clock</a></li><li><a href="../07-System-Configuration/06-Configuring-the-Linux-Console.html"><strong aria-hidden="true">8.6.</strong> Configuring the Linux Console</a></li><li><a href="../07-System-Configuration/07-Configuring-the-System-Locale.html"><strong aria-hidden="true">8.7.</strong> Configuring the System Locale</a></li><li><a href="../07-System-Configuration/08-Creating-the-slash-etc-slash-inputrc-File.html"><strong aria-hidden="true">8.8.</strong> Creating the /etc/inputrc File</a></li><li><a href="../07-System-Configuration/09-Creating-the-slash-etc-slash-shells-File.html"><strong aria-hidden="true">8.9.</strong> Creating the /etc/shells File</a></li><li><a href="../07-System-Configuration/10-Systemd-Usage-and-Configuration.html"><strong aria-hidden="true">8.10.</strong> Systemd Usage and Configuration</a></li></ol></li><li><a href="../08-Making-the-LFS-System-Bootable/index.html"><strong aria-hidden="true">9.</strong> Making the LFS System Bootable</a></li><li><ol class="section"><li><a href="../08-Making-the-LFS-System-Bootable/01-Introduction.html"><strong aria-hidden="true">9.1.</strong> Introduction</a></li><li><a href="../08-Making-the-LFS-System-Bootable/02-Creating-the-slash-etc-slash-fstab-File.html"><strong aria-hidden="true">9.2.</strong> Creating the /etc/fstab File </a></li><li><a href="../08-Making-the-LFS-System-Bootable/03-Linux-4.20.12.html"><strong aria-hidden="true">9.3.</strong> Linux-4.20.12</a></li><li><a href="../08-Making-the-LFS-System-Bootable/04-Using-GRUB-to-Set-Up-the-Boot-Process.html"><strong aria-hidden="true">9.4.</strong> Using GRUB to Set Up the Boot Process</a></li></ol></li><li><a href="../09-The-End/index.html"><strong aria-hidden="true">10.</strong> The End</a></li><li><ol class="section"><li><a href="../09-The-End/01-The-End.html"><strong aria-hidden="true">10.1.</strong> The End</a></li><li><a href="../09-The-End/02-Get-Counted.html"><strong aria-hidden="true">10.2.</strong> Get Counted</a></li><li><a href="../09-The-End/03-Rebooting-the-System.html"><strong aria-hidden="true">10.3.</strong> Rebooting the System</a></li><li><a href="../09-The-End/04-What-Now.html"><strong aria-hidden="true">10.4.</strong> What Now?</a></li></ol></li><li><a href="../10-Appendices/index.html"><strong aria-hidden="true">11.</strong> Appendices</a></li><li><ol class="section"><li><a href="../10-Appendices/01-Acronyms-and-Terms.html"><strong aria-hidden="true">11.1.</strong> Acronyms and Terms</a></li><li><a href="../10-Appendices/02-Acknowledgments.html"><strong aria-hidden="true">11.2.</strong> Acknowledgments</a></li><li><a href="../10-Appendices/03-Dependencies.html"><strong aria-hidden="true">11.3.</strong> Dependencies</a></li><li><a href="../10-Appendices/04-LFS-Licenses.html"><strong aria-hidden="true">11.4.</strong> LFS Licenses</a></li></ol></li><li><a href="../10-Appendices/CCL.html">Creative Commons License</a></li><li class="affix"><a href="../10-Appendices/MITL.html">The MIT License</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Linux From Scratch Version 8.4-Systemd</h1>
+
+                        <div class="right-buttons">
+                            <a href="../print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#patch-276" id="patch-276">Patch-2.7.6</a></h1>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../06-Installing-Basic-System-Software/66-Make-4.2.1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../06-Installing-Basic-System-Software/68-Man-DB-2.8.5.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="../06-Installing-Basic-System-Software/66-Make-4.2.1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="../06-Installing-Basic-System-Software/68-Man-DB-2.8.5.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
