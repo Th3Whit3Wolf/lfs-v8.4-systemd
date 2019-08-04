@@ -6039,7 +6039,45 @@ make install-html
 <tr><td align="left">libgmpxx</td><td align="left">Contains C++ precision math functions</td></tr>
 </tbody></table>
 </blockquote>
+<blockquote>
 <h1><a class="header" href="#mpfr-402" id="mpfr-402">MPFR-4.0.2</a></h1>
+<p>The MPFR package contains functions for multiple precision math.</p>
+<p><strong>Approximate Build Time:</strong> 1.0 SBU</p>
+<p><strong>Required Disk Space:</strong> 37 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-mpfr" id="installation-of-mpfr">Installation of MPFR</a></h1>
+<p>Prepare MPFR for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/usr        \
+            --disable-static     \
+            --enable-thread-safe \
+            --docdir=/usr/share/doc/mpfr-4.0.2
+</code></pre>
+<p>Compile the package and generate the HTML documentation:</p>
+<pre><code class="language-sh">make
+make html
+</code></pre>
+<blockquote>
+<p><strong>IMPORTANT</strong></p>
+<blockquote>
+<p>The test suite for MPFR in this section is considered critical. Do not skip it under any circumstances.</p>
+</blockquote>
+</blockquote>
+<p>To test the results, issue:</p>
+<pre><code class="language-sh">make check
+</code></pre>
+<p>Install the package and its documentation:</p>
+<pre><code class="language-sh">make install
+make install-html
+</code></pre>
+<blockquote>
+<h2><a class="header" href="#contents-of-mpfr" id="contents-of-mpfr">Contents of MPFR</a></h2>
+<p><strong>Installed Programs:</strong> File</p>
+<p><strong>Installed Libraries:</strong> libmagic.so</p>
+<p><strong>Installed Directories:</strong> /usr/share/doc/mpfr-4.0.2</p>
+<table><thead><tr><th align="left">Installed</th><th align="left">Description</th></tr></thead><tbody>
+<tr><td align="left">libmpfr</td><td align="left">Contains multiple-precision math functions</td></tr>
+</tbody></table>
+</blockquote>
 <h1><a class="header" href="#mpc-110" id="mpc-110">MPC-1.1.0</a></h1>
 <h1><a class="header" href="#shadow-46" id="shadow-46">Shadow-4.6</a></h1>
 <h1><a class="header" href="#gcc-820" id="gcc-820">GCC-8.2.0</a></h1>
