@@ -145,7 +145,38 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#mpc-110" id="mpc-110">MPC-1.1.0</a></h1>
+                        <blockquote>
+<h1><a class="header" href="#mpc-110" id="mpc-110">MPC-1.1.0</a></h1>
+<p>The MPC package contains a library for the arithmetic of complex numbers with arbitrarily high precision and correct rounding of the result.</p>
+<p><strong>Approximate Build Time:</strong> 0.3 SBU</p>
+<p><strong>Required Disk Space:</strong> 22 MB</p>
+</blockquote>
+<h1><a class="header" href="#installation-of-mpc" id="installation-of-mpc">Installation of MPC</a></h1>
+<p>Prepare MPC for compilation:</p>
+<pre><code class="language-sh">./configure --prefix=/usr    \
+            --disable-static \
+            --docdir=/usr/share/doc/mpc-1.1.0
+</code></pre>
+<p>Compile the package and generate the HTML documentation:</p>
+<pre><code class="language-sh">make
+make html
+</code></pre>
+<p>To test the results, issue:</p>
+<pre><code class="language-sh">make check
+</code></pre>
+<p>Install the package and its documentation:</p>
+<pre><code class="language-sh">make install
+make install-html
+</code></pre>
+<blockquote>
+<h2><a class="header" href="#contents-of-mpc" id="contents-of-mpc">Contents of MPC</a></h2>
+<p><strong>Installed Programs:</strong> File</p>
+<p><strong>Installed Libraries:</strong> libmpc.so</p>
+<p><strong>Installed Directories:</strong> /usr/share/doc/mpc-1.1.0</p>
+<table><thead><tr><th align="left">Installed</th><th align="left">Description</th></tr></thead><tbody>
+<tr><td align="left">libmpc</td><td align="left">Contains complex math functions</td></tr>
+</tbody></table>
+</blockquote>
 
                     </main>
 
